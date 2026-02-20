@@ -1,0 +1,22 @@
+# Dependencies
+node_modules
+sanity/node_modules
+
+# Next.js
+.next
+out
+
+# Sanity
+sanity/.sanity
+
+# Build outputs
+build
+dist
+sanity/dist
+
+# Package manager
+pnpm-lock.yaml
+
+# Misc
+.env
+.env.*
