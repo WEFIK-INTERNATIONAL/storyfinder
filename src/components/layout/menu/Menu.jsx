@@ -1,25 +1,25 @@
-"use client";
-import "./Menu.css";
-import { useRef, useState, useEffect, useCallback } from "react";
-import { useGSAP } from "@gsap/react";
-import { useLenis } from "lenis/react";
-import { useViewTransition } from "@/hooks/useViewTransition";
-import { gsap, SplitText } from "@/lib/gsap";
-import { usePathname } from "next/navigation";
-import StoryfinderLogo from "@/components/icons/StoryFinderLogo";
-import Link from "next/link";
-import Image from "next/image";
+'use client';
+import './Menu.css';
+import { useRef, useState, useEffect, useCallback } from 'react';
+import { useGSAP } from '@gsap/react';
+import { useLenis } from 'lenis/react';
+import { useViewTransition } from '@/hooks/useViewTransition';
+import { gsap, SplitText } from '@/lib/gsap';
+import { usePathname } from 'next/navigation';
+import StoryfinderLogo from '@/components/icons/StoryFinderLogo';
+import Link from 'next/link';
+import Image from 'next/image';
 
 gsap.registerPlugin(useGSAP);
 
 const MENU_ITEMS = [
-  { label: "Home", route: "/" },
-  { label: "About", route: "/about" },
-  { label: "Gallery", route: "/gallery" },
-  { label: "Retouch", route: "/before-after" },
-  { label: "Blog", route: "/blog" },
-  { label: "Stories", route: "/featured" },
-  { label: "Contact", route: "/contact" },
+  { label: 'Home', route: '/' },
+  { label: 'About', route: '/about' },
+  { label: 'Gallery', route: '/gallery' },
+  { label: 'Retouch', route: '/before-after' },
+  { label: 'Blog', route: '/blog' },
+  { label: 'Stories', route: '/featured' },
+  { label: 'Contact', route: '/contact' },
 ];
 
 const LERP_FACTOR = 0.05;
@@ -68,18 +68,18 @@ const Menu = ({ pageRef }) => {
 
     menuCols.forEach((col) => {
       if (!col) return;
-      col.querySelectorAll("p, a").forEach((el) => {
+      col.querySelectorAll('p, a').forEach((el) => {
         const split = SplitText.create(el, {
-          type: "lines",
-          mask: "lines",
-          linesClass: "split-line",
+          type: 'lines',
+          mask: 'lines',
+          linesClass: 'split-line',
         });
         menuColSplitTextInstances.current.push({
           instance: split,
           lines: split.lines,
         });
 
-        gsap.set(split.lines, { y: "100%" });
+        gsap.set(split.lines, { y: '100%' });
       });
     });
   }, [isMenuOpen]);
@@ -127,24 +127,24 @@ const Menu = ({ pageRef }) => {
 
       menuLinks.forEach((link) => {
         if (!link) return;
-        link.querySelectorAll("span").forEach((span, i) => {
-          const split = SplitText.create(span, { type: "chars" });
+        link.querySelectorAll('span').forEach((span, i) => {
+          const split = SplitText.create(span, { type: 'chars' });
           splitTextInstances.current.push(split);
-          split.chars.forEach((c) => c.classList.add("char"));
-          if (i === 1) gsap.set(split.chars, { y: "110%" });
+          split.chars.forEach((c) => c.classList.add('char'));
+          if (i === 1) gsap.set(split.chars, { y: '110%' });
         });
       });
 
       gsap.set(menuImage, { y: 0, scale: 0.5, opacity: 0.25 });
-      gsap.set(menuLinks, { y: "150%" });
-      gsap.set(linkHighlighter, { y: "150%" });
+      gsap.set(menuLinks, { y: '150%' });
+      gsap.set(linkHighlighter, { y: '150%' });
 
       const firstLinkSpan = menuLinksWrapper.querySelector(
-        ".menu-link:first-child a span",
+        '.menu-link:first-child a span'
       );
       if (firstLinkSpan) {
         const firstLink = menuLinksWrapper.querySelector(
-          ".menu-link:first-child",
+          '.menu-link:first-child'
         );
         const linkWidth = firstLinkSpan.offsetWidth;
         const wrapperRect = menuLinksWrapper.getBoundingClientRect();
@@ -185,59 +185,59 @@ const Menu = ({ pageRef }) => {
         const onEnter = () => {
           if (window.innerWidth < MOBILE_BREAKPOINT) return;
 
-          const [visibleSpan, animatedSpan] = link.querySelectorAll("a span");
+          const [visibleSpan, animatedSpan] = link.querySelectorAll('a span');
           if (!visibleSpan || !animatedSpan) return;
 
-          gsap.to(visibleSpan.querySelectorAll(".char"), {
-            y: "-110%",
+          gsap.to(visibleSpan.querySelectorAll('.char'), {
+            y: '-110%',
             stagger: 0.05,
             duration: 0.5,
-            ease: "expo.inOut",
+            ease: 'expo.inOut',
           });
-          gsap.to(animatedSpan.querySelectorAll(".char"), {
-            y: "0%",
+          gsap.to(animatedSpan.querySelectorAll('.char'), {
+            y: '0%',
             stagger: 0.05,
             duration: 0.5,
-            ease: "expo.inOut",
+            ease: 'expo.inOut',
           });
 
           const wrapperRect = menuLinksWrapper.getBoundingClientRect();
           targetHighlighterX.current =
             link.getBoundingClientRect().left - wrapperRect.left;
           targetHighlighterWidth.current =
-            link.querySelector("a span")?.offsetWidth ?? link.offsetWidth;
+            link.querySelector('a span')?.offsetWidth ?? link.offsetWidth;
         };
 
         const onLeave = () => {
           if (window.innerWidth < MOBILE_BREAKPOINT) return;
 
-          const [visibleSpan, animatedSpan] = link.querySelectorAll("a span");
+          const [visibleSpan, animatedSpan] = link.querySelectorAll('a span');
           if (!visibleSpan || !animatedSpan) return;
 
-          gsap.to(animatedSpan.querySelectorAll(".char"), {
-            y: "110%",
+          gsap.to(animatedSpan.querySelectorAll('.char'), {
+            y: '110%',
             stagger: 0.05,
             duration: 0.5,
-            ease: "expo.inOut",
+            ease: 'expo.inOut',
           });
-          gsap.to(visibleSpan.querySelectorAll(".char"), {
-            y: "0%",
+          gsap.to(visibleSpan.querySelectorAll('.char'), {
+            y: '0%',
             stagger: 0.05,
             duration: 0.5,
-            ease: "expo.inOut",
+            ease: 'expo.inOut',
           });
         };
 
-        link.addEventListener("mouseenter", onEnter);
-        link.addEventListener("mouseleave", onLeave);
+        link.addEventListener('mouseenter', onEnter);
+        link.addEventListener('mouseleave', onLeave);
         cleanupFns.set(link, { onEnter, onLeave });
       });
 
       const onWrapperLeave = () => {
         const firstLink = menuLinksWrapper.querySelector(
-          ".menu-link:first-child",
+          '.menu-link:first-child'
         );
-        const firstSpan = firstLink?.querySelector("a span");
+        const firstSpan = firstLink?.querySelector('a span');
         if (!firstLink || !firstSpan) return;
 
         const wrapperRect = menuLinksWrapper.getBoundingClientRect();
@@ -246,17 +246,17 @@ const Menu = ({ pageRef }) => {
         targetHighlighterWidth.current = firstSpan.offsetWidth;
       };
 
-      menuOverlay.addEventListener("mousemove", handleMouseMove);
-      menuLinksWrapper.addEventListener("mouseleave", onWrapperLeave);
+      menuOverlay.addEventListener('mousemove', handleMouseMove);
+      menuLinksWrapper.addEventListener('mouseleave', onWrapperLeave);
 
       return () => {
         cancelAnimationFrame(animationFrameRef.current);
-        menuOverlay.removeEventListener("mousemove", handleMouseMove);
-        menuLinksWrapper.removeEventListener("mouseleave", onWrapperLeave);
+        menuOverlay.removeEventListener('mousemove', handleMouseMove);
+        menuLinksWrapper.removeEventListener('mouseleave', onWrapperLeave);
 
         cleanupFns.forEach(({ onEnter, onLeave }, link) => {
-          link.removeEventListener("mouseenter", onEnter);
-          link.removeEventListener("mouseleave", onLeave);
+          link.removeEventListener('mouseenter', onEnter);
+          link.removeEventListener('mouseleave', onLeave);
         });
         cleanupFns.clear();
 
@@ -264,7 +264,7 @@ const Menu = ({ pageRef }) => {
         splitTextInstances.current = [];
       };
     },
-    { scope: menuOverlayRef },
+    { scope: menuOverlayRef }
   );
 
   useEffect(() => {
@@ -287,17 +287,17 @@ const Menu = ({ pageRef }) => {
 
     if (!isMenuOpen) {
       gsap.to([openLabel, closeLabel], {
-        y: "-100%",
+        y: '-100%',
         duration: 1,
-        ease: "power3.out",
+        ease: 'power3.out',
       });
 
       gsap.to(menuOverlay, {
-        clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
+        clipPath: 'polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)',
         duration: 1.25,
-        ease: "expo.out",
+        ease: 'expo.out',
         onComplete: () => {
-          gsap.set(menuLinkContainersRef.current, { overflow: "visible" });
+          gsap.set(menuLinkContainersRef.current, { overflow: 'visible' });
           setIsMenuOpen(true);
           setIsMenuAnimating(false);
         },
@@ -307,74 +307,74 @@ const Menu = ({ pageRef }) => {
         scale: 1,
         opacity: 1,
         duration: 1.5,
-        ease: "expo.out",
+        ease: 'expo.out',
       });
 
       gsap.to(menuLinks, {
-        y: "0%",
+        y: '0%',
         duration: 1.25,
         stagger: 0.1,
         delay: 0.25,
-        ease: "expo.out",
+        ease: 'expo.out',
       });
 
       gsap.to(linkHighlighter, {
-        y: "0%",
+        y: '0%',
         duration: 1,
         delay: 1,
-        ease: "expo.out",
+        ease: 'expo.out',
       });
 
       menuCols.forEach((col) => {
         if (!col) return;
-        gsap.to(col.querySelectorAll(".split-line"), {
-          y: "0%",
+        gsap.to(col.querySelectorAll('.split-line'), {
+          y: '0%',
           duration: 1,
           stagger: 0.05,
           delay: 0.5,
-          ease: "expo.out",
+          ease: 'expo.out',
         });
       });
     } else {
       gsap.to([openLabel, closeLabel], {
-        y: "0%",
+        y: '0%',
         duration: 1,
-        ease: "power3.out",
+        ease: 'power3.out',
       });
 
       gsap.to(menuImage, {
-        y: "-25svh",
+        y: '-25svh',
         opacity: 0.5,
         duration: 1.25,
-        ease: "expo.out",
+        ease: 'expo.out',
       });
 
       menuCols.forEach((col) => {
         if (!col) return;
-        gsap.to(col.querySelectorAll(".split-line"), {
-          y: "-100%",
+        gsap.to(col.querySelectorAll('.split-line'), {
+          y: '-100%',
           duration: 1,
           stagger: 0,
-          ease: "expo.out",
+          ease: 'expo.out',
         });
       });
 
       gsap.to(menuOverlay, {
-        clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+        clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)',
         duration: 1.25,
-        ease: "expo.out",
+        ease: 'expo.out',
         onComplete: () => {
           gsap.set(menuOverlay, {
-            clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
+            clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)',
           });
-          gsap.set(menuLinks, { y: "150%" });
-          gsap.set(linkHighlighter, { y: "150%" });
-          gsap.set(menuImage, { y: "0", scale: 0.5, opacity: 0.25 });
-          gsap.set(menuLinkContainersRef.current, { overflow: "hidden" });
+          gsap.set(menuLinks, { y: '150%' });
+          gsap.set(linkHighlighter, { y: '150%' });
+          gsap.set(menuImage, { y: '0', scale: 0.5, opacity: 0.25 });
+          gsap.set(menuLinkContainersRef.current, { overflow: 'hidden' });
 
           menuCols.forEach((col) => {
             if (!col) return;
-            gsap.set(col.querySelectorAll(".split-line"), { y: "100%" });
+            gsap.set(col.querySelectorAll('.split-line'), { y: '100%' });
           });
 
           gsap.set(menuLinksWrapper, { x: 0 });
@@ -390,13 +390,13 @@ const Menu = ({ pageRef }) => {
 
   useEffect(() => {
     const handleKey = (e) => {
-      if (e.key === "Escape" && isMenuOpen) {
+      if (e.key === 'Escape' && isMenuOpen) {
         toggleMenu();
       }
     };
 
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
   }, [isMenuOpen, toggleMenu]);
 
   return (
@@ -409,14 +409,14 @@ const Menu = ({ pageRef }) => {
               className="flex w-full"
               onClick={(e) => {
                 e.preventDefault();
-                if (pathname === "/") return;
-                navigateWithTransition("/", isMenuOpen ? toggleMenu : null);
+                if (pathname === '/') return;
+                navigateWithTransition('/', isMenuOpen ? toggleMenu : null);
               }}
             >
               <StoryfinderLogo />
             </Link>
           </div>
-          <p className="font-accent font-bold text-3xl">StoryF.</p>
+          <div className="font-accent font-bold text-3xl">StoryF.</div>
         </div>
 
         <button
@@ -530,7 +530,7 @@ const Menu = ({ pageRef }) => {
                   }
                   navigateWithTransition(
                     item.route,
-                    isMenuOpen ? toggleMenu : null,
+                    isMenuOpen ? toggleMenu : null
                   );
                 }}
               >
