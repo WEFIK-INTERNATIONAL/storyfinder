@@ -1,17 +1,33 @@
-"use client";
+'use client';
 
-import { gsap } from "gsap";
-import { Draggable } from "gsap/Draggable";
-import { InertiaPlugin } from "gsap/InertiaPlugin";
-import { Flip } from "gsap/Flip";
-import CustomEase from "gsap/CustomEase";
-import SplitText from "gsap/SplitText";
+import { gsap } from 'gsap';
+import { Draggable } from 'gsap/Draggable';
+import { InertiaPlugin } from 'gsap/InertiaPlugin';
+import { Flip } from 'gsap/Flip';
+import CustomEase from 'gsap/CustomEase';
+import SplitText from 'gsap/SplitText';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(Draggable, InertiaPlugin, Flip, CustomEase, SplitText);
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(
+    Draggable,
+    InertiaPlugin,
+    Flip,
+    CustomEase,
+    SplitText,
+    ScrollTrigger
+  );
 }
 
-export const customEase = "power4.inOut";
-export const centerEase = "power2.out";
+export const customEase = 'power4.inOut';
+export const centerEase = 'power2.out';
 
-export { gsap, Draggable, InertiaPlugin, Flip, CustomEase, SplitText };
+export {
+  gsap,
+  Draggable,
+  InertiaPlugin,
+  Flip,
+  CustomEase,
+  SplitText,
+  ScrollTrigger,
+};

@@ -1,0 +1,12 @@
+.line {
+  position: relative;
+  will-change: transform;
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
+}
+
+.line,
+.line > div {
+  font: inherit;
+  color: inherit;
+}
