@@ -112,20 +112,6 @@ export default defineType({
       initialValue: true,
     }),
 
-    // SEO
-    defineField({
-      name: "seoTitle",
-      title: "SEO Title",
-      type: "string",
-    }),
-
-    defineField({
-      name: "seoDescription",
-      title: "SEO Description",
-      type: "text",
-      rows: 2,
-    }),
-
     defineField({
       name: "publishedAt",
       type: "datetime",
