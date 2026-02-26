@@ -15,7 +15,7 @@ export const PHOTOS_QUERY = `
   featured,
   views,
   "category": category->title
-}`;
+}`
 
 export const PHOTO_QUERY = `
 *[_type == "photo" && slug.current == $slug][0]{
@@ -38,14 +38,14 @@ export const PHOTO_QUERY = `
   exif,
   "category": category->title,
   publishedAt
-}`;
+}`
 
 export const CATEGORIES_QUERY = `
 *[_type == "category"] | order(title asc){
   _id,
   title,
   "slug": slug.current
-}`;
+}`
 
 export const POSTS_QUERY = `
 *[_type == "post"] | order(publishedAt desc){
@@ -57,7 +57,7 @@ export const POSTS_QUERY = `
   },
   excerpt,
   publishedAt
-}`;
+}`
 
 export const POST_QUERY = `
 *[_type == "post" && slug.current == $slug][0]{
@@ -83,7 +83,7 @@ export const POST_QUERY = `
     title,
     "slug": slug.current
   }
-}`;
+}`
 
 export const WATERMARK_QUERY = `
 *[_type == "watermark"][0]{
@@ -92,7 +92,7 @@ export const WATERMARK_QUERY = `
   size,
   position,
   _updatedAt
-}`;
+}`
 
 export const FEATURED_PHOTOS_QUERY = `
 *[_type == "photo" && featured == true] | order(publishedAt desc){
@@ -102,7 +102,7 @@ export const FEATURED_PHOTOS_QUERY = `
   image{ asset->{ url } },
   price,
   isPaid
-}`;
+}`
 
 export const PHOTOS_BY_CATEGORY_QUERY = `
 *[_type == "photo" && category->slug.current == $slug] | order(publishedAt desc){
@@ -112,7 +112,7 @@ export const PHOTOS_BY_CATEGORY_QUERY = `
   image{ asset->{ url } },
   price,
   isPaid
-}`;
+}`
 
 export const GALLERIES_QUERY = `
 *[_type == "gallery"] | order(publishedAt desc){
@@ -121,7 +121,7 @@ export const GALLERIES_QUERY = `
   "slug": slug.current,
   coverImage{ asset->{ url } },
   "category": category->title
-}`;
+}`
 
 export const GALLERY_QUERY = `
 *[_type == "gallery" && slug.current == $slug][0]{
@@ -135,5 +135,4 @@ export const GALLERY_QUERY = `
     price,
     isPaid
   }
-}`;
-
+}`

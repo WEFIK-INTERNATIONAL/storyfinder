@@ -9,25 +9,25 @@ import SplitText from 'gsap/SplitText';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 if (typeof window !== 'undefined') {
-  gsap.registerPlugin(
-    Draggable,
-    InertiaPlugin,
-    Flip,
-    CustomEase,
-    SplitText,
-    ScrollTrigger
-  );
+    gsap.registerPlugin(
+        Draggable,
+        InertiaPlugin,
+        Flip,
+        CustomEase,
+        SplitText,
+        ScrollTrigger
+    );
 }
 
 export const customEase = 'power4.inOut';
 export const centerEase = 'power2.out';
 
 export {
-  gsap,
-  Draggable,
-  InertiaPlugin,
-  Flip,
-  CustomEase,
-  SplitText,
-  ScrollTrigger,
+    gsap,
+    Draggable,
+    InertiaPlugin,
+    Flip,
+    CustomEase,
+    SplitText,
+    ScrollTrigger,
 };

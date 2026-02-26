@@ -1,397 +1,397 @@
 @import 'tailwindcss';
 
 :root {
-  --spacing-base: 1rem;
-  --spacing-md: 1.5rem;
-  --spacing-lg: 2rem;
+    --spacing-base: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
 
-  --color-text: #ffffff;
-  --color-text-dim: rgba(255, 255, 255, 0.6);
+    --color-text: #ffffff;
+    --color-text-dim: rgba(255, 255, 255, 0.6);
 
-  --base-100: #e3e3db;
-  --base-200: #ccccc4;
-  --base-300: #8c7e77;
-  --base-400: #1a1614;
-  --base-500: #ff6e14;
+    --base-100: #e3e3db;
+    --base-200: #ccccc4;
+    --base-300: #8c7e77;
+    --base-400: #1a1614;
+    --base-500: #ff6e14;
 
-  --accent-1: #3d2fa9;
-  --accent-2: #a92f78;
-  --accent-3: #ff3d33;
-  --accent-4: #785f47;
-  --accent-5: #2f72a9;
+    --accent-1: #3d2fa9;
+    --accent-2: #a92f78;
+    --accent-3: #ff3d33;
+    --accent-4: #785f47;
+    --accent-5: #2f72a9;
 
-  --variant-1: var(--base-200);
-  --variant-2: var(--base-400);
-  --variant-3: var(--base-500);
-  --disabled-folder-bg: #d4d7d0;
-  --disabled-folder-fg: #989b95;
-  --transition-medium: 0.3s ease;
-  --font-size-base: 14px;
-  --z-gallery: 1;
-  --z-split: 2;
-  --z-title: 4;
-  --z-close: 5;
-  --z-controls: 6;
+    --variant-1: var(--base-200);
+    --variant-2: var(--base-400);
+    --variant-3: var(--base-500);
+    --disabled-folder-bg: #d4d7d0;
+    --disabled-folder-fg: #989b95;
+    --transition-medium: 0.3s ease;
+    --font-size-base: 14px;
+    --z-gallery: 1;
+    --z-split: 2;
+    --z-title: 4;
+    --z-close: 5;
+    --z-controls: 6;
 }
 
 @layer utilities {
-  .font-body {
-    font-family: var(--font-neue);
-  }
-  .font-display {
-    font-family: var(--font-monolith);
-  }
-  .font-accent {
-    font-family: var(--font-pangram);
-  }
-  .font-big {
-    font-family: var(--font-big-shoulders);
-  }
+    .font-body {
+        font-family: var(--font-neue);
+    }
+    .font-display {
+        font-family: var(--font-monolith);
+    }
+    .font-accent {
+        font-family: var(--font-pangram);
+    }
+    .font-big {
+        font-family: var(--font-big-shoulders);
+    }
 }
 
 h1,
 h2,
 h3,
 h4 {
-  text-transform: uppercase;
-  font-family: var(--font-big-shoulders);
-  font-weight: 900;
-  line-height: 0.9;
-  letter-spacing: -0.125rem;
+    text-transform: uppercase;
+    font-family: var(--font-big-shoulders);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.125rem;
 }
 
 h1 {
-  font-size: 8rem;
+    font-size: 8rem;
 }
 
 h2 {
-  font-size: 6rem;
-  letter-spacing: -0.2rem;
+    font-size: 6rem;
+    letter-spacing: -0.2rem;
 }
 
 h3 {
-  font-size: 5rem;
-  letter-spacing: -0.15rem;
+    font-size: 5rem;
+    letter-spacing: -0.15rem;
 }
 
 h4 {
-  font-size: 4rem;
-  letter-spacing: -0.1rem;
+    font-size: 4rem;
+    letter-spacing: -0.1rem;
 }
 
 p {
-  font-family: var(--font-neue);
-  font-size: 1.25rem;
-  font-weight: 400;
-  line-height: 1.2;
+    font-family: var(--font-neue);
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.2;
 }
 
 p.lg {
-  font-size: 1.75rem;
-  font-weight: 400;
-  line-height: 1.15;
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.15;
 }
 
 p.sm,
 a.sm {
-  text-decoration: none;
-  text-transform: uppercase;
-  font-family: var(--font-accent);
-  font-size: 0.85rem;
-  font-weight: 500;
-  line-height: 1.15;
-  color: var(--base-300);
-  letter-spacing: 0.1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: var(--font-accent);
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.15;
+    color: var(--base-300);
+    letter-spacing: 0.1rem;
 }
 
 p.cap {
-  text-transform: uppercase;
-  font-family: var(--font-pangram);
-  font-size: 0.9rem;
-  font-weight: 900;
-  -webkit-font-smoothing: antialiased;
+    text-transform: uppercase;
+    font-family: var(--font-pangram);
+    font-size: 0.9rem;
+    font-weight: 900;
+    -webkit-font-smoothing: antialiased;
 }
 
 .container {
-  width: 100%;
-  height: 100%;
-  padding: 2rem;
-  max-width: 2000px;
-  margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    max-width: 2000px;
+    margin: 0 auto;
 }
 
 .page-transition-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-  pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    pointer-events: none;
 }
 
 .page-transition-overlay svg {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .page-transition-overlay .overlay__path {
-  fill: var(--base-500);
-  stroke: none;
+    fill: var(--base-500);
+    stroke: none;
 }
 
 @media (max-width: 1000px) {
-  h1 {
-    font-size: 3rem;
-  }
+    h1 {
+        font-size: 3rem;
+    }
 
-  h2 {
-    font-size: 2rem;
-  }
+    h2 {
+        font-size: 2rem;
+    }
 
-  h3 {
-    font-size: 1.5rem;
-  }
+    h3 {
+        font-size: 1.5rem;
+    }
 
-  h4 {
-    font-size: 1rem;
-  }
+    h4 {
+        font-size: 1rem;
+    }
 
-  h1,
-  h2,
-  h3,
-  h4 {
-    letter-spacing: 0 !important;
-  }
+    h1,
+    h2,
+    h3,
+    h4 {
+        letter-spacing: 0 !important;
+    }
 
-  p.lg {
-    font-size: 1.125rem;
-  }
+    p.lg {
+        font-size: 1.125rem;
+    }
 
-  p.sm {
-    font-size: 0.8rem;
-    letter-spacing: 0.05rem;
-  }
+    p.sm {
+        font-size: 0.8rem;
+        letter-spacing: 0.05rem;
+    }
 
-  .container {
-    padding: 1.25rem;
-  }
+    .container {
+        padding: 1.25rem;
+    }
 }
 
 @media (min-width: 2400px) {
-  h1 {
-    font-size: 10rem;
-  }
+    h1 {
+        font-size: 10rem;
+    }
 }
 
 body {
-  background-color: #1a1614;
-  overflow-x: hidden;
+    background-color: #1a1614;
+    overflow-x: hidden;
 }
 
 body.dragging {
-  cursor: grabbing;
+    cursor: grabbing;
 }
 body.zoom-mode {
-  cursor: default;
+    cursor: default;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 
 .logo-container:hover .circle-1 {
-  transform: translate(-0.5rem, -50%);
+    transform: translate(-0.5rem, -50%);
 }
 .logo-container:hover .circle-2 {
-  transform: translate(0.5rem, -50%);
+    transform: translate(0.5rem, -50%);
 }
 
 .canvas-wrapper.is-animating {
-  will-change: transform;
+    will-change: transform;
 }
 
 .grid-item.out-of-view {
-  opacity: 0.1;
+    opacity: 0.1;
 }
 
 .grid-item.selected {
-  z-index: 2 !important;
+    z-index: 2 !important;
 }
 
 .split-screen-container.active {
-  opacity: 1;
-  pointer-events: all;
+    opacity: 1;
+    pointer-events: all;
 }
 
 .image-title-overlay.active {
-  opacity: 0;
+    opacity: 0;
 }
 
 .controls-container.visible {
-  opacity: 1;
+    opacity: 1;
 }
 .controls-container.split-mode {
-  left: 75%;
+    left: 75%;
 }
 .switch-button-current {
-  color: #f0f0f0;
+    color: #f0f0f0;
 }
 .close-button.active {
-  pointer-events: all;
+    pointer-events: all;
 }
 .close-button:hover {
-  opacity: 0.7 !important;
+    opacity: 0.7 !important;
 }
 
 .grid-item:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.8);
-  outline-offset: 2px;
-  z-index: 3;
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+    z-index: 3;
 }
 
 .zoom-target::before {
-  content: 'IMAGE TARGET';
-  color: rgba(255, 255, 255, 0.5);
-  font-family: 'TheGoodMonolith', monospace;
-  font-size: 0.75em;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+    content: 'IMAGE TARGET';
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'TheGoodMonolith', monospace;
+    font-size: 0.75em;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .split-screen-container.active .zoom-target::before {
-  display: none;
+    display: none;
 }
 
 .percentage-indicator {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 0);
-  background-size: 0.44em 0.44em;
-  background-position: -0.06em -0.06em;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 0);
+    background-size: 0.44em 0.44em;
+    background-position: -0.06em -0.06em;
 }
 
 .switch {
-  background-image: radial-gradient(
-    rgba(255, 255, 255, 0.015) 1px,
-    transparent 0
-  );
-  background-size: 0.44em 0.44em;
-  background-position: -0.06em -0.06em;
-  transition: padding 0.3s ease-in-out;
+    background-image: radial-gradient(
+        rgba(255, 255, 255, 0.015) 1px,
+        transparent 0
+    );
+    background-size: 0.44em 0.44em;
+    background-position: -0.06em -0.06em;
+    transition: padding 0.3s ease-in-out;
 }
 
 .sound-toggle {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 0);
-  background-size: 0.44em 0.44em;
-  background-position: -0.06em -0.06em;
-  transition: opacity 0.3s ease;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 0);
+    background-size: 0.44em 0.44em;
+    background-position: -0.06em -0.06em;
+    transition: opacity 0.3s ease;
 }
 
 .sound-toggle:hover {
-  opacity: 0.8;
+    opacity: 0.8;
 }
 .sound-toggle:focus-visible {
-  outline: 2px solid #333;
-  outline-offset: 2px;
+    outline: 2px solid #333;
+    outline-offset: 2px;
 }
 
 .switch-button {
-  transition: color 0.3s ease-in-out;
+    transition: color 0.3s ease-in-out;
 }
 .switch-button:focus-visible {
-  outline: 2px solid #f0f0f0;
-  outline-offset: 2px;
-  border-radius: 2px;
+    outline: 2px solid #f0f0f0;
+    outline-offset: 2px;
+    border-radius: 2px;
 }
 .switch-button:hover .indicator-dot {
-  opacity: 1;
+    opacity: 1;
 }
 
 .close-button:focus-visible {
-  outline: 2px solid white;
-  outline-offset: 4px;
-  border-radius: 4px;
+    outline: 2px solid white;
+    outline-offset: 4px;
+    border-radius: 4px;
 }
 .sound-wave-canvas {
-  border: none !important;
-  outline: none !important;
-  background: none !important;
+    border: none !important;
+    outline: none !important;
+    background: none !important;
 }
 
 @media (max-width: 900px) {
-  .image-title-overlay {
-    bottom: 20px;
-    left: 20px;
-  }
-  .image-slide-number {
-    width: 300px;
-    height: 18px;
-  }
-  .image-slide-number span {
-    font-size: 10px;
-  }
-  .image-slide-title {
-    width: 300px;
-    height: 50px;
-  }
-  .image-slide-title h1 {
-    font-size: 36px;
-  }
-  .image-slide-description {
-    width: 300px;
-    min-height: 70px;
-  }
-  .description-line {
-    font-size: 14px;
-  }
+    .image-title-overlay {
+        bottom: 20px;
+        left: 20px;
+    }
+    .image-slide-number {
+        width: 300px;
+        height: 18px;
+    }
+    .image-slide-number span {
+        font-size: 10px;
+    }
+    .image-slide-title {
+        width: 300px;
+        height: 50px;
+    }
+    .image-slide-title h1 {
+        font-size: 36px;
+    }
+    .image-slide-description {
+        width: 300px;
+        min-height: 70px;
+    }
+    .description-line {
+        font-size: 14px;
+    }
 
-  .controls-container.split-mode {
-    left: 50%;
-  }
+    .controls-container.split-mode {
+        left: 50%;
+    }
 }
 
 .grid-item {
-  position: absolute;
-  width: 320px;
-  height: 320px;
-  background: #111;
-  cursor: pointer;
-  z-index: 1;
-  opacity: 1;
-  transition: opacity 0.6s ease;
-  outline: none;
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    background: #111;
+    cursor: pointer;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+    outline: none;
 }
 
 .grid-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  user-select: none;
-  pointer-events: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+    pointer-events: none;
 }
 
 .scaling-image-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: var(--z-split);
-  pointer-events: none;
-  will-change: transform;
-  opacity: 1 !important;
-  overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-split);
+    pointer-events: none;
+    will-change: transform;
+    opacity: 1 !important;
+    overflow: hidden;
 }
 
 .scaling-image-overlay img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  overflow: hidden;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    overflow: hidden;
 }
