@@ -1,30 +1,35 @@
-"use client";
+'use client';
 
-import { useCallback } from "react";
-import Link from "next/link";
-import { useSound } from "@/hooks/useSound";
+import { useCallback } from 'react';
+import Link from 'next/link';
+import { useSound } from '@/hooks/useSound';
 
 export default function SoundLink({
-  soundType = "link-click",
-  href,
-  children,
-  className = "",
-  onClick,
-  ...props
+    soundType = 'link-click',
+    href,
+    children,
+    className = '',
+    onClick,
+    ...props
 }) {
-  const { playSound } = useSound();
+    const { playSound } = useSound();
 
-  const handleClick = useCallback(
-    (e) => {
-      playSound(soundType);
-      onClick?.(e);
-    },
-    [playSound, soundType, onClick],
-  );
+    const handleClick = useCallback(
+        (e) => {
+            playSound(soundType);
+            onClick?.(e);
+        },
+        [playSound, soundType, onClick]
+    );
 
-  return (
-    <Link href={href} className={className} onClick={handleClick} {...props}>
-      {children}
-    </Link>
-  );
+    return (
+        <Link
+            href={href}
+            className={className}
+            onClick={handleClick}
+            {...props}
+        >
+            {children}
+        </Link>
+    );
 }

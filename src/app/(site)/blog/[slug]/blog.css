@@ -1,0 +1,130 @@
+.blog-page {
+    background: #0c0c0c;
+    color: #f5f5f5;
+    min-height: 100vh;
+}
+
+/* Progress */
+.reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    z-index: 9999;
+}
+#reading-bar {
+    height: 100%;
+    width: 0%;
+    background: #fff;
+}
+
+/* Hero */
+.blog-hero {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+}
+.blog-hero-img {
+    object-fit: cover;
+}
+.blog-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, #0c0c0c 100%);
+}
+
+/* Container */
+.blog-container {
+    max-width: 900px;
+    margin: -120px auto 0;
+    padding: 0 24px 120px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Floating share */
+.floating-share {
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.floating-share button {
+    background: #111;
+    border: 1px solid #333;
+    padding: 10px 14px;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Typography */
+.blog-category {
+    opacity: 0.6;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+.blog-title {
+    font-size: clamp(46px, 6vw, 72px);
+    line-height: 1.05;
+}
+.blog-meta {
+    opacity: 0.6;
+    margin-bottom: 30px;
+}
+.blog-excerpt {
+    font-size: 22px;
+    margin: 30px 0 50px;
+}
+.blog-body {
+    font-size: 19px;
+    line-height: 2;
+    color: #d6d6d6;
+}
+.blog-paragraph {
+    margin-bottom: 2rem;
+}
+.blog-h2 {
+    margin: 5rem 0 2rem;
+    font-size: 32px;
+}
+
+/* TOC */
+.blog-toc {
+    margin: 3rem 0;
+    border-left: 1px solid #333;
+    padding-left: 1rem;
+}
+.blog-toc a {
+    display: block;
+    color: #aaa;
+    margin-bottom: 6px;
+    text-decoration: none;
+}
+.blog-toc a:hover {
+    color: #fff;
+}
+
+/* Lists */
+.blog-list {
+    list-style: disc;
+    padding-left: 1.6rem;
+}
+.blog-list-item::marker {
+    color: #888;
+}
+
+/* Inline image */
+.blog-inline-image {
+    margin: 5rem 0;
+    border-radius: 14px;
+    overflow: hidden;
+}
+.blog-inline-image img {
+    width: 100%;
+    transition: transform 0.7s ease;
+}
+.blog-inline-image:hover img {
+    transform: scale(1.04);
+}
