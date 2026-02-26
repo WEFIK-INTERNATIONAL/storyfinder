@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useCallback, useState, useMemo } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { gsap } from '@/lib/gsap';
 import './minimap.css';
 
@@ -19,6 +20,7 @@ export default function Minimap({
   const stripRef = useRef(null);
   const itemsRef = useRef(null);
   const itemRefs = useRef([]);
+  const router = useRouter();
 
   const state = useRef({
     isHorizontal: false,
@@ -268,6 +270,13 @@ export default function Minimap({
     } catch {}
   }, [previewSrc, category]);
 
+  const handlePreviewClick = useCallback(() => {
+    const slug = images[activeIndex]?.slug?.current || images[activeIndex]?.slug;
+    if (slug) {
+      router.push(`/blog/${slug}`);
+    }
+  }, [images, activeIndex, router]);
+
   useEffect(() => {
     if (!images.length) return;
 
@@ -341,7 +350,11 @@ export default function Minimap({
         </div>
       )}
 
-      <div className="minimap-preview-wrapper">
+      <div
+        className="minimap-preview-wrapper"
+        onClick={handlePreviewClick}
+        style={{ cursor: 'pointer' }}
+      >
         {previewSrc && (
           <Image
             key={previewSrc} /* re-mounts on src change */
