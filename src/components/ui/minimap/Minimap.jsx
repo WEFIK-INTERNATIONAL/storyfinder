@@ -1,8 +1,8 @@
 'use client';
 
 import { useRef, useEffect, useCallback, useState, useMemo } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { gsap } from '@/lib/gsap';
 import './minimap.css';
 
@@ -237,26 +237,12 @@ export default function Minimap({
         applyTransform(clamped);
     }, [computeMaxTranslate, clamp, applyTransform]);
 
-    const handleDownload = useCallback(async () => {
-        const src = previewSrc;
+    const handleDownload = useCallback(() => {
+        if (!previewSrc) return;
+
         const filename = `${category || 'image'}-${state.current.currentIndex + 1}.jpg`;
 
-        try {
-            const res = await fetch(src, { mode: 'cors' });
-            if (!res.ok) throw new Error('fetch failed');
-            const blob = await res.blob();
-            const url = URL.createObjectURL(blob);
-            const a = Object.assign(document.createElement('a'), {
-                href: url,
-                download: filename,
-            });
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        } catch {
-            window.open(src, '_blank', 'noopener,noreferrer');
-        }
+        window.location.href = `${previewSrc}?dl=${filename}`;
     }, [previewSrc, category]);
 
     const handleShare = useCallback(async () => {
@@ -279,14 +265,6 @@ export default function Minimap({
             }
         } catch {}
     }, [previewSrc, category]);
-
-    const handlePreviewClick = useCallback(() => {
-        const slug =
-            images[activeIndex]?.slug?.current || images[activeIndex]?.slug;
-        if (slug) {
-            router.push(`/blog/${slug}`);
-        }
-    }, [images, activeIndex, router]);
 
     useEffect(() => {
         if (!images.length) return;
@@ -353,7 +331,20 @@ export default function Minimap({
         startLoop,
     ]);
 
-    if (!images.length) return null;
+    if (!images || images.length === 0) {
+        return (
+            <div className="minimap-root minimap-empty">
+                <h1>No images to show</h1>
+                <p>Please check back later.</p>
+                <button
+                    className="minimap-back-btn"
+                    onClick={() => router.back()}
+                >
+                    ← Go Back
+                </button>
+            </div>
+        );
+    }
 
     return (
         <div className={`minimap-root ${className}`.trim()}>
@@ -370,20 +361,17 @@ export default function Minimap({
                 </div>
             )}
 
-            <div
-                className="minimap-preview-wrapper"
-                onClick={handlePreviewClick}
-                style={{ cursor: 'pointer' }}
-            >
+            <div className="minimap-preview-wrapper">
                 {previewSrc && (
                     <Image
-                        key={previewSrc} /* re-mounts on src change */
+                        key={previewSrc}
                         src={previewSrc}
                         alt={`${category} photo ${activeIndex + 1} of ${images.length}`}
                         fill
                         priority
                         className={`minimap-preview-img ${previewReady ? 'is-ready' : ''}`}
                         onLoad={() => setPreviewReady(true)}
+                        unoptimized
                     />
                 )}
 

@@ -1,38 +1,20 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import { useMobile } from '@/hooks/useMobile';
 import Preloader from '@/components/ui/Preloader';
 import GalleryCanvas from '@/components/home/GalleryCanvas';
 import MobileHome from '@/components/home/MobileHome';
 import GalleryErrorBoundary from '@/components/errors/GalleryErrorBoundary';
 
-export default function Home() {
-    const { isMobileOrTablet } = useMobile();
-    const [mounted, setMounted] = useState(false);
+import { client } from '@/lib/sanityClient';
+import { FEATURED_PHOTOS_QUERY } from '../../../sanity/lib/queries';
 
-    useEffect(() => { setMounted(true); }, []);
-
-    // While hydrating (server render), show nothing to avoid flash of wrong layout
-    if (!mounted) {
-        return <Preloader />;
-    }
-
-    if (isMobileOrTablet) {
-        return (
-            <>
-                <Preloader />
-                <MobileHome />
-            </>
-        );
-    }
+export default async function Home() {
+    const data = await client.fetch(FEATURED_PHOTOS_QUERY);
 
     return (
         <>
             <Preloader />
             <GalleryErrorBoundary>
                 <main className="absolute top-0 left-0 inset-0 overflow-hidden">
-                    <GalleryCanvas />
+                    <GalleryCanvas images={data} />
                 </main>
                 <div
                     className="fixed inset-0 pointer-events-none z-7"

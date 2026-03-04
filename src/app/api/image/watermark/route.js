@@ -1,59 +1,91 @@
 import sharp from 'sharp';
-import { client } from '@/lib/sanityClient';
-import { WATERMARK_QUERY } from '../../../../../sanity/lib/queries';
+import { getWatermark } from '@/lib/watermarkHelper';
+import { checkRateLimit } from '@/lib/rateLimiter';
 
 export async function GET(req) {
-    const { searchParams } = new URL(req.url);
-    const imgUrl = searchParams.get('img');
+    try {
+        const { searchParams } = new URL(req.url);
+        const imgUrl = searchParams.get('img');
 
-    if (!imgUrl) {
-        return new Response('Missing image', { status: 400 });
-    }
+        if (!imgUrl) {
+            return new Response('Missing image', { status: 400 });
+        }
 
-    // 1. Fetch watermark settings
-    const wm = await client.fetch(WATERMARK_QUERY);
+        // 🔒 Rate Limit
+        const ip =
+            req.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
 
-    // 2. Download base image + watermark PNG
-    const [baseRes, wmRes] = await Promise.all([
-        fetch(imgUrl),
-        fetch(wm.image.asset.url),
-    ]);
+        if (!checkRateLimit(ip)) {
+            return new Response('Too many requests', { status: 429 });
+        }
 
-    const baseBuffer = Buffer.from(await baseRes.arrayBuffer());
-    const wmBuffer = Buffer.from(await wmRes.arrayBuffer());
+        // 🔥 Get cached watermark
+        const wm = await getWatermark();
 
-    const base = sharp(baseBuffer);
-    const { width, height } = await base.metadata();
+        // If disabled → just proxy original
+        if (!wm || !wm.enabled || !wm.image?.asset?.url) {
+            const original = await fetch(imgUrl);
+            return new Response(await original.arrayBuffer(), {
+                headers: {
+                    'Content-Type':
+                        original.headers.get('Content-Type') || 'image/webp',
+                },
+            });
+        }
 
-    // 3. Resize watermark based on scale
-    const wmWidth = Math.floor(width * wm.size);
-    const watermark = await sharp(wmBuffer).resize(wmWidth).png().toBuffer();
+        // Download images
+        const [baseRes, wmRes] = await Promise.all([
+            fetch(imgUrl),
+            fetch(wm.image.asset.url),
+        ]);
 
-    // 4. Position logic
-    const gravityMap = {
-        center: 'center',
-        'bottom-right': 'southeast',
-        'bottom-left': 'southwest',
-        'top-right': 'northeast',
-        'top-left': 'northwest',
-    };
+        if (!baseRes.ok || !wmRes.ok) {
+            return new Response('Image fetch failed', { status: 500 });
+        }
 
-    // 5. Composite watermark
-    const output = await base
-        .composite([
-            {
-                input: watermark,
-                gravity: gravityMap[wm.position] || 'southeast',
-                blend: 'over',
+        const baseBuffer = Buffer.from(await baseRes.arrayBuffer());
+        const wmBuffer = Buffer.from(await wmRes.arrayBuffer());
+
+        const base = sharp(baseBuffer);
+        const metadata = await base.metadata();
+        const width = metadata.width || 1200;
+
+        // Resize watermark based on scale
+        const wmWidth = Math.floor(width * (wm.size || 0.4));
+
+        const watermark = await sharp(wmBuffer)
+            .resize(wmWidth)
+            .ensureAlpha()
+            .modulate({ opacity: wm.opacity ?? 0.25 })
+            .png()
+            .toBuffer();
+
+        const gravityMap = {
+            center: 'center',
+            'bottom-right': 'southeast',
+            'bottom-left': 'southwest',
+            'top-right': 'northeast',
+            'top-left': 'northwest',
+        };
+
+        const output = await base
+            .composite([
+                {
+                    input: watermark,
+                    gravity: gravityMap[wm.position] || 'southeast',
+                },
+            ])
+            .webp({ quality: 85 }) // 🚀 WebP optimized
+            .toBuffer();
+
+        return new Response(output, {
+            headers: {
+                'Content-Type': 'image/webp',
+                'Cache-Control': 'no-store',
             },
-        ])
-        .jpeg({ quality: 90 })
-        .toBuffer();
-
-    return new Response(output, {
-        headers: {
-            'Content-Type': 'image/jpeg',
-            'Cache-Control': 'public, max-age=31536000, immutable',
-        },
-    });
+        });
+    } catch (error) {
+        console.error(error);
+        return new Response('Internal Server Error', { status: 500 });
+    }
 }

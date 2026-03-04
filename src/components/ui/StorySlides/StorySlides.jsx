@@ -1,12 +1,11 @@
 'use client';
 import './StorySlides.css';
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { stories } from './stories.js';
 import { gsap } from '@/lib/gsap';
 import Button from '@/components/ui/button/Button';
 import Image from 'next/image';
 
-export default function StorySlides() {
+export default function StorySlides({ stories }) {
     const storiesContainerRef = useRef(null);
     const activeStoryRef = useRef(0);
     const isAnimatingRef = useRef(false);

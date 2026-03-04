@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useCallback, useReducer } from 'react';
+import { useEffect, useRef, useCallback, useReducer, useMemo } from 'react';
 import Image from 'next/image';
-import { gsap, Draggable, Flip, customEase, centerEase } from '@/lib/gsap';
 import soundManager from '@/lib/soundManager';
 import { useSoundStore } from '@/store/useSoundStore';
 import { useGalleryStore } from '@/store/useGalleryStore';
 import { isInitialLoad } from '@/components/ui/Preloader';
-import { FASHION_IMAGES, IMAGE_DATA, GRID_CONFIG } from '@/lib/galleryData';
+import { gsap, Draggable, Flip, customEase, centerEase } from '@/lib/gsap';
+import { GRID_CONFIG } from '@/lib/galleryData';
 
 function hexToRgbParts(hex) {
     return [
@@ -83,7 +83,7 @@ function buildGridItems() {
     return items;
 }
 
-const GRID_ITEMS = buildGridItems();
+// const GRID_ITEMS = buildGridItems();
 
 const descriptionCache = new Map();
 
@@ -171,17 +171,61 @@ function galleryReducer(state, action) {
     }
 }
 
-export default function GalleryCanvas() {
+export default function GalleryCanvas({ images = [] }) {
     const toggleSoundStore = useSoundStore((s) => s.toggleSound);
     const openImageStore = useGalleryStore((s) => s.openImage);
     const closeImageStore = useGalleryStore((s) => s.closeImage);
     const setZoomStore = useGalleryStore((s) => s.setZoom);
     const setCurrentGapStore = useGalleryStore((s) => s.setCurrentGap);
 
+    const GRID_ITEMS = useMemo(() => {
+        const gap = calculateGapForZoom(GRID_CONFIG.initialZoom);
+        const { cols, itemSize } = GRID_CONFIG;
+
+        const validImages = images.filter((img) => img?.imageUrl);
+
+        let sourceImages = [...validImages];
+
+        // Duplicate randomly until 96 images
+        if (sourceImages.length > 0 && sourceImages.length < 96) {
+            while (sourceImages.length < 96) {
+                const randomImage =
+                    validImages[Math.floor(Math.random() * validImages.length)];
+                sourceImages.push(randomImage);
+            }
+        }
+
+        const items = [];
+
+        for (let i = 0; i < sourceImages.length; i++) {
+            const row = Math.floor(i / cols);
+            const col = i % cols;
+
+            const img = sourceImages[i];
+
+            items.push({
+                index: i,
+                row,
+                col,
+                baseX: col * (itemSize + gap),
+                baseY: row * (itemSize + gap),
+                imageUrl: img.imageUrl,
+                imageData: {
+                    title: img.title,
+                    number: String(i + 1).padStart(2, '0'),
+                    description: img.title || '',
+                },
+            });
+        }
+
+        return items;
+    }, [images]);
+
     const [state, localDispatch] = useReducer(
         galleryReducer,
         initialGalleryState
     );
+
     const stateRef = useRef(state);
     useEffect(() => {
         stateRef.current = state;
@@ -694,7 +738,7 @@ export default function GalleryCanvas() {
                 ease: customEase,
                 absolute: true,
                 onComplete: () => {
-                    const data = IMAGE_DATA[index % IMAGE_DATA.length];
+                    const data = GRID_ITEMS[index].imageData;
                     if (slideNumberRef.current)
                         slideNumberRef.current.textContent = data.number;
                     if (slideTitleRef.current)
@@ -1090,7 +1134,7 @@ export default function GalleryCanvas() {
                                 className="grid-item"
                                 role="button"
                                 tabIndex={0}
-                                aria-label={`View image ${(i % IMAGE_DATA.length) + 1}: ${item.imageData.title}`}
+                                aria-label={`View image ${i + 1}: ${item.imageData.title}`}
                                 style={{
                                     position: 'absolute',
                                     left: item.baseX,

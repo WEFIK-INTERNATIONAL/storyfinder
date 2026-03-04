@@ -47,6 +47,17 @@ export const CATEGORIES_QUERY = `
   "slug": slug.current
 }`
 
+export const STORIES_QUERY = `
+*[_type == "story"] 
+| order(featuredDate desc)[0...6]{
+  title,
+  organization,
+  link,
+  featuredDate,
+  "storyImg": featuredPhoto.asset->url,
+  "profileImg": organizationLogo.asset->url
+}`
+
 export const POSTS_QUERY = `
 *[_type == "post"] | order(publishedAt desc){
   _id,
@@ -87,11 +98,14 @@ export const POST_QUERY = `
 
 export const WATERMARK_QUERY = `
 *[_type == "watermark"][0]{
-  image{ asset->{ url } },
+  _updatedAt,
+  enabled,
   opacity,
   size,
   position,
-  _updatedAt
+  image{
+    asset->{ url }
+  }
 }`
 
 export const FEATURED_PHOTOS_QUERY = `
@@ -99,29 +113,35 @@ export const FEATURED_PHOTOS_QUERY = `
   _id,
   title,
   "slug": slug.current,
-  image{ asset->{ url } },
-  price,
-  isPaid
+  "imageUrl": rawImage.asset->url,
 }`
 
-export const PHOTOS_BY_CATEGORY_QUERY = `
-*[_type == "photo" && category->slug.current == $slug] | order(publishedAt desc){
+export const PHOTOS_BY_CATEGORY_WITH_EDITED_QUERY = `
+*[
+  _type == "photo" &&
+  category->slug.current == $slug &&
+  defined(editedImage.asset)
+] | order(publishedAt desc){
   _id,
   title,
   "slug": slug.current,
-  image{ asset->{ url } },
-  price,
-  isPaid
+  "rawImageUrl": rawImage.asset->url,
+  "editedImageUrl": editedImage.asset->url,
 }`
 
 export const GALLERIES_QUERY = `
-*[_type == "gallery"] | order(publishedAt desc){
+*[_type == "gallery"] | order(_createdAt asc){
   _id,
   title,
   "slug": slug.current,
-  coverImage{ asset->{ url } },
-  "category": category->title
-}`
+  description,
+  "photos": photos[0...3]->{
+    _id,
+    title,
+    "imageUrl": image.asset->url
+  }
+}
+`
 
 export const GALLERY_QUERY = `
 *[_type == "gallery" && slug.current == $slug][0]{
