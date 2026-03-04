@@ -115,7 +115,7 @@ const GalleryClient = ({ galleries }) => {
     /* ================= Render ================= */
     return (
         <>
-            <section className="folders py-16" ref={workPageContainer}>
+            <section className="folders" ref={workPageContainer}>
                 {workItems.length === 0 && (
                     <div className="empty-state">
                         <p>No galleries available.</p>

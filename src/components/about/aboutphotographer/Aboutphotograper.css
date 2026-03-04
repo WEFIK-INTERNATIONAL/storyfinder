@@ -1,0 +1,493 @@
+/* =====================================================================
+   DESIGN TOKENS — single source of truth on .ap-track
+   --card-w   : width of every panel
+   --card-pad : inner padding, always proportional to card width
+   --card-fs  : base font scale for numbers/headings inside cards
+   All panels derive width, height (via aspect-ratio), padding, and
+   font sizes from these three variables. Nothing hard-codes a size
+   that could conflict at an intermediate breakpoint.
+   ===================================================================== */
+
+.ap-outer {
+    background: #e3e3db;
+    color: #1a1614;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ── tokens ── */
+.ap-track {
+    --card-w:   clamp(260px, 30vw, 460px);
+    --card-pad: calc(var(--card-w) * 0.072); /* ~19px–33px */
+    --card-fs:  calc(var(--card-w) * 0.11);  /* ~29px–51px — stat numbers */
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;   /* let aspect-ratio control height, not stretch */
+    will-change: transform;
+    padding: 3rem 5vw 5rem;
+    gap: 2rem;
+}
+
+/* ── base panel — width + height locked together via aspect-ratio ── */
+.ap-panel {
+    flex: 0 0 auto;
+    width: var(--card-w);
+    aspect-ratio: 2 / 3;       /* height = width × 1.5, always in sync */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ================================================================
+   PANEL — NAME
+   ================================================================ */
+.ap-panel--name {
+    gap: calc(var(--card-pad) * 1.4);
+    padding: 0;
+    justify-content: flex-start;
+    padding-bottom: var(--card-pad);
+    overflow: visible;
+}
+
+.ap-name {
+    font-family: var(--font-big-shoulders);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.025em;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ap-name-outline,
+.ap-name-filled {
+    /* clamp uses vw directly — never depends on --card-w so it works on all screens */
+    font-size: clamp(2.4rem, 5.5vw, 6.2rem);
+    white-space: nowrap;
+}
+
+.ap-name-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px #1a1614;
+}
+
+.ap-name-filled {
+    color: #1a1614;
+}
+
+.ap-name-filled em {
+    font-style: normal;
+    color: rgba(26, 22, 20, 0.25);
+}
+
+.ap-name-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.ap-location-line {
+    font-family: var(--font-mono, 'Space Mono', monospace);
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    opacity: 0.35;
+}
+
+.ap-tagline {
+    font-family: var(--font-monolith), var(--font-mono, 'Space Mono', monospace);
+    font-style: italic;
+    font-size: clamp(0.85rem, 1.3vw, 1.15rem);
+    color: rgba(26, 22, 20, 0.5);
+}
+
+.ap-scroll-hint {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.ap-scroll-hint span {
+    font-family: var(--font-mono, 'Space Mono', monospace);
+    font-size: 0.55rem;
+    letter-spacing: 0.22em;
+    opacity: 0.3;
+}
+
+.ap-scroll-arrow {
+    color: rgba(26, 22, 20, 0.3);
+    animation: arrowBounce 1.6s ease-in-out infinite;
+}
+
+@keyframes arrowBounce {
+    0%, 100% { transform: translateX(0); }
+    50%       { transform: translateX(8px); }
+}
+
+/* ================================================================
+   PANEL — IMAGE
+   ================================================================ */
+.ap-panel--image {
+    padding: 0;
+}
+
+.ap-image-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.ap-img {
+    object-fit: cover;
+    object-position: center top;
+    transition: transform 1s ease;
+}
+
+.ap-panel--image:hover .ap-img {
+    transform: scale(1.04);
+}
+
+.ap-img-grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    border-radius: 8px;
+}
+
+.ap-img-footer {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 4rem 1.25rem 1.25rem;
+    background: linear-gradient(to top, rgba(26,22,20,0.6), transparent);
+    font-family: var(--font-mono, 'Space Mono', monospace);
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    color: rgba(240, 237, 232, 0.65);
+    border-radius: 0 0 8px 8px;
+}
+
+/* ================================================================
+   PANEL — BIO
+   ================================================================ */
+.ap-panel--bio {
+    background: rgba(26, 22, 20, 0.04);
+    border: 1px solid rgba(26, 22, 20, 0.1);
+    padding: var(--card-pad);
+    gap: calc(var(--card-pad) * 0.8);
+    justify-content: center;
+}
+
+.ap-eyebrow {
+    font-family: var(--font-mono, 'Space Mono', monospace);
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    color: rgba(26, 22, 20, 0.35);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* Scale body copy inside bio to the card width so it never overflows the aspect-ratio box */
+.ap-panel--bio p.lg {
+    font-size: clamp(0.78rem, 1.55vw, 1rem) !important;
+    line-height: 1.7 !important;
+}
+
+.ap-eyebrow::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: rgba(26, 22, 20, 0.25);
+    flex-shrink: 0;
+}
+
+.ap-bio-body {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--card-pad) * 0.6);
+    /* NO overflow:hidden — Copy line masks need to breathe.
+       The panel's own overflow:hidden is the outer boundary. */
+    min-height: 0;
+    padding-bottom: 0.4em; /* room for descenders at panel edge */
+}
+
+/* ================================================================
+   PANEL — DATA  (stats top + quote bottom, fills card height)
+   ================================================================ */
+.ap-panel--data {
+    padding: 0;
+    gap: 0;
+    justify-content: stretch;
+}
+
+.ap-stats-block {
+    background: rgba(26, 22, 20, 0.04);
+    border: 1px solid rgba(26, 22, 20, 0.1);
+    border-radius: 8px 8px 0 0;
+    padding: var(--card-pad);
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+}
+
+.ap-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: calc(var(--card-pad) * 0.5) 0;
+    border-bottom: 1px solid rgba(26, 22, 20, 0.1);
+}
+
+.ap-stat:first-child { padding-top: 0; }
+.ap-stat:last-child  { border-bottom: none; padding-bottom: 0; }
+
+.ap-stat-num {
+    font-family: var(--font-big-shoulders);
+    font-size: var(--card-fs);
+    font-weight: 700;
+    line-height: 1;
+    color: #1a1614;
+    display: inline-block;
+}
+
+.ap-stat-label {
+    font-family: var(--font-mono, 'Space Mono', monospace);
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    line-height: 1.6;
+    color: rgba(26, 22, 20, 0.4);
+    text-transform: uppercase;
+}
+
+.ap-quote-block {
+    background: #ff6e14;
+    border-radius: 0 0 8px 8px;
+    padding: var(--card-pad);
+    /* Give extra bottom padding so the last Copy line's descenders
+       don't get shaved by the parent panel's overflow:hidden */
+    padding-bottom: calc(var(--card-pad) + 0.4em);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--card-pad) * 0.6);
+    flex: 1 1 0;
+    min-height: 0;
+    justify-content: center;
+    /* NO overflow:hidden — Copy line masks must not be clipped here */
+}
+
+.ap-quote-block p.lg {
+    font-family: var(--font-monolith), var(--font-mono, 'Space Mono', monospace) !important;
+    font-style: italic;
+    font-size: clamp(0.78rem, 1.55vw, 1rem) !important;
+    line-height: 1.65;
+    color: #1a1614 !important;
+}
+
+.ap-quote-attr {
+    font-family: var(--font-mono, 'Space Mono', monospace);
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: #1a1614;
+    flex-shrink: 0;
+}
+
+/* ================================================================
+   PANEL — SIGNATURE
+   ================================================================ */
+.ap-panel--sig {
+    background: rgba(26, 22, 20, 0.04);
+    border: 1px solid rgba(26, 22, 20, 0.1);
+    padding: var(--card-pad);
+    gap: calc(var(--card-pad) * 0.8);
+    justify-content: space-between;
+    margin-right: 5vw;
+}
+
+.ap-sig-wrap {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ap-sig-svg {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    color: rgba(26, 22, 20, 0.6);
+}
+
+.ap-nib {
+    position: absolute;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.ap-nib-inner {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #1a1614;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ap-nib-glow {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(26,22,20,0.2) 0%, transparent 70%);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: nibPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes nibPulse {
+    0%, 100% { transform: translate(-50%,-50%) scale(1);   opacity: 0.8; }
+    50%       { transform: translate(-50%,-50%) scale(1.6); opacity: 0.25; }
+}
+
+.ap-cta-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.ap-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.75rem;
+    border: 1px solid #1a1614;
+    font-family: var(--font-mono, 'Space Mono', monospace);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: #1a1614;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s;
+}
+
+.ap-cta-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #1a1614;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.32s ease;
+    z-index: 0;
+}
+
+.ap-cta-btn:hover::before { transform: scaleX(1); }
+.ap-cta-btn:hover          { color: #e3e3db; }
+.ap-cta-btn span,
+.ap-cta-btn svg            { position: relative; z-index: 1; }
+.ap-cta-btn:hover svg      { transform: translateX(4px); transition: transform 0.3s; }
+
+.ap-email {
+    font-family: var(--font-mono, 'Space Mono', monospace);
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    color: rgba(26, 22, 20, 0.38);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.ap-email:hover { color: #1a1614; }
+
+/* ================================================================
+   HEADER  (currently commented out in JSX but kept ready)
+   ================================================================ */
+.ap-header       { padding: 4rem 5vw 0; }
+.ap-intro-band   { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+.ap-index        { font-family: var(--font-mono, 'Space Mono', monospace); font-size: 0.6rem; letter-spacing: 0.22em; opacity: 0.35; }
+.ap-tags         { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
+.ap-tag          { font-family: var(--font-mono, 'Space Mono', monospace); font-size: 0.55rem; letter-spacing: 0.16em; padding: 0.3rem 0.75rem; border: 1px solid rgba(26, 22, 20, 0.18); color: rgba(26, 22, 20, 0.45); border-radius: 100px; white-space: nowrap; }
+.ap-rule         { width: 100%; height: 1px; background: rgba(26, 22, 20, 0.15); margin-top: 1rem; }
+
+/* ================================================================
+   TABLET / MOBILE  ≤ 1023px — vertical stack
+   ================================================================ */
+@media (max-width: 1023px) {
+    .ap-outer  { overflow: visible; }
+    .ap-header { padding: 3.5rem 5vw 0; }
+
+    .ap-track {
+        /* flat values only — no calc(percentage * factor) on mobile */
+        --card-pad: 1.75rem;
+        --card-fs:  2.4rem;
+
+        flex-direction: column;
+        align-items: stretch;
+        padding: 2.5rem 5vw 5rem;
+        gap: 1.5rem;
+    }
+
+    .ap-panel {
+        width: 100%;
+        aspect-ratio: unset;
+        height: auto;
+        overflow: visible;
+        margin-right: 0 !important;
+    }
+
+    /* re-apply overflow only on the image panel — it has no Copy content */
+    .ap-panel--image { aspect-ratio: 4 / 3; overflow: hidden; }
+
+    /* Name: use vw-based font size directly, never the broken token */
+    .ap-name-outline,
+    .ap-name-filled { font-size: clamp(2.4rem, 11vw, 5rem); }
+
+    /* Body copy: restore normal readable size on mobile (no card-width constraint) */
+    .ap-panel--bio p.lg,
+    .ap-quote-block p.lg { font-size: clamp(0.88rem, 2.2vw, 1.05rem) !important; }
+
+    .ap-panel--data {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        aspect-ratio: unset;
+        height: auto;
+    }
+
+    .ap-stats-block { border-radius: 8px; }
+    .ap-quote-block { border-radius: 8px; flex: unset; min-height: 180px; }
+
+    .ap-scroll-hint { display: none; }
+}
+
+/* ================================================================
+   SMALL MOBILE  ≤ 600px
+   ================================================================ */
+@media (max-width: 600px) {
+    .ap-header { padding: 3rem 1.5rem 0; }
+
+    .ap-track {
+        --card-pad: 1.25rem;
+        padding: 2rem 1.5rem 4rem;
+    }
+
+    .ap-panel--data   { grid-template-columns: 1fr; }
+    .ap-intro-band    { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+    .ap-tags          { justify-content: flex-start; }
+    .ap-cta-row       { flex-direction: column; align-items: flex-start; }
+}

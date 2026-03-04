@@ -5,8 +5,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--base-400);
-    color: var(--base-100);
+    background-color: var(--base-100);
+    color: var(--base-400);
     overflow: hidden;
 }
 

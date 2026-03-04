@@ -13,7 +13,7 @@ const PETAL_ORIGINS = [
     { x: 20, y: -25 },
 ];
 
-const StoryfinderLogo = ({ className = '', width = 36, height = 36 }) => {
+const StoryfinderLogo = ({ className = '', width = 28, height = 28 }) => {
     const svgRef = useRef(null);
     const pathRefs = useRef([]);
     const spinTween = useRef(null);
@@ -31,7 +31,7 @@ const StoryfinderLogo = ({ className = '', width = 36, height = 36 }) => {
                 opacity: 0,
                 scale: 0.3,
                 rotation: -45,
-                transformOrigin: '18px 18px',
+                transformOrigin: '14px 14px',
             });
         });
 
@@ -60,7 +60,7 @@ const StoryfinderLogo = ({ className = '', width = 36, height = 36 }) => {
         if (spinTween.current) spinTween.current.kill();
         spinTween.current = gsap.to(svg, {
             rotation: '+=360',
-            transformOrigin: '18px 18px',
+            transformOrigin: '14px 14px',
             duration: 2,
             ease: 'none',
             repeat: -1,
@@ -70,7 +70,7 @@ const StoryfinderLogo = ({ className = '', width = 36, height = 36 }) => {
             duration: 0.4,
             stagger: { each: 0.06, yoyo: true, repeat: -1 },
             ease: 'sine.inOut',
-            transformOrigin: '18px 18px',
+            transformOrigin: '14px 14px',
         });
     };
 
@@ -85,7 +85,7 @@ const StoryfinderLogo = ({ className = '', width = 36, height = 36 }) => {
             scale: 1,
             duration: 0.5,
             ease: 'expo.out',
-            transformOrigin: '18px 18px',
+            transformOrigin: '14px 14px',
         });
 
         if (spinTween.current) {
@@ -95,44 +95,11 @@ const StoryfinderLogo = ({ className = '', width = 36, height = 36 }) => {
 
             gsap.to(svg, {
                 rotation: targetRotation,
-                transformOrigin: '18px 18px',
+                transformOrigin: '14px 14px',
                 duration: 1.2,
                 ease: 'expo.out',
             });
         }
-    };
-
-    const handleClick = () => {
-        const paths = pathRefs.current;
-
-        gsap.killTweensOf(paths);
-
-        paths.forEach((path, i) => {
-            const { x, y } = PETAL_ORIGINS[i];
-            gsap.to(path, {
-                x: x * 2.5,
-                y: y * 2.5,
-                opacity: 0,
-                scale: 0,
-                rotation: gsap.utils.random(-90, 90),
-                duration: 0.4,
-                ease: 'expo.in',
-                transformOrigin: '18px 18px',
-            });
-        });
-
-        gsap.to(paths, {
-            x: 0,
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            rotation: 0,
-            duration: 1,
-            stagger: { each: 0.06, from: 'random' },
-            ease: 'expo.out',
-            delay: 0.45,
-            transformOrigin: '18px 18px',
-        });
     };
 
     return (
@@ -146,7 +113,6 @@ const StoryfinderLogo = ({ className = '', width = 36, height = 36 }) => {
             className={`cursor-pointer select-none ${className}`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onClick={handleClick}
             aria-label="Storyfinder logo"
             role="img"
         >
@@ -166,7 +132,7 @@ const StoryfinderLogo = ({ className = '', width = 36, height = 36 }) => {
                         pathRefs.current[i] = el;
                     }}
                     d={d}
-                    fill="currentColor"
+                    fill="#1a1614"
                     style={{ opacity: 0 }}
                 />
             ))}

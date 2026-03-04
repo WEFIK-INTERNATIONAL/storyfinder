@@ -1,0 +1,101 @@
+/* ── Keyframes ──────────────────────────────────────────────── */
+@keyframes rt-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes rt-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0);   }
+}
+
+@keyframes rt-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.8; }
+}
+
+@keyframes rt-fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes rt-scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+
+/* ── Hide scrollbars inside gallery ── */
+.rt-gallery,
+.rt-gallery * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.rt-gallery::-webkit-scrollbar,
+.rt-gallery *::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Slider image: before side desaturated ── */
+.rt-before-img {
+  filter: saturate(0.18) brightness(0.82) contrast(1.06);
+}
+
+/* ── Slider divider line ── */
+.rt-divider-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.75);
+  pointer-events: none;
+  z-index: 10;
+  transform: translateX(-50%);
+  will-change: left;
+}
+
+/* ── Reset global heading/paragraph overrides inside the gallery ── */
+.rt-gallery h1,
+.rt-gallery h2,
+.rt-gallery h3,
+.rt-gallery h4 {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+.rt-gallery p {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+/* ── Thumbnail strip item ── */
+.rt-thumb {
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.rt-thumb:hover {
+  transform: translateY(-2px);
+}
+.rt-thumb-active {
+  transform: translateY(-2px);
+}
+
+/* ── Gallery entrance animation ── */
+.rt-entrance {
+  animation: rt-scale-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.rt-fade-up {
+  animation: rt-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.rt-fade-up-delay-1 {
+  animation: rt-fade-up 0.7s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.rt-fade-up-delay-2 {
+  animation: rt-fade-up 0.7s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.rt-fade-up-delay-3 {
+  animation: rt-fade-up 0.7s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}

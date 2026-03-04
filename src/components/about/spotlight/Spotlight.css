@@ -1,0 +1,161 @@
+/* ── ORIGINAL — DO NOT MODIFY ─────────────────────────────────── */
+
+.spotlight {
+  position: relative;
+  z-index: 10;
+  margin-top: -2px;
+  width: 100%;
+  height: 100%;
+  background-color: var(--base-100);
+  overflow: hidden;
+}
+
+.spotlight .marquees {
+  position: relative;
+  width: 100%;
+  height: 150svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.spotlight .marquee-container {
+  position: relative;
+  width: 125%;
+  height: 250px;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.spotlight .marquee {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate3d(0, -50%, 0);
+  display: flex;
+  gap: 1em;
+  will-change: transform;
+}
+
+.spotlight #marquee-1 .marquee,
+.spotlight #marquee-3 .marquee {
+  transform: translate3d(-15%, -50%, 0);
+}
+
+.spotlight .marquee-img-item {
+  flex: 1;
+  position: relative; /* required for Next.js Image fill */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.spotlight .marquee-img-item.marquee-text-item {
+  flex: 1;
+}
+
+.spotlight .marquee-img-item h1 {
+  text-transform: uppercase;
+  font-family: var(--font-big-shoulders);
+  font-weight: 900;
+  font-size: 4.25rem;
+  line-height: 0.9;
+  letter-spacing: -0.125rem;
+}
+
+.spotlight .marquee-img-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spotlight .marquee-img-item h1 .char {
+  will-change: font-weight;
+}
+
+@media (max-width: 1000px) {
+  .spotlight .marquees {
+    height: 100svh;
+  }
+
+  .spotlight .marquee-container {
+    width: 250%;
+    height: 150px;
+  }
+
+  .spotlight #marquee-2 .marquee,
+  .spotlight #marquee-4 .marquee {
+    transform: translate3d(-35%, -50%, 0);
+  }
+
+  .spotlight .marquee-img-item h1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* ── ADDITIONS — header & footer only ────────────────────────── */
+
+.spotlight-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem 5vw; 
+  margin-bottom: -1rem;
+}
+
+.spotlight-index {
+  font-family: var(--font-mono, 'Space Mono', monospace);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  opacity: 0.35;
+  color: #1a1614;
+  text-transform: uppercase;
+}
+
+.spotlight-label {
+  font-family: var(--font-mono, 'Space Mono', monospace);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  opacity: 0.35;
+  color: #1a1614;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.spotlight-label::before {
+  content: '';
+  display: block;
+  width: 2rem;
+  height: 1px;
+  background: #1a1614;
+  opacity: 0.4;
+}
+
+.spotlight-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem 5vw;
+  margin-top: -1rem;
+}
+
+.spotlight-footer-note {
+  font-family: var(--font-mono, 'Space Mono', monospace);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  opacity: 0.28;
+  color: #1a1614;
+  text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+  .spotlight-header { padding: 2rem 1.5rem 0; }
+  .spotlight-footer  { padding: 0 1.5rem 2.5rem; }
+}

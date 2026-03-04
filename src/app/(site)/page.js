@@ -1,10 +1,32 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import { useMobile } from '@/hooks/useMobile';
 import Preloader from '@/components/ui/Preloader';
 import GalleryCanvas from '@/components/home/GalleryCanvas';
+import MobileHome from '@/components/home/MobileHome';
 import GalleryErrorBoundary from '@/components/errors/GalleryErrorBoundary';
 
 export default function Home() {
+    const { isMobileOrTablet } = useMobile();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => { setMounted(true); }, []);
+
+    // While hydrating (server render), show nothing to avoid flash of wrong layout
+    if (!mounted) {
+        return <Preloader />;
+    }
+
+    if (isMobileOrTablet) {
+        return (
+            <>
+                <Preloader />
+                <MobileHome />
+            </>
+        );
+    }
+
     return (
         <>
             <Preloader />
