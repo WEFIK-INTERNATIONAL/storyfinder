@@ -5,6 +5,39 @@
     background-color: #e3e3db;
 }
 
+.minimap-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+}
+
+.minimap-back-btn {
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.minimap-back-btn:hover {
+    background: #111;
+    color: white;
+}
+
+.minimap-empty h1 {
+    font-size: 48px;
+    font-weight: 400;
+}
+
+.minimap-empty p {
+    opacity: 0.7;
+}
+
 .minimap-site-info {
     position: absolute;
     top: 50%;

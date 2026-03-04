@@ -9,6 +9,13 @@ export default defineType({
 
   fields: [
     defineField({
+      name: 'enabled',
+      title: 'Enable Watermark',
+      type: 'boolean',
+      initialValue: true,
+    }),
+
+    defineField({
       name: 'image',
       title: 'Watermark PNG',
       type: 'image',
@@ -51,10 +58,16 @@ export default defineType({
   ],
 
   preview: {
-    select: {media: 'image'},
-    prepare() {
+    select: {
+      media: 'image',
+      enabled: 'enabled',
+    },
+    prepare({media, enabled}) {
       return {
-        title: 'Global Watermark Settings',
+        title: enabled
+          ? 'Global Watermark Settings (Enabled)'
+          : 'Global Watermark Settings (Disabled)',
+        media,
       }
     },
   },

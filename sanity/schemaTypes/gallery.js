@@ -28,14 +28,6 @@ export default defineType({
     }),
 
     defineField({
-      name: 'coverImage',
-      title: 'Cover Image',
-      type: 'image',
-      options: {hotspot: true},
-      validation: (Rule) => Rule.required(),
-    }),
-
-    defineField({
       name: 'photos',
       title: 'Photos',
       type: 'array',
@@ -46,41 +38,27 @@ export default defineType({
         },
       ],
     }),
-
-    defineField({
-      name: 'category',
-      title: 'Category',
-      type: 'reference',
-      to: [{type: 'category'}],
-    }),
-
-    defineField({
-      name: 'publishedAt',
-      title: 'Published At',
-      type: 'datetime',
-    }),
-
-    defineField({
-      name: 'featured',
-      title: 'Featured',
-      type: 'boolean',
-      initialValue: false,
-    }),
   ],
 
   orderings: [
     {
       title: 'Newest',
       name: 'newest',
-      by: [{field: 'publishedAt', direction: 'desc'}],
+      by: [{field: '_createdAt', direction: 'asc'}],
     },
   ],
 
   preview: {
     select: {
       title: 'title',
-      media: 'coverImage',
-      subtitle: 'category.title',
+      media: 'photos.0.image',
+    },
+    prepare(selection) {
+      const {title, media} = selection
+      return {
+        title,
+        media,
+      }
     },
   },
 })
