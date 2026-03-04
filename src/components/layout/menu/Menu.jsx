@@ -419,10 +419,10 @@ const Menu = ({ pageRef }) => {
         <>
             <nav className="">
                 <div className="flex gap-4 items-center">
-                    <div className="nav-logo">
+                    <div className="nav-logo bg-[#ccccc4] px-2 py-1.5 rounded-[0.5rem]">
                         <Link
                             href="/"
-                            className="flex w-full"
+                            className="flex w-fit flex-row gap-2 items-center"
                             onClick={(e) => {
                                 e.preventDefault();
                                 if (pathname === '/') return;
@@ -433,10 +433,10 @@ const Menu = ({ pageRef }) => {
                             }}
                         >
                             <StoryfinderLogo />
+                            <div className="font-accent font-bold text-xl text-black">
+                                StoryF.
+                            </div>
                         </Link>
-                    </div>
-                    <div className="font-accent font-bold text-3xl">
-                        StoryF.
                     </div>
                 </div>
 

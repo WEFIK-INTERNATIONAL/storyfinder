@@ -1,0 +1,273 @@
+/* ================================================================
+   FEATURED  ·  06  — Press / Publication highlights
+   ================================================================ */
+
+.af {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    background: #e3e3db;
+    color: #1a1614;
+    overflow: hidden;
+}
+
+/* ── HEADER ── */
+.af-header {
+    padding: 5rem 5vw 0;
+}
+
+.af-intro-band {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+}
+
+.af-index {
+    font-family: var(--font-monolith), monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    opacity: 0.35;
+    text-transform: uppercase;
+}
+
+.af-label {
+    font-family: var(--font-monolith), monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    opacity: 0.35;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.af-label::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: #1a1614;
+    opacity: 0.4;
+}
+
+.af-rule {
+    width: 100%;
+    height: 1px;
+    background: rgba(26, 22, 20, 0.15);
+}
+
+/* ── HEADLINE ── */
+.af-headline {
+    padding: 3.5rem 5vw 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.af-title {
+    font-family: var(--font-big-shoulders);
+    font-weight: 900;
+    font-size: clamp(2.8rem, 5.5vw, 5.5rem);
+    line-height: 0.88;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: #1a1614;
+}
+
+.af-title-ghost {
+    display: inline;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(26, 22, 20, 0.18);
+}
+
+.af-subtitle {
+    font-family: var(--font-monolith), monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: rgba(26, 22, 20, 0.4);
+    max-width: 38ch;
+    padding-bottom: 0.5rem;
+}
+
+/* ── GRID ── */
+.af-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 3.5rem 5vw 5rem;
+}
+
+/* ── CARD ── */
+.af-card {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.af-card-img {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.af-card-img img {
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.af-card:hover .af-card-img img {
+    transform: scale(1.06);
+}
+
+/* Film grain overlay */
+.af-card-grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+/* Dark gradient at bottom of image */
+.af-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 55%;
+    background: linear-gradient(to top, rgba(26, 22, 20, 0.65), transparent);
+    border-radius: 0 0 10px 10px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Publication badge */
+.af-card-pub {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-family: var(--font-monolith), monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #1a1614;
+    backdrop-filter: blur(8px);
+    z-index: 3;
+    white-space: nowrap;
+}
+
+/* Bottom card info */
+.af-card-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.25rem;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.af-card-title {
+    font-family: var(--font-big-shoulders);
+    font-weight: 700;
+    font-size: clamp(1rem, 1.4vw, 1.35rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: #e3e3db;
+    text-transform: uppercase;
+}
+
+.af-card-caption {
+    font-family: var(--font-monolith), monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.14em;
+    color: rgba(227, 227, 219, 0.55);
+    text-transform: uppercase;
+}
+
+/* ── BOTTOM CTA ROW ── */
+.af-cta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5vw 5rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.af-cta-note {
+    font-family: var(--font-monolith), monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(26, 22, 20, 0.28);
+}
+
+.af-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.75rem;
+    border: 1px solid #1a1614;
+    font-family: var(--font-monolith), monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #1a1614;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s;
+}
+
+.af-cta-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #1a1614;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.32s ease;
+    z-index: 0;
+}
+
+.af-cta-btn:hover::before { transform: scaleX(1); }
+.af-cta-btn:hover          { color: #e3e3db; }
+.af-cta-btn span,
+.af-cta-btn svg            { position: relative; z-index: 1; }
+.af-cta-btn:hover svg      { transform: translateX(4px); transition: transform 0.3s; }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 1023px) {
+    .af-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+    .af-headline { padding: 2.5rem 5vw 0; }
+}
+
+@media (max-width: 600px) {
+    .af-header   { padding: 3.5rem 1.5rem 0; }
+    .af-headline { padding: 2rem 1.5rem 0; flex-direction: column; align-items: flex-start; }
+    .af-grid     { grid-template-columns: 1fr; padding: 2.5rem 1.5rem 3.5rem; }
+    .af-cta-row  { padding: 0 1.5rem 3.5rem; flex-direction: column; align-items: flex-start; }
+    .af-intro-band { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+}

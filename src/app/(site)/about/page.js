@@ -1,12 +1,20 @@
 import Footer from '@/components/layout/footer/Footer';
 import React from 'react';
+import AboutDissolveHero from '@/components/about/dissolvecanvas/AboutDissolveHero';
+import AboutPhotographer from '@/components/about/aboutphotographer/AboutPhotographer';
+import Spotlight from '@/components/about/spotlight/Spotlight';
+import AboutRetouch from '@/components/about/aboutretouch/AboutRetouch';
+import AboutFeatured from '@/components/about/aboutfeatured/AboutFeatured';
 
-function About() {
+export default function About() {
     return (
-        <div className="mt-[200vh]">
+        <>
+            <AboutDissolveHero />
+            <AboutPhotographer />
+            <Spotlight />
+            <AboutRetouch />
+            <AboutFeatured />
             <Footer />
-        </div>
+        </>
     );
 }
-
-export default About;

@@ -34,6 +34,21 @@
     --z-controls: 6;
 }
 
+@theme {
+  --color-rt-dark:    #141210;
+  --color-rt-darker:  #0f0d0b;
+  --color-rt-cream:   #e3e3db;
+  --color-rt-orange:  #c0501a;
+
+  --font-family-display: var(--font-big-shoulders), sans-serif;
+  --font-family-mono:    var(--font-monolith), monospace;
+
+  --animate-rt-spin:    rt-spin 0.9s linear infinite;
+  --animate-rt-wipe:    rt-wipe 0.9s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+  --animate-rt-wipe-sm: rt-wipe 0.75s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+  --animate-rt-pulse:   rt-pulse 1.5s ease-in-out infinite;
+}
+
 @layer utilities {
     .font-body {
         font-family: var(--font-neue);
@@ -185,7 +200,7 @@ p.cap {
 }
 
 body {
-    background-color: #1a1614;
+    background-color: #111;
     overflow-x: hidden;
 }
 
