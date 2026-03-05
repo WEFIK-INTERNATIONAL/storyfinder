@@ -1,0 +1,164 @@
+/* =========================================================================
+   BLOG POST STYLES
+   Custom overrides for PortableText and the Dark Premium Layout
+========================================================================= */
+
+.blog-post-page {
+    width: 100%;
+    min-height: 100svh;
+    background-color: var(--color-rt-darker, #0f0d0b);
+    color: var(--color-rt-cream, #e3e3db);
+    font-family: var(--font-neue, sans-serif);
+}
+
+/* ── HERO PROGRESS BAR ── */
+#reading-bar {
+    background-color: var(--color-rt-orange, #c0501a);
+}
+.bg-progress-track {
+    background-color: rgba(227, 227, 219, 0.1);
+}
+
+/* ── HERO SECTION ── */
+.blog-post-hero-title {
+    font-family: var(--font-big-shoulders);
+    text-transform: uppercase;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.blog-post-hero-grain {
+    position: absolute;
+    inset: 0;
+    background-image: url('/noise.png');
+    background-repeat: repeat;
+    background-size: 100px;
+    opacity: 0.08;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    z-index: 2;
+}
+
+/* ── METADATA & TAGS ── */
+.blog-post-category {
+    font-family: var(--font-monolith, monospace);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background-color: rgba(227, 227, 219, 0.1);
+    color: var(--color-rt-cream);
+    padding: 0.3em 0.8em;
+    border-radius: 4px;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+/* ── TABLE OF CONTENTS ── */
+.blog-post-toc-title {
+    font-family: var(--font-monolith, monospace);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(227, 227, 219, 0.5);
+}
+
+.blog-post-toc-link {
+    font-family: var(--font-neue, sans-serif);
+    font-size: 0.95rem;
+    color: rgba(227, 227, 219, 0.6);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.blog-post-toc-link:hover {
+    color: var(--color-rt-orange, #c0501a);
+}
+
+/* ── PORTABLE TEXT PROSE OVERRIDES ── */
+.blog-prose {
+    font-family: var(--font-neue, sans-serif);
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: rgba(227, 227, 219, 0.85);
+}
+
+.blog-prose p {
+    margin-bottom: 1.5rem;
+}
+
+.blog-prose h2 {
+    font-family: var(--font-neue, sans-serif);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-rt-cream, #e3e3db);
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    text-transform: none; /* Override standard uppercase header styles */
+    letter-spacing: -0.02em;
+}
+
+.blog-prose h3 {
+    font-family: var(--font-neue, sans-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-rt-cream, #e3e3db);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    text-transform: none;
+}
+
+.blog-prose a {
+    color: var(--color-rt-orange, #c0501a);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(192, 80, 26, 0.4);
+    transition: border-bottom-color 0.3s ease;
+}
+
+.blog-prose a:hover {
+    border-bottom-color: var(--color-rt-orange, #c0501a);
+}
+
+.blog-prose blockquote {
+    border-left: 3px solid var(--color-rt-orange, #c0501a);
+    padding-left: 1.5rem;
+    font-style: italic;
+    color: rgba(227, 227, 219, 0.7);
+    margin: 2rem 0;
+}
+
+.blog-prose ul {
+    list-style-type: none; /* Custom bullet points */
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.blog-prose ul li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.blog-prose ul li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--color-rt-orange, #c0501a);
+}
+
+.blog-prose ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.blog-prose ol li {
+    margin-bottom: 0.5rem;
+}
+
+.blog-prose img {
+    width: 100%;
+    margin: 2.5rem 0;
+    border-radius: 4px; /* Slight softening of images inline */
+}

@@ -7,6 +7,8 @@ import { useRef } from 'react';
 import { gsap } from '@/lib/gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import { useViewTransition } from '@/hooks/useViewTransition';
+import { usePathname } from 'next/navigation';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -42,6 +44,9 @@ const AboutFeatured = () => {
     const headlineRef  = useRef(null);
     const subtitleRef  = useRef(null);
     const ctaRef       = useRef(null);
+
+    const pathname = usePathname();
+    const { navigateWithTransition } = useViewTransition();
 
     useGSAP(() => {
         /* Animate the rule */
@@ -150,7 +155,15 @@ const AboutFeatured = () => {
             {/* ── CTA ── */}
             <div ref={ctaRef} className="af-cta-row">
                 <span className="af-cta-note">More features coming soon</span>
-                <Link href="/featured" className="af-cta-btn">
+                <Link 
+                    href="/featured" 
+                    className="af-cta-btn"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        if (pathname === '/featured') return;
+                        navigateWithTransition('/featured');
+                    }}
+                >
                     <span>View All Features</span>
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                         <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

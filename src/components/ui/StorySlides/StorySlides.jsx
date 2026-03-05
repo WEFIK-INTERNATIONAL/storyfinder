@@ -285,7 +285,13 @@ export default function StorySlides({ stories }) {
         <div className="stories-container stories" ref={storiesContainerRef}>
             <div className="story-img">
                 <div className="img">
-                    <Image src="/stories/story-1.jpg" alt="" fill={true} />
+                    <Image 
+                        src={stories[0]?.storyImg || '/fallback-image.jpg'} 
+                        alt={stories[0]?.profileName || 'Featured Story'} 
+                        fill={true} 
+                        priority={true} 
+                        className="object-cover" 
+                    />
                 </div>
             </div>
 
