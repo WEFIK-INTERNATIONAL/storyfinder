@@ -4,9 +4,8 @@ import './MobileHome.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
-import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { gsap } from '@/lib/gsap';
 import { useGSAP } from '@gsap/react';
-import Copy from '@/components/ui/copy/Copy';
 import Footer from '@/components/layout/footer/Footer';
 
 const FEATURED_WORK = [

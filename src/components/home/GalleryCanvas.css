@@ -1,0 +1,206 @@
+/* ═══════════════════════════════════════════════════════════
+   GALLERY CANVAS
+   ═══════════════════════════════════════════════════════════ */
+
+.canvas-wrapper.is-animating {
+    will-change: transform;
+}
+
+.grid-item {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    background: #111;
+    cursor: pointer;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+    outline: none;
+}
+
+.grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+}
+
+.grid-item.out-of-view {
+    opacity: 0.1;
+}
+
+.grid-item.selected {
+    z-index: 2 !important;
+}
+
+.grid-item:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+    z-index: 3;
+}
+
+/* ── Split Screen ── */
+.split-screen-container.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.zoom-target::before {
+    content: 'IMAGE TARGET';
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'TheGoodMonolith', monospace;
+    font-size: 0.75em;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.split-screen-container.active .zoom-target::before {
+    display: none;
+}
+
+.scaling-image-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-split);
+    pointer-events: none;
+    will-change: transform;
+    opacity: 1 !important;
+    overflow: hidden;
+}
+
+.scaling-image-overlay img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    overflow: hidden;
+}
+
+/* ── Image Title Overlay ── */
+.image-title-overlay {
+    /* Base positioning in jsx, handled here additionally if needed */
+    width: 100%;
+    max-width: 600px;
+}
+
+.image-title-overlay.active {
+    opacity: 0;
+}
+
+.image-slide-number,
+.image-slide-title,
+.image-slide-description {
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.image-slide-number {
+    height: 1.5rem; /* ~24px, enough space to prevent clipping */
+    margin-bottom: 0.5rem;
+}
+
+.image-slide-title {
+    height: 4.5rem; /* ~72px, enough space for 48px font to not cut descenders */
+    margin-bottom: 1rem;
+}
+
+.image-slide-description {
+    min-height: 5rem;
+}
+
+.image-slide-title h1 {
+    font-size: clamp(36px, 4vw, 48px);
+    line-height: 1.1;
+    white-space: nowrap; /* Keep it on one line typically */
+}
+
+/* ── Controls ── */
+.controls-container.visible {
+    opacity: 1;
+}
+
+/* Protective dark gradient veil behind the dock for high-exposure images */
+.controls-veil {
+    transition: opacity 0.8s ease;
+}
+
+body.controls-visible .controls-veil {
+    opacity: 1;
+}
+
+.glass-dock {
+    background: rgba(10, 10, 10, 0.7) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.controls-container.split-mode {
+    left: 75%;
+}
+
+.close-button.active {
+    pointer-events: all;
+}
+
+.close-button:hover {
+    opacity: 0.7 !important;
+}
+
+.close-button:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.dock-button-current {
+    color: white !important;
+}
+
+.close-button:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.sound-wave-canvas {
+    border: none !important;
+    outline: none !important;
+    background: none !important;
+}
+
+/* ── Responsive Adjustments ── */
+@media (max-width: 900px) {
+    .image-title-overlay {
+        bottom: 20px !important;
+        left: 20px !important;
+    }
+    
+    .image-slide-title {
+        height: 3.5rem;
+    }
+    
+    .image-slide-title h1 {
+        font-size: 36px;
+    }
+    
+    .image-slide-description {
+        min-height: 70px;
+    }
+    
+    .description-line {
+        font-size: 14px;
+    }
+
+    .controls-container.split-mode {
+        left: 50%;
+    }
+}

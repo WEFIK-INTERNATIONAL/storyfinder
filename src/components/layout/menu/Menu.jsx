@@ -509,7 +509,7 @@ const Menu = ({ pageRef }) => {
                         </div>
                         <div className="menu-content-group">
                             <p>TAGLINE</p>
-                            <p>SUPRATIK IS GAY</p>
+                            <p>CAPTURING THE UNSEEN</p>
                         </div>
                         <div className="menu-content-group">
                             <p>Credits</p>
