@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Copy from '@/components/ui/copy/Copy';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { useGSAP } from '@gsap/react';
+import { useViewTransition } from '@/hooks/useViewTransition';
+import { usePathname } from 'next/navigation';
 import './Aboutphotograper.css';
 
 const STATS = [
@@ -25,6 +27,9 @@ export default function AboutPhotographer() {
     const ruleRef    = useRef(null);
     const imageRef   = useRef(null);
     const hScrollRef = useRef(null);  
+
+    const pathname = usePathname();
+    const { navigateWithTransition } = useViewTransition();
 
     useGSAP(() => {
         const mm = gsap.matchMedia();
@@ -328,7 +333,15 @@ export default function AboutPhotographer() {
                     </div>
 
                     <div className="ap-cta-row">
-                        <a href="/contact" className="ap-cta-btn">
+                        <a 
+                            href="/contact" 
+                            className="ap-cta-btn"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                if (pathname === '/contact') return;
+                                navigateWithTransition('/contact');
+                            }}
+                        >
                             <span>SAY HELLO</span>
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                                 <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

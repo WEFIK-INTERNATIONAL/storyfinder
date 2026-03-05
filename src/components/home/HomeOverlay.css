@@ -1,0 +1,79 @@
+/* ═══════════════════════════════════════════════════════════
+   HOME OVERLAY — subtle branded watermark on the gallery
+   Navbar-aligned, pointer-events: none, fades in after intro
+   ═══════════════════════════════════════════════════════════ */
+
+.home-overlay {
+    position: fixed;
+    top: 2.25rem; /* Aligned with nav padding (2rem) */
+    right: 9rem; /* Left of the Menu toggle */
+    z-index: 75; /* Just under the menu (z-80) */
+    pointer-events: auto; /* Enable clicks on sound button and text selection */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 3vw;
+}
+
+.home-overlay__item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-monolith), monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.2;
+    pointer-events: auto; /* Allow interaction with children like the sound toggle */
+}
+
+.home-overlay__tagline {
+    max-width: 280px;
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.home-overlay__availability {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.home-overlay__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
+    animation: home-dot-pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+@keyframes home-dot-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(1.4); }
+}
+
+.home-overlay__status {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Hide when split-screen / zoom mode is active ── */
+body.zoom-mode .home-overlay {
+    opacity: 0 !important;
+    transition: opacity 0.3s ease;
+}
+
+/* @media (min-width: 2400px) {
+    .home-overlay {
+        top: 2.5rem;
+        right: 12rem;
+        gap: 4rem;
+    }
+    .home-overlay__item,
+    .home-overlay__tagline {
+        font-size: 0.85rem;
+        max-width: 400px;
+    }
+} */

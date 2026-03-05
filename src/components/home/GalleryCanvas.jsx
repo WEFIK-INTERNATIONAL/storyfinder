@@ -8,6 +8,7 @@ import { useGalleryStore } from '@/store/useGalleryStore';
 import { isInitialLoad } from '@/components/ui/Preloader';
 import { gsap, Draggable, Flip, customEase, centerEase } from '@/lib/gsap';
 import { GRID_CONFIG } from '@/lib/galleryData';
+import './GalleryCanvas.css';
 
 function hexToRgbParts(hex) {
     return [

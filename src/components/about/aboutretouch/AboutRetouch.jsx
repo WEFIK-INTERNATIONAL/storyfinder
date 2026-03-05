@@ -7,6 +7,8 @@ import { useRef, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import { useViewTransition } from '@/hooks/useViewTransition';
+import { usePathname } from 'next/navigation';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -22,6 +24,9 @@ export default function AboutRetouch() {
     const sectionRef = useRef(null);
     const compareRef = useRef(null);
     const dragging   = useRef(false);
+
+    const pathname = usePathname();
+    const { navigateWithTransition } = useViewTransition();
 
     /* ─────────────────────────────────────────
        GSAP SCROLL ANIMATIONS
@@ -238,7 +243,15 @@ export default function AboutRetouch() {
                             </div>
                         </div>
 
-                        <Link href="/before-after" className="rt-cta">
+                        <Link 
+                            href="/before-after" 
+                            className="rt-cta"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                if (pathname === '/before-after') return;
+                                navigateWithTransition('/before-after');
+                            }}
+                        >
                             <span>View All Retouches</span>
                             <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
                                 <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

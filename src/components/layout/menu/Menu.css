@@ -7,7 +7,12 @@ nav {
     color: #e3e3db;
     display: flex;
     justify-content: space-between;
-    z-index: 80;
+    z-index: 81; /* Increased to stay above overlay but allow bleed-through */
+    pointer-events: none; /* Allow interaction with elements behind the transparent areas */
+}
+
+nav > * {
+    pointer-events: auto; /* Re-enable for interactive children (logo, toggle) */
 }
 
 nav .nav-logo img {
