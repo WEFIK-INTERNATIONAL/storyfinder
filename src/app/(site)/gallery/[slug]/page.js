@@ -5,24 +5,119 @@ import { client } from '@/lib/sanityClient';
 import { GALLERY_QUERY } from '../../../../../sanity/lib/queries';
 import { getWatermarkedUrl } from '@/lib/watermarkHelper';
 
+export async function generateMetadata({ params }) {
+    const { slug } = await params;
+    const data = await client.fetch(GALLERY_QUERY, { slug });
+
+    if (!data) {
+        return {
+            title: 'Gallery Not Found | Storyfinder',
+        };
+    }
+
+    const ogImage =
+        data.photos?.[0]?.image?.url ||
+        'https://storyfinder.me/fallback/fallback-image-profile.png';
+
+    return {
+        title: `${data.title} | Photography Gallery`,
+        description:
+            data.description ||
+            `Explore the ${data.title} photography gallery by Supratik Sahis — visual storyteller based in Kolkata.`,
+        keywords: [
+            data.title,
+            'Supratik Sahis',
+            'photography gallery',
+            'Kolkata photographer',
+            'Storyfinder',
+            'visual storytelling',
+        ],
+        openGraph: {
+            title: `${data.title} | Storyfinder — Supratik Sahis`,
+            description:
+                data.description ||
+                `Explore the ${data.title} photography gallery by Supratik Sahis.`,
+            url: `https://storyfinder.me/gallery/${slug}`,
+            type: 'website',
+            siteName: 'Storyfinder',
+            locale: 'en_IN',
+            images: [
+                {
+                    url: ogImage,
+                    width: 1200,
+                    height: 630,
+                    alt: `${data.title} — Photography by Supratik Sahis`,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `${data.title} | Storyfinder`,
+            description: data.description || `Photography gallery by Supratik Sahis.`,
+            images: [ogImage],
+        },
+        alternates: {
+            canonical: `https://storyfinder.me/gallery/${slug}`,
+        },
+    };
+}
+
+function generateJsonLd(data, slug) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'ImageGallery',
+        '@id': `https://storyfinder.me/gallery/${slug}#gallery`,
+        name: data.title,
+        description: data.description,
+        url: `https://storyfinder.me/gallery/${slug}`,
+        author: {
+            '@type': 'Person',
+            '@id': 'https://storyfinder.me/#person',
+            name: 'Supratik Sahis',
+        },
+        image: data.photos?.slice(0, 5).map((photo) => ({
+            '@type': 'ImageObject',
+            contentUrl: photo.image?.url,
+            name: photo.title || data.title,
+            author: {
+                '@id': 'https://storyfinder.me/#person',
+            },
+        })).filter((img) => Boolean(img.contentUrl)),
+    };
+}
+
 const Gallery = async ({ params }) => {
     const { slug } = await params;
 
     const data = await client.fetch(GALLERY_QUERY, { slug });
 
+    if (!data) return null;
+
+    const jsonLd = generateJsonLd(data, slug);
+
     const images =
-        data?.photos?.map((photo) => ({
-            src: getWatermarkedUrl(photo.image?.asset?.url),
-            alt: photo.title,
-            slug: photo.slug,
-            isPaid: photo.isPaid,
-            price: photo.price,
-        })) || [];
+        data?.photos
+            ?.map((photo) => ({
+                src: getWatermarkedUrl(photo.image?.url),
+                lqip: photo.image?.metadata?.lqip,
+                aspect: photo.image?.metadata?.dimensions?.aspectRatio || 3 / 2,
+                alt: photo.title,
+                slug: photo.slug,
+                isPaid: photo.isPaid,
+                price: photo.price,
+            }))
+            .filter((img) => Boolean(img.src)) || [];
 
     return (
-        <div>
-            <Minimap images={images} category={data?.title || 'Gallery'} />
-        </div>
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <div>
+                <Minimap images={images} category={data?.title || 'Gallery'} />
+            </div>
+        </>
     );
 };
 

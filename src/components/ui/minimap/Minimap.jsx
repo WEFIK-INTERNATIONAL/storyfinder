@@ -237,12 +237,30 @@ export default function Minimap({
         applyTransform(clamped);
     }, [computeMaxTranslate, clamp, applyTransform]);
 
-    const handleDownload = useCallback(() => {
+    const handleDownload = useCallback(async () => {
         if (!previewSrc) return;
 
-        const filename = `${category || 'image'}-${state.current.currentIndex + 1}.jpg`;
-
-        window.location.href = `${previewSrc}?dl=${filename}`;
+        try {
+            // Fetch the image as a blob to force the browser to download it
+            // instead of just opening the CDN link in a new tab.
+            const response = await fetch(previewSrc);
+            const blob = await response.blob();
+            const blobUrl = window.URL.createObjectURL(blob);
+            
+            const filename = `${category || 'gallery'}-${state.current.currentIndex + 1}.jpg`.toLowerCase().replace(/\s+/g, '-');
+            
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(blobUrl);
+        } catch (err) {
+            console.error('Failed to download image:', err);
+            // Fallback opens in new tab
+            window.open(previewSrc, '_blank');
+        }
     }, [previewSrc, category]);
 
     const handleShare = useCallback(async () => {
@@ -370,7 +388,10 @@ export default function Minimap({
                         fill
                         priority
                         className={`minimap-preview-img ${previewReady ? 'is-ready' : ''}`}
+                        placeholder={images[activeIndex]?.lqip ? 'blur' : 'empty'}
+                        blurDataURL={images[activeIndex]?.lqip}
                         onLoad={() => setPreviewReady(true)}
+                        sizes="100vw"
                         unoptimized
                     />
                 )}
@@ -471,6 +492,9 @@ export default function Minimap({
                                 fill
                                 className="minimap-item-img"
                                 sizes="80px"
+                                placeholder={img.lqip ? 'blur' : 'empty'}
+                                blurDataURL={img.lqip}
+                                unoptimized
                             />
                         </div>
                     ))}

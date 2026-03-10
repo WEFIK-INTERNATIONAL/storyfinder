@@ -3,13 +3,18 @@ export const PHOTOS_QUERY = `
   _id,
   title,
   "slug": slug.current,
-  image{
-    asset->{
+  "image": coalesce(
+    image.asset->{
+      _id,
+      url,
+      metadata { lqip, dimensions }
+    },
+    rawImage.asset->{
       _id,
       url,
       metadata { lqip, dimensions }
     }
-  },
+  ),
   price,
   isPaid,
   featured,
@@ -23,13 +28,18 @@ export const PHOTO_QUERY = `
   title,
   description,
   "slug": slug.current,
-  image{
-    asset->{
+  "image": coalesce(
+    image.asset->{
+      _id,
+      url,
+      metadata { lqip, dimensions }
+    },
+    rawImage.asset->{
       _id,
       url,
       metadata { lqip, dimensions }
     }
-  },
+  ),
   price,
   isPaid,
   views,
@@ -55,7 +65,9 @@ export const STORIES_QUERY = `
   link,
   featuredDate,
   "storyImg": featuredPhoto.asset->url,
-  "profileImg": organizationLogo.asset->url
+  "storyImgLqip": featuredPhoto.asset->metadata.lqip,
+  "profileImg": organizationLogo.asset->url,
+  "profileImgLqip": organizationLogo.asset->metadata.lqip
 }`
 
 export const POSTS_QUERY = `
@@ -64,7 +76,10 @@ export const POSTS_QUERY = `
   title,
   "slug": slug.current,
   mainImage{
-    asset->{ url }
+    asset->{ 
+      url,
+      metadata { lqip }
+    }
   },
   excerpt,
   publishedAt
@@ -119,14 +134,12 @@ export const FEATURED_PHOTOS_QUERY = `
 export const PHOTOS_BY_CATEGORY_WITH_EDITED_QUERY = `
 *[
   _type == "photo" &&
-  category->slug.current == $slug &&
-  defined(editedImage.asset)
+  category->slug.current == $slug
 ] | order(publishedAt desc){
   _id,
   title,
   "slug": slug.current,
   "rawImageUrl": rawImage.asset->url,
-  "editedImageUrl": editedImage.asset->url,
 }`
 
 export const GALLERIES_QUERY = `
@@ -138,7 +151,8 @@ export const GALLERIES_QUERY = `
   "photos": photos[0...3]->{
     _id,
     title,
-    "imageUrl": image.asset->url
+    "imageUrl": coalesce(image.asset->url, rawImage.asset->url),
+    "lqip": coalesce(image.asset->metadata.lqip, rawImage.asset->metadata.lqip)
   }
 }
 `
@@ -151,8 +165,24 @@ export const GALLERY_QUERY = `
     _id,
     title,
     "slug": slug.current,
-    image{ asset->{ url } },
+    "image": coalesce(
+      image.asset->{ url, metadata { lqip, dimensions } },
+      rawImage.asset->{ url, metadata { lqip, dimensions } }
+    ),
     price,
     isPaid
   }
+}`
+
+export const RETOUCH_PHOTOS_QUERY = `
+*[_type == "retouch"] | order(publishedAt desc){
+  _id,
+  title,
+  "category": category->title,
+  "slug": slug.current,
+  "rawImageUrl": beforeImage.asset->url,
+  "rawImageLqip": beforeImage.asset->metadata.lqip,
+  "rawImageDimensions": beforeImage.asset->metadata.dimensions,
+  "editedImageUrl": afterImage.asset->url,
+  "editedImageLqip": afterImage.asset->metadata.lqip,
 }`

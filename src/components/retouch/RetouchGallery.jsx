@@ -1,16 +1,10 @@
 'use client';
 
-/**
- * RetouchGallery — Cinematic before/after showcase
- *
- * Full-bleed hero layout with floating category pills
- * and a bottom thumbnail navigation strip.
- */
-
 import {
   useState, useEffect, useMemo, useCallback,
   useRef, memo,
 } from 'react';
+import Image from 'next/image';
 import { useDragScroll } from '@/hooks/useDragScroll';
 import BeforeAfterSlider from './BeforeAfterSlider';
 import './Retouch.css';
@@ -38,7 +32,7 @@ function useIsMobile(bp = 768) {
 /* ═══════════════════════════════════════════════════════════════
    FilterPills — floating glassmorphic pill row
 ═══════════════════════════════════════════════════════════════ */
-const FilterPills = memo(function FilterPills({ active, onChange }) {
+const FilterPills = memo(function FilterPills({ active, onChange, categories }) {
   const drag = useDragScroll();
   return (
     <div
@@ -48,7 +42,7 @@ const FilterPills = memo(function FilterPills({ active, onChange }) {
       aria-label="Filter by category"
       className="flex gap-2 overflow-x-auto select-none px-1 py-1"
     >
-      {[FILTER_ALL, ...CATEGORIES].map((cat) => (
+      {[FILTER_ALL, ...categories].map((cat) => (
         <button
           key={cat}
           onClick={() => onChange(cat)}
@@ -105,36 +99,14 @@ function ErrorBanner({ message, onRetry }) {
 /* ═══════════════════════════════════════════════════════════════
    RetouchGallery — root
 ═══════════════════════════════════════════════════════════════ */
-export default function RetouchGallery() {
-  // const { works, loading, error, refetch } = useRetouchData();
-  const works = [
-    {
-      id: 1,
-      title: 'Portrait Glow',
-      category: 'Skin Retouch',
-      before: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e',
-      after: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=80',
-    },
-    {
-      id: 2,
-      title: 'Cinematic Grade',
-      category: 'Color Grade',
-      before: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee',
-      after: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80',
-    },
-    {
-      id: 3,
-      title: 'Sky Boost',
-      category: 'Sky Replace',
-      before: 'https://images.unsplash.com/photo-1492724441997-5dc865305da7',
-      after: 'https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=800&q=80',
-    },
-  ];
-
-  const loading = false;
-  const error = null;
-  const refetch = () => {};
+export default function RetouchGallery({ works = [] }) {
   const isMobile = useIsMobile();
+
+  // Extract unique categories from the passed works
+  const dynamicCategories = useMemo(() => {
+    const cats = new Set(works.map(w => w.category).filter(Boolean));
+    return Array.from(cats);
+  }, [works]);
 
   const [active, setActive] = useState(null);
   const [filter, setFilter] = useState(FILTER_ALL);
@@ -175,8 +147,7 @@ export default function RetouchGallery() {
   const onFilterChange = useCallback((c) => setFilter(c), []);
 
   /* ── States ── */
-  if (loading) return <PageLoader />;
-  if (error)   return <ErrorBanner message={error} onRetry={refetch} />;
+  if (works.length === 0) return <ErrorBanner message="No retouch works found." onRetry={() => window.location.reload()} />;
   if (!active) return null;
 
   /* ─────────────────────────────────────────────────────────── */
@@ -231,9 +202,20 @@ export default function RetouchGallery() {
           {/* Slider container — portrait aspect ratio to match photo orientation */}
           <div
             key={active.id}
-            className="relative h-full aspect-[3/4] max-h-[68vh] rounded-lg overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.65),0_0_0_1px_rgba(227,227,219,0.05)] rt-entrance z-10"
+            className="relative rounded-lg overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.65),0_0_0_1px_rgba(227,227,219,0.05)] rt-entrance z-10"
+            style={{
+              aspectRatio: active.aspectRatio,
+              height: '68vh',
+              maxWidth: '100%',
+              maxHeight: '100%',
+            }}
           >
-            <BeforeAfterSlider before={active.before} after={active.after} />
+            <BeforeAfterSlider 
+              before={active.before} 
+              after={active.after} 
+              beforeLqip={active.beforeLqip}
+              afterLqip={active.afterLqip}
+            />
           </div>
         </div>
 
@@ -242,7 +224,7 @@ export default function RetouchGallery() {
 
           {/* Filter pills row */}
           <div className="px-5 md:px-8 pt-3 pb-1 rt-fade-up-delay-1">
-            <FilterPills active={filter} onChange={onFilterChange} />
+            <FilterPills active={filter} onChange={onFilterChange} categories={dynamicCategories} />
           </div>
 
           {/* Thumbnail strip + prev/next */}
@@ -271,27 +253,35 @@ export default function RetouchGallery() {
                     data-active={on}
                     onClick={() => onSelect(w)}
                     aria-current={on ? 'true' : undefined}
-                    className={`rt-thumb shrink-0 flex flex-col items-center gap-1.5 bg-transparent border-none p-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-rt-orange rounded ${on ? 'rt-thumb-active' : ''}`}
+                    className={`rt-thumb shrink-0 flex flex-col items-center gap-2 bg-transparent border-none p-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-rt-orange rounded group transition-all duration-300 ease-out ${on ? 'rt-thumb-active scale-105' : 'scale-95 opacity-60 hover:opacity-100 hover:scale-100'}`}
                   >
                     <div
-                      className="w-16 h-20 md:w-20 md:h-24 overflow-hidden rounded-md relative"
+                      className="w-16 h-20 md:w-20 md:h-24 overflow-hidden rounded-md relative transition-all duration-300 ease-out"
                       style={{
-                        outline:       on ? '2px solid #c0501a' : '2px solid transparent',
-                        outlineOffset: '2px',
+                        boxShadow: on ? '0 0 0 1px #c0501a, 0 8px 32px rgba(192,80,26,0.3)' : '0 4px 12px rgba(0,0,0,0.4)',
                       }}
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <Image
                         src={on ? w.after : w.before}
                         alt={w.title}
-                        className="w-full h-full object-cover transition-all duration-400"
-                        style={{ filter: on ? 'none' : 'grayscale(1) brightness(0.35)' }}
+                        fill
+                        sizes="80px"
+                        placeholder={(on ? w.afterLqip : w.beforeLqip) ? 'blur' : 'empty'}
+                        blurDataURL={on ? w.afterLqip : w.beforeLqip}
+                        className="object-cover transition-all duration-500 ease-out"
+                        style={{ 
+                          filter: on ? 'none' : 'grayscale(0.8) brightness(0.4)',
+                          transform: on ? 'scale(1.05)' : 'scale(1)'
+                        }}
                       />
-                      {on && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-rt-orange" />}
                     </div>
                     <span
-                      className="font-display text-[0.55rem] tracking-[0.12em] uppercase text-center max-w-[80px] truncate transition-colors duration-200"
-                      style={{ color: on ? '#e3e3db' : 'rgba(227,227,219,0.25)' }}
+                      className="font-display text-[0.55rem] tracking-[0.12em] uppercase text-center max-w-[80px] truncate transition-all duration-300 ease-out"
+                      style={{ 
+                        color: on ? '#fff' : 'rgba(227,227,219,0.35)',
+                        fontWeight: on ? 600 : 400,
+                        textShadow: on ? '0 2px 10px rgba(255,255,255,0.2)' : 'none'
+                      }}
                     >
                       {w.title}
                     </span>

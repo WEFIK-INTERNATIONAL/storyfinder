@@ -104,6 +104,7 @@ const GalleryClient = ({ galleries }) => {
             });
 
             const handleResize = () => {
+                if (!workPageContainer.current) return;
                 const currentBreakpoint = window.innerWidth < 1000;
                 if (currentBreakpoint !== isMobile) {
                     isMobile = currentBreakpoint;
@@ -113,7 +114,9 @@ const GalleryClient = ({ galleries }) => {
                         folder.classList.remove('disabled');
                     });
                     const allPreviewImages = q('.folder-preview-img');
-                    gsap.set(allPreviewImages, { y: '0%', rotation: 0 });
+                    if (allPreviewImages && allPreviewImages.length) {
+                        gsap.set(allPreviewImages, { y: '0%', rotation: 0 });
+                    }
                 }
             };
 
@@ -153,15 +156,19 @@ const GalleryClient = ({ galleries }) => {
                                 >
                                     <div className={`folder ${item.variant}`}>
                                         <div className="folder-preview">
-                                            {item.images.map((src, i) => (
+                                            {item.images.map((imgData, i) => (
                                                 <div
                                                     className="folder-preview-img"
                                                     key={`${item.index}-img-${i}`}
                                                 >
                                                     <Image
-                                                        src={src}
-                                                        alt={`Preview ${i + 1}`}
-                                                        fill={true}
+                                                        src={imgData.src}
+                                                        alt={imgData.title}
+                                                        fill
+                                                        sizes="(max-width: 1000px) 0vw, 250px"
+                                                        placeholder={imgData.lqip ? 'blur' : 'empty'}
+                                                        blurDataURL={imgData.lqip}
+                                                        className="object-cover"
                                                     />
                                                 </div>
                                             ))}

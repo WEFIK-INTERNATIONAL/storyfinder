@@ -1,22 +1,17 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback, memo } from 'react';
-import { useImageLoader } from '@/hooks/useImageLoader';
+import Image from 'next/image';
 
 /**
  * BeforeAfterSlider
  * Interactive drag / touch slider comparing two images.
  */
-const BeforeAfterSlider = memo(function BeforeAfterSlider({ before, after }) {
+const BeforeAfterSlider = memo(function BeforeAfterSlider({ before, after, beforeLqip, afterLqip }) {
   const [pos,   setPos]   = useState(50);
   const [moved, setMoved] = useState(false);
   const wrapRef = useRef(null);
   const isDrag  = useRef(false);
-
-  const { loaded: bl } = useImageLoader(before);
-  const { loaded: al } = useImageLoader(after);
-  const ready = bl && al;
-
   /* Reset on image change */
   useEffect(() => { setPos(50); setMoved(false); }, [before, after]);
 
@@ -31,38 +26,34 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({ before, after }) {
   const onMouseDown = useCallback((e) => {
     isDrag.current = true;
     calcPos(e.clientX);
-    const onMove = (e) => { if (isDrag.current) calcPos(e.clientX); };
-    const onUp   = () => {
+    
+    // Store handlers on the wrapper ref so we can remove them safely
+    const wrap = wrapRef.current;
+    
+    wrap._onMove = (e) => { if (isDrag.current) calcPos(e.clientX); };
+    wrap._onUp   = () => {
       isDrag.current = false;
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseup',   onUp);
+      window.removeEventListener('mousemove', wrap._onMove);
+      window.removeEventListener('mouseup',   wrap._onUp);
     };
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup',   onUp);
+    
+    window.addEventListener('mousemove', wrap._onMove);
+    window.addEventListener('mouseup',   wrap._onUp);
   }, [calcPos]);
+
+  // Clean up any stray mouse listeners if unmounted while dragging
+  useEffect(() => {
+    return () => {
+      if (wrapRef.current) {
+        if (wrapRef.current._onMove) window.removeEventListener('mousemove', wrapRef.current._onMove);
+        if (wrapRef.current._onUp)   window.removeEventListener('mouseup',   wrapRef.current._onUp);
+      }
+    };
+  }, []);
 
   const onTouchStart = useCallback((e) => { isDrag.current = true;  calcPos(e.touches[0].clientX); }, [calcPos]);
   const onTouchMove  = useCallback((e) => { if (isDrag.current) { e.preventDefault(); calcPos(e.touches[0].clientX); } }, [calcPos]);
   const onTouchEnd   = useCallback(() =>  { isDrag.current = false; }, []);
-
-  /* ── Loading state ── */
-  if (!ready) {
-    return (
-      <div className="relative w-full h-full flex flex-col items-center justify-center gap-4 bg-rt-cream/[0.03]">
-        <svg
-          width="32" height="32" viewBox="0 0 24 24" fill="none"
-          className="animate-rt-spin text-rt-cream/35 shrink-0"
-          aria-label="Loading" role="status"
-        >
-          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeOpacity="0.2" />
-          <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-        </svg>
-        <span className="font-display text-[0.65rem] tracking-[0.2em] uppercase text-rt-cream/30">
-          Loading image…
-        </span>
-      </div>
-    );
-  }
 
   return (
     <div
@@ -76,12 +67,15 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({ before, after }) {
       onTouchEnd={onTouchEnd}
     >
       {/* BEFORE — base layer, desaturated */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={before}
         alt="Before retouch"
-        draggable={false}
-        className="rt-before-img absolute inset-0 w-full h-full object-cover pointer-events-none"
+        fill
+        sizes="(max-width: 768px) 100vw, 80vw"
+        priority
+        placeholder={beforeLqip ? 'blur' : 'empty'}
+        blurDataURL={beforeLqip}
+        className="rt-before-img object-cover pointer-events-none"
       />
 
       {/* AFTER — clipped to pos% */}
@@ -91,13 +85,16 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({ before, after }) {
         aria-hidden="true"
       >
         {/* img stays full width inside clip so it doesn't squish */}
-        <div className="absolute inset-0" style={{ width: wrapRef.current?.offsetWidth }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+        <div className="absolute inset-0" style={{ width: wrapRef.current?.offsetWidth || '100vw' }}>
+          <Image
             src={after}
-            alt=""
-            draggable={false}
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none max-w-none"
+            alt="After retouch"
+            fill
+            sizes="(max-width: 768px) 100vw, 80vw"
+            priority
+            placeholder={afterLqip ? 'blur' : 'empty'}
+            blurDataURL={afterLqip}
+            className="object-cover pointer-events-none"
           />
         </div>
       </div>

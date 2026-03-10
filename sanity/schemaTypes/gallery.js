@@ -51,7 +51,7 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      media: 'photos.0.image',
+      media: 'photos.0.rawImage',
     },
     prepare(selection) {
       const {title, media} = selection
