@@ -35,7 +35,10 @@ export default function BlogClient({ post }) {
         };
 
         raf = requestAnimationFrame(update);
-        return () => cancelAnimationFrame(raf);
+        
+        return () => {
+            if (raf) cancelAnimationFrame(raf);
+        };
     }, []);
 
     /* ================= GSAP Animations ================= */
@@ -132,6 +135,8 @@ export default function BlogClient({ post }) {
                         fill
                         priority
                         className="object-cover opacity-80"
+                        placeholder={post.mainImage.asset?.metadata?.lqip ? "blur" : "empty"}
+                        blurDataURL={post.mainImage.asset?.metadata?.lqip || undefined}
                     />
 
                     {/* Gradient Overlay & Grain */}

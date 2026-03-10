@@ -34,11 +34,6 @@
   display: none;
 }
 
-/* ── Slider image: before side desaturated ── */
-.rt-before-img {
-  filter: saturate(0.18) brightness(0.82) contrast(1.06);
-}
-
 /* ── Slider divider line ── */
 .rt-divider-line {
   position: absolute;

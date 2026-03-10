@@ -43,15 +43,6 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
 
-    defineField({
-      name: 'editedImage',
-      title: 'Edited Image (Optional)',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    }),
-
     // TAGS
     defineField({
       name: 'tags',

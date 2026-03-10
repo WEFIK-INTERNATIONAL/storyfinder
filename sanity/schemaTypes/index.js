@@ -5,5 +5,6 @@ import gallery from './gallery'
 import category from './category'
 import watermark from './watermark'
 import blockContent from './blockContent'
+import retouch from './retouch'
 
-export const schemaTypes = [post, photo, story, gallery, category, watermark, blockContent]
+export const schemaTypes = [post, photo, retouch, story, gallery, category, watermark, blockContent]

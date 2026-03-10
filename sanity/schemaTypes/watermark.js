@@ -27,16 +27,17 @@ export default defineType({
       name: 'opacity',
       title: 'Opacity (0–1)',
       type: 'number',
-      initialValue: 0.25,
+      initialValue: 0.15,
       validation: (Rule) => Rule.min(0).max(1).precision(2),
     }),
 
     defineField({
       name: 'size',
-      title: 'Scale (0.1 – 1)',
+      title: 'Scale (0.0001 – 0.1)',
+      description: 'Size of the watermark relative to the image wide. 0.1 is 10%.',
       type: 'number',
-      initialValue: 0.4,
-      validation: (Rule) => Rule.min(0.1).max(1),
+      initialValue: 0.05,
+      validation: (Rule) => Rule.min(0.0001).max(0.1).precision(4),
     }),
 
     defineField({

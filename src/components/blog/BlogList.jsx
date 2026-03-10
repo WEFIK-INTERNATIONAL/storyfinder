@@ -163,12 +163,14 @@ const BlogList = ({ posts }) => {
                         >
                             <div className="blog-featured-image-wrapper">
                                 <Image
-                                    src={featuredPost.mainImage?.asset?.url || '/fallback-image.jpg'}
+                                    src={featuredPost.mainImage?.asset?.url || '/fallback/fallback-image-profile.png'}
                                     alt={featuredPost.title || 'Featured Post Image'}
                                     fill
                                     className="blog-card-image"
                                     sizes="(max-width: 1024px) 100vw, 60vw"
                                     priority
+                                    placeholder={featuredPost.mainImage?.asset?.metadata?.lqip ? "blur" : "empty"}
+                                    blurDataURL={featuredPost.mainImage?.asset?.metadata?.lqip || undefined}
                                 />
                                 <div className="blog-card-grain"></div>
                             </div>
@@ -220,11 +222,13 @@ const BlogList = ({ posts }) => {
                                     >
                                         <div className="blog-card-image-wrapper">
                                             <Image
-                                                src={post.mainImage?.asset?.url || '/fallback-image.jpg'}
+                                                src={post.mainImage?.asset?.url || '/fallback/fallback-image-profile.png'}
                                                 alt={post.title || 'Blog post image'}
                                                 fill
                                                 className="blog-card-image"
                                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                placeholder={post.mainImage?.asset?.metadata?.lqip ? "blur" : "empty"}
+                                                blurDataURL={post.mainImage?.asset?.metadata?.lqip || undefined}
                                             />
                                             <div className="blog-card-grain"></div>
                                         </div>

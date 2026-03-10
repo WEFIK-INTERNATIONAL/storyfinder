@@ -1,0 +1,27 @@
+{
+  "name": "Storyfinder — Supratik Sahis Photography",
+  "short_name": "Storyfinder",
+  "description": "An interactive photography portfolio that tells a story through images by Supratik Sahis — visual storyteller based in Kolkata.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "orientation": "any",
+  "categories": ["photography", "portfolio", "art"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/fallback/fallback-image-profile.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
