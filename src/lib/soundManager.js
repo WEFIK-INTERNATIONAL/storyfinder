@@ -112,24 +112,32 @@ class SoundManager {
         // Resume all audio contexts by playing then immediately pausing a silent buffer
         this.pools.forEach((pool) => {
             pool.forEach((audio) => {
+                audio.muted = true; // Mute during unlock to prevent chaos
                 const playPromise = audio.play();
                 if (playPromise) {
                     playPromise.then(() => {
                         audio.pause();
                         audio.currentTime = 0;
-                    }).catch(() => { /* expected — just unlocking */ });
+                        audio.muted = false;
+                    }).catch(() => { 
+                        audio.muted = false;
+                    });
                 }
             });
         });
 
         // Also unlock the loop audio
         if (this._loopAudio) {
+            this._loopAudio.muted = true;
             const p = this._loopAudio.play();
             if (p) {
                 p.then(() => {
                     this._loopAudio.pause();
                     this._loopAudio.currentTime = 0;
-                }).catch(() => {});
+                    this._loopAudio.muted = false;
+                }).catch(() => {
+                    this._loopAudio.muted = false;
+                });
             }
         }
     }
