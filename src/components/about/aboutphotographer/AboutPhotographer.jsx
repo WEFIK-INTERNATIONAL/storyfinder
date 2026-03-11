@@ -10,9 +10,9 @@ import { usePathname } from 'next/navigation';
 import './Aboutphotograper.css';
 
 const STATS = [
-    { num: 6,   suffix: '',  label: 'Years\nActive',   display: '06',   pad: true  },
+    { num: 4,   suffix: '',  label: 'Years\nActive',   display: '04',   pad: true  },
     { num: 340, suffix: '+', label: 'Sessions\nShot',  display: '340+', pad: false },
-    { num: 18,  suffix: '',  label: 'Cities\nCovered', display: '18',   pad: false },
+    { num: 10,  suffix: '',  label: 'Cities\nCovered', display: '10',   pad: false },
 ];
 
 const TAGS = ['PORTRAIT', 'DOCUMENTARY', 'EDITORIAL', 'FINE ART', 'RETOUCH'];
@@ -256,10 +256,7 @@ export default function AboutPhotographer() {
                     <div className="ap-bio-body">
                         <Copy animateOnScroll={true}>
                             <p className="lg">
-                                I find stories where others see silence. Armed with a
-                                camera and an obsession with light, I chase moments that
-                                refuse to repeat themselves — the trembling second before
-                                a laugh breaks, the shadow that bends just right.
+                                I'm Supratik Sahis, a photographer exploring the quiet psychology of everyday life. For the past four years, I've been documenting the streets — capturing unfiltered moments and intimate close-up portraits of strangers whose stories exist beyond the frame.
                             </p>
                             <p className="lg">
                                 Based in the electric chaos of Kolkata, I work across
@@ -347,7 +344,7 @@ export default function AboutPhotographer() {
                                 <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </a>
-                        <a href="mailto:storyfinder@gmail.com" className="ap-email">storyfinder@gmail.com</a>
+                        <a href="mailto:supratiksahis459@gmail.com" className="ap-email">supratiksahis459@gmail.com</a>
                     </div>
 
                 </div>

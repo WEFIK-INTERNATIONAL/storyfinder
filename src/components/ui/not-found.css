@@ -1,0 +1,380 @@
+/* =========================================================================
+   404 NOT FOUND — PREMIUM DARK AESTHETIC
+   Matches the Storyfinder design language
+========================================================================= */
+
+.nf-page {
+    position: relative;
+    width: 100%;
+    min-height: 100svh;
+    background-color: #0f0d0b;
+    color: #e3e3db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ── Grain texture ── */
+.nf-grain {
+    position: absolute;
+    inset: 0;
+    background-image: url('/noise.png');
+    background-repeat: repeat;
+    background-size: 100px;
+    opacity: 0.06;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    z-index: 1;
+}
+
+/* ── Mouse-following glow ── */
+.nf-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    transition: background 0.3s ease;
+}
+
+/* ── Decorative grid lines ── */
+.nf-grid-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.nf-grid-v {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(227, 227, 219, 0.03);
+}
+
+.nf-grid-h {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(227, 227, 219, 0.03);
+}
+
+/* ── Content wrapper ── */
+.nf-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    max-width: 680px;
+}
+
+/* ── Error code block ── */
+.nf-error-block {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.nf-error-code {
+    font-family: var(--font-big-shoulders);
+    font-size: clamp(8rem, 20vw, 18rem);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    user-select: none;
+    position: relative;
+}
+
+.nf-digit {
+    display: inline-block;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(227, 227, 219, 0.12);
+    transition: -webkit-text-stroke-color 0.5s ease;
+}
+
+.nf-digit-accent {
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(192, 80, 26, 0.4);
+}
+
+.nf-page:hover .nf-digit {
+    -webkit-text-stroke-color: rgba(227, 227, 219, 0.2);
+}
+
+.nf-page:hover .nf-digit-accent {
+    -webkit-text-stroke-color: rgba(192, 80, 26, 0.6);
+}
+
+/* ── Glitch decoration lines ── */
+.nf-glitch-lines {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+}
+
+.nf-glitch-line {
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #c0501a, transparent);
+    transform-origin: center;
+}
+
+.nf-glitch-line-short {
+    width: 60px;
+    opacity: 0.5;
+}
+
+.nf-glitch-line-medium {
+    width: 90px;
+    opacity: 0.3;
+}
+
+/* ── Subtitle ── */
+.nf-subtitle {
+    font-family: var(--font-big-shoulders);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(227, 227, 219, 0.85);
+    margin-bottom: 1.25rem;
+    line-height: 1;
+}
+
+/* ── Description ── */
+.nf-description {
+    font-family: var(--font-neue, sans-serif);
+    font-size: 1.1rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(227, 227, 219, 0.45);
+    margin-bottom: 2.5rem;
+    max-width: 400px;
+}
+
+/* ── CTA Button ── */
+.nf-cta {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    border: 1px solid rgba(192, 80, 26, 0.3);
+    border-radius: 2px;
+    text-decoration: none;
+    color: #e3e3db;
+    overflow: hidden;
+    transition: border-color 0.4s ease, gap 0.4s ease;
+    cursor: pointer;
+}
+
+.nf-cta:hover {
+    border-color: rgba(192, 80, 26, 0.7);
+    gap: 1rem;
+}
+
+.nf-cta-text {
+    font-family: var(--font-monolith, monospace);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    position: relative;
+    z-index: 2;
+}
+
+.nf-cta-icon {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    color: #c0501a;
+    transition: transform 0.4s ease;
+}
+
+.nf-cta:hover .nf-cta-icon {
+    transform: translateX(4px);
+}
+
+.nf-cta-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(192, 80, 26, 0.08), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s cubic-bezier(0.77, 0, 0.18, 1);
+    z-index: 0;
+}
+
+.nf-cta:hover .nf-cta-bg {
+    transform: translateX(0);
+}
+
+/* ── Footer info ── */
+.nf-footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.nf-footer-item {
+    font-family: var(--font-monolith, monospace);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba(227, 227, 219, 0.2);
+}
+
+.nf-footer-divider {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(192, 80, 26, 0.3);
+}
+
+/* ── Corner decorations ── */
+.nf-corner {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.nf-corner::before,
+.nf-corner::after {
+    content: '';
+    position: absolute;
+    background: rgba(227, 227, 219, 0.06);
+}
+
+.nf-corner-tl {
+    top: 2rem;
+    left: 2rem;
+}
+.nf-corner-tl::before {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+}
+.nf-corner-tl::after {
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+}
+
+.nf-corner-tr {
+    top: 2rem;
+    right: 2rem;
+}
+.nf-corner-tr::before {
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 1px;
+}
+.nf-corner-tr::after {
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+}
+
+.nf-corner-bl {
+    bottom: 2rem;
+    left: 2rem;
+}
+.nf-corner-bl::before {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+}
+.nf-corner-bl::after {
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+}
+
+.nf-corner-br {
+    bottom: 2rem;
+    right: 2rem;
+}
+.nf-corner-br::before {
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 1px;
+}
+.nf-corner-br::after {
+    bottom: 0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+}
+
+/* =========================================================================
+   RESPONSIVE
+========================================================================= */
+
+@media (max-width: 768px) {
+    .nf-corner {
+        width: 24px;
+        height: 24px;
+    }
+
+    .nf-corner-tl,
+    .nf-corner-tr {
+        top: 1.25rem;
+    }
+    .nf-corner-bl,
+    .nf-corner-br {
+        bottom: 1.25rem;
+    }
+    .nf-corner-tl,
+    .nf-corner-bl {
+        left: 1.25rem;
+    }
+    .nf-corner-tr,
+    .nf-corner-br {
+        right: 1.25rem;
+    }
+
+    .nf-description {
+        font-size: 1rem;
+    }
+
+    .nf-footer {
+        gap: 0.6rem;
+    }
+
+    .nf-footer-item {
+        font-size: 0.55rem;
+    }
+
+    .nf-glitch-line {
+        width: 80px;
+    }
+
+    .nf-glitch-line-short {
+        width: 40px;
+    }
+
+    .nf-glitch-line-medium {
+        width: 60px;
+    }
+}

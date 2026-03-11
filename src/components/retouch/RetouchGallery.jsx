@@ -158,16 +158,16 @@ export default function RetouchGallery({ works = [] }) {
       <div className="flex-1 flex flex-col min-h-0 relative">
 
         {/* ── Slider hero area ── */}
-        <div className="flex-1 relative flex items-center justify-center min-h-0 px-4 md:px-12 py-4 md:py-6">
+        <div className="flex-1 relative flex flex-col md:flex-row items-center justify-center min-h-0 px-4 md:px-8 lg:px-12 py-2 md:py-4 gap-0 md:gap-6 lg:gap-10">
 
           {/* Dark vignette overlays */}
-          <div className="absolute inset-0 pointer-events-none z-10" aria-hidden="true">
+          <div className="absolute inset-0 pointer-events-none z-[1]" aria-hidden="true">
             <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-[#111]/70" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#111]/40 via-transparent to-[#111]/40" />
           </div>
 
-          {/* Floating title overlay */}
-          <div className="absolute left-6 md:left-10 bottom-28 md:bottom-24 z-20 pointer-events-none">
+          {/* ── Desktop: Title on left side ── */}
+          <div className="hidden md:flex flex-col justify-end items-start shrink-0 z-10 pb-4 min-w-[120px] lg:min-w-[160px]">
             <div key={active.id + '-title'} className="rt-fade-up">
               <div className="flex items-center gap-2.5 mb-2">
                 <div className="w-2 h-2 rounded-full bg-rt-orange" aria-hidden="true" />
@@ -176,7 +176,7 @@ export default function RetouchGallery({ works = [] }) {
                 </span>
               </div>
               <h2
-                className="text-[2.8rem] md:text-[4.5rem] leading-[0.88] tracking-[-0.04em] uppercase text-rt-cream"
+                className="text-[2.8rem] lg:text-[4rem] leading-[0.88] tracking-[-0.04em] uppercase text-rt-cream"
                 style={{ fontFamily: 'var(--font-big-shoulders)', fontWeight: 900 }}
               >
                 {active.title}
@@ -184,11 +184,25 @@ export default function RetouchGallery({ works = [] }) {
             </div>
           </div>
 
-          {/* Counter */}
-          <div className="absolute right-6 md:right-10 bottom-28 md:bottom-24 z-20 pointer-events-none">
+          {/* ── Slider container ── */}
+          <div
+            key={active.id}
+            className="rt-slider-container relative rounded-lg overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.65),0_0_0_1px_rgba(227,227,219,0.05)] rt-entrance z-10"
+          >
+            <BeforeAfterSlider 
+              before={active.before} 
+              after={active.after} 
+              beforeLqip={active.beforeLqip}
+              afterLqip={active.afterLqip}
+              aspectRatio={active.aspectRatio}
+            />
+          </div>
+
+          {/* ── Desktop: Counter on right side ── */}
+          <div className="hidden md:flex flex-col justify-end items-end shrink-0 z-10 pb-4 min-w-[80px] lg:min-w-[120px]">
             <div key={active.id + '-count'} className="rt-fade-up flex items-baseline gap-1">
               <span
-                className="text-[2.5rem] md:text-[3.5rem] leading-none text-rt-orange"
+                className="text-[2.5rem] lg:text-[3.5rem] leading-none text-rt-orange"
                 style={{ fontFamily: 'var(--font-big-shoulders)', fontWeight: 900 }}
               >
                 {String(activeIdx + 1).padStart(2, '0')}
@@ -199,23 +213,33 @@ export default function RetouchGallery({ works = [] }) {
             </div>
           </div>
 
-          {/* Slider container — portrait aspect ratio to match photo orientation */}
-          <div
-            key={active.id}
-            className="relative rounded-lg overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.65),0_0_0_1px_rgba(227,227,219,0.05)] rt-entrance z-10"
-            style={{
-              aspectRatio: active.aspectRatio,
-              height: '68vh',
-              maxWidth: '100%',
-              maxHeight: '100%',
-            }}
-          >
-            <BeforeAfterSlider 
-              before={active.before} 
-              after={active.after} 
-              beforeLqip={active.beforeLqip}
-              afterLqip={active.afterLqip}
-            />
+          {/* ── Mobile: Title + Counter below slider ── */}
+          <div className="flex md:hidden items-end justify-between w-full z-10 px-1 pt-2 pb-1 shrink-0">
+            <div key={active.id + '-title-m'} className="rt-fade-up">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-rt-orange" aria-hidden="true" />
+                <span className="font-display text-[0.5rem] tracking-[0.18em] uppercase text-rt-cream/40">
+                  {active.category}
+                </span>
+              </div>
+              <h2
+                className="text-[1.4rem] leading-[0.88] tracking-[-0.04em] uppercase text-rt-cream"
+                style={{ fontFamily: 'var(--font-big-shoulders)', fontWeight: 900 }}
+              >
+                {active.title}
+              </h2>
+            </div>
+            <div key={active.id + '-count-m'} className="rt-fade-up flex items-baseline gap-1">
+              <span
+                className="text-[1.6rem] leading-none text-rt-orange"
+                style={{ fontFamily: 'var(--font-big-shoulders)', fontWeight: 900 }}
+              >
+                {String(activeIdx + 1).padStart(2, '0')}
+              </span>
+              <span className="font-display text-[0.55rem] tracking-[0.1em] text-rt-cream/20">
+                / {String(filtered.length).padStart(2, '0')}
+              </span>
+            </div>
           </div>
         </div>
 

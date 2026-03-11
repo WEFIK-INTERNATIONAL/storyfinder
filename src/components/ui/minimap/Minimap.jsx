@@ -264,11 +264,12 @@ export default function Minimap({
     }, [previewSrc, category]);
 
     const handleShare = useCallback(async () => {
-        const url = previewSrc.startsWith('http')
-            ? previewSrc
-            : `${window.location.origin}${previewSrc}`;
+        // Construct a URL to the webpage, appending the current image index
+        // so that the server can generate a dynamic Open Graph meta image if supported.
+        const originUrl = window.location.origin + window.location.pathname;
+        const url = `${originUrl}?img=${activeIndex}`;
 
-        const shareData = { title: category || 'Image', url };
+        const shareData = { title: category || 'Gallery', url };
 
         try {
             if (
@@ -282,7 +283,7 @@ export default function Minimap({
                 setTimeout(() => setCopied(false), 2000);
             }
         } catch {}
-    }, [previewSrc, category]);
+    }, [activeIndex, category]);
 
     useEffect(() => {
         if (!images.length) return;

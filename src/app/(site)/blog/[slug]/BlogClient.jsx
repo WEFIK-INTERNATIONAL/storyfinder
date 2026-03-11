@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { PortableText } from '@portabletext/react';
 import { portableTextComponents } from '@/components/PortableTextComponents';
@@ -10,13 +10,14 @@ import { gsap } from '@/lib/gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { format, parseISO, differenceInDays } from 'date-fns';
-import { FiShare2 } from 'react-icons/fi';
+import { FiShare2, FiArrowLeft, FiClock, FiCalendar } from 'react-icons/fi';
 import './BlogPost.css';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export default function BlogClient({ post }) {
     const [toc, setToc] = useState([]);
+    const [activeSection, setActiveSection] = useState('');
     const containerRef = useRef(null);
 
     /* ================= Reading Progress ================= */
@@ -96,6 +97,24 @@ export default function BlogClient({ post }) {
         setToc(items);
     }, [post.body]);
 
+    /* ================= Active Section Tracking ================= */
+    const handleScroll = useCallback(() => {
+        const headings = document.querySelectorAll('h2[data-toc]');
+        let current = '';
+        headings.forEach((h) => {
+            const rect = h.getBoundingClientRect();
+            if (rect.top <= 180) {
+                current = h.id;
+            }
+        });
+        setActiveSection(current);
+    }, []);
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [handleScroll]);
+
     const handleShare = (e) => {
         e.preventDefault();
         const fullUrl = window.location.href;
@@ -112,6 +131,18 @@ export default function BlogClient({ post }) {
     };
 
     const isNew = post.publishedAt && differenceInDays(new Date(), parseISO(post.publishedAt)) <= 7;
+
+    /* ================= Estimate reading time ================= */
+    const estimateReadingTime = () => {
+        if (!post.body) return null;
+        const text = post.body
+            .filter(b => b._type === 'block')
+            .map(b => b.children?.map(c => c.text).join(' '))
+            .join(' ');
+        const words = text.split(/\s+/).length;
+        return Math.max(1, Math.ceil(words / 200));
+    };
+    const readTime = estimateReadingTime();
 
     return (
         <article className="blog-post-page" ref={containerRef}>
@@ -153,73 +184,102 @@ export default function BlogClient({ post }) {
             )}
 
             {/* ================= CONTENT ================= */}
-            <div className="max-w-5xl mx-auto px-6 py-16 grid lg:grid-cols-[1fr_260px] gap-12 lg:gap-16">
+            <div className="blog-post-content-wrapper">
                 
-                {/* MATADATA & MAIN CONTENT */}
-                <div className="w-full max-w-full overflow-hidden">
+                {/* METADATA & MAIN CONTENT */}
+                <div className="blog-post-main-col">
                     
-                    <div className="flex flex-wrap items-center gap-4 mb-8 border-b border-white/10 pb-6 reveal-meta">
-                        {/* Categories */}
-                        <div className="flex flex-wrap gap-2">
-                            {post.categories?.map((cat, idx) => (
-                                <span key={idx} className="blog-post-category">
-                                    {cat.title}
-                                </span>
-                            ))}
+                    {/* ── Metadata Strip ── */}
+                    <div className="blog-post-meta-strip reveal-meta">
+                        <div className="blog-post-meta-left">
+                            {/* Categories */}
+                            <div className="blog-post-categories">
+                                {post.categories?.map((cat, idx) => (
+                                    <span key={idx} className="blog-post-category">
+                                        {cat.title}
+                                    </span>
+                                ))}
+                            </div>
+
+                            {isNew && (
+                                <span className="blog-post-new-badge">NEW</span>
+                            )}
                         </div>
 
-                        {/* Date & Tags */}
-                        <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#e3e3db]/60">
-                            {isNew && (
-                                <span className="bg-[#c0501a] text-white px-2 py-1 rounded-sm font-bold">
-                                    NEW
+                        <div className="blog-post-meta-right">
+                            <span className="blog-post-meta-item">
+                                <FiCalendar size={13} />
+                                <time dateTime={post.publishedAt}>
+                                    {post.publishedAt ? format(parseISO(post.publishedAt), 'MMM d, yyyy') : 'Recently'}
+                                </time>
+                            </span>
+
+                            {readTime && (
+                                <span className="blog-post-meta-item">
+                                    <FiClock size={13} />
+                                    {readTime} min read
                                 </span>
                             )}
-                            <time dateTime={post.publishedAt}>
-                                {post.publishedAt ? format(parseISO(post.publishedAt), 'MMMM d, yyyy') : 'Recently'}
-                            </time>
+
+                            <span className="blog-post-meta-divider" />
                             
-                            <span className="text-white/20">•</span>
-                            
-                            {/* Native Share Button */}
                             <button 
                                 onClick={handleShare}
-                                className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer"
+                                className="blog-post-share-btn"
                                 aria-label="Share this post"
                             >
-                                <FiShare2 /> Share
+                                <FiShare2 size={14} />
+                                Share
                             </button>
                         </div>
                     </div>
 
+                    {/* ── Excerpt ── */}
                     {post.excerpt && (
-                        <p className="text-xl md:text-2xl font-light text-[#e3e3db]/90 mb-12 leading-relaxed reveal-excerpt border-l-2 border-[#c0501a]/50 pl-6">
-                            {post.excerpt}
-                        </p>
+                        <div className="blog-post-excerpt-wrapper reveal-excerpt">
+                            <p className="blog-post-excerpt">
+                                {post.excerpt}
+                            </p>
+                        </div>
                     )}
 
+                    {/* ── Article Body ── */}
                     <div className="blog-prose w-full">
                         <PortableText
                             value={post.body}
                             components={portableTextComponents}
                         />
                     </div>
+
+                    {/* ── End of Article Marker ── */}
+                    <div className="blog-post-end-marker">
+                        <span className="blog-post-end-diamond" />
+                        <span className="blog-post-end-line" />
+                        <span className="blog-post-end-diamond" />
+                    </div>
+
+                    {/* ── Back to Journal ── */}
+                    <Link href="/blog" className="blog-post-back-link">
+                        <FiArrowLeft size={16} />
+                        <span>Back to Journal</span>
+                    </Link>
                 </div>
 
                 {/* ================= TOC ================= */}
                 {toc.length > 0 && (
-                    <aside className="hidden lg:block sticky top-32 h-fit reveal-meta">
-                        <div className="border-l border-white/10 pl-6 py-2">
-                            <h4 className="blog-post-toc-title mb-6">
+                    <aside className="blog-post-toc-aside">
+                        <div className="blog-post-toc-container">
+                            <h4 className="blog-post-toc-title">
                                 Index
                             </h4>
-                            <div className="flex flex-col gap-3">
-                                {toc.map((item) => (
+                            <div className="blog-post-toc-nav">
+                                {toc.map((item, idx) => (
                                     <Link
                                         key={item.id}
                                         href={`#${item.id}`}
-                                        className="blog-post-toc-link"
+                                        className={`blog-post-toc-link ${activeSection === item.id ? 'active' : ''}`}
                                     >
+                                        <span className="blog-post-toc-number">{String(idx + 1).padStart(2, '0')}</span>
                                         {item.text}
                                     </Link>
                                 ))}

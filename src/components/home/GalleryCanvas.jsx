@@ -211,6 +211,7 @@ export default function GalleryCanvas({ images = [] }) {
                 baseX: col * (itemSize + gap),
                 baseY: row * (itemSize + gap),
                 imageUrl: img.imageUrl,
+                lqip: img.lqip,
                 imageData: {
                     title: img.title,
                     number: String(i + 1).padStart(2, '0'),
@@ -1161,6 +1162,8 @@ export default function GalleryCanvas({ images = [] }) {
                                         itemRefs.current[i].img = el;
                                     }}
                                     src={item.imageUrl}
+                                    placeholder={item.lqip ? 'blur' : 'empty'}
+                                    blurDataURL={item.lqip || undefined}
                                     alt={item.imageData.title}
                                     fill
                                     sizes="320px"
@@ -1185,7 +1188,8 @@ export default function GalleryCanvas({ images = [] }) {
 
             {/* Split Screen */}
             <div
-                className="split-screen-container fixed inset-0 flex z-2 opacity-0 pointer-events-none"
+                className="split-screen-container fixed inset-0 flex opacity-0 pointer-events-none"
+                style={{ zIndex: 'var(--z-split)' }}
                 ref={splitScreenRef}
                 aria-modal="true"
                 role="dialog"
@@ -1215,7 +1219,8 @@ export default function GalleryCanvas({ images = [] }) {
 
             {/* Image Title Overlay */}
             <div
-                className="image-title-overlay absolute bottom-10 left-10 text-white z-4 opacity-0 pointer-events-none"
+                className="image-title-overlay absolute bottom-10 left-10 text-white opacity-0 pointer-events-none"
+                style={{ zIndex: 'var(--z-title)' }}
                 ref={imageTitleOverlayRef}
                 aria-live="polite"
             >
@@ -1243,8 +1248,8 @@ export default function GalleryCanvas({ images = [] }) {
 
             {/* Controls */}
             <div
-                className="controls-container fixed bottom-5 left-1/2 -translate-x-1/2 flex z-6 opacity-0"
-                style={{ transition: 'left 1.2s cubic-bezier(0.87,0,0.13,1)' }}
+                className="controls-container fixed bottom-5 left-1/2 -translate-x-1/2 flex opacity-0"
+                style={{ transition: 'left 1.2s cubic-bezier(0.87,0,0.13,1)', zIndex: 'var(--z-controls)' }}
                 ref={controlsRef}
                 role="toolbar"
                 aria-label="Gallery controls"

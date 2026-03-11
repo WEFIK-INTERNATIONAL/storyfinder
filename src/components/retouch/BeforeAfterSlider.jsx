@@ -7,7 +7,7 @@ import Image from 'next/image';
  * BeforeAfterSlider
  * Interactive drag / touch slider comparing two images.
  */
-const BeforeAfterSlider = memo(function BeforeAfterSlider({ before, after, beforeLqip, afterLqip }) {
+const BeforeAfterSlider = memo(function BeforeAfterSlider({ before, after, beforeLqip, afterLqip, aspectRatio }) {
   const [pos,   setPos]   = useState(50);
   const [moved, setMoved] = useState(false);
   const wrapRef = useRef(null);
@@ -61,6 +61,7 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({ before, after, befor
       role="img"
       aria-label="Before and after comparison — drag to reveal"
       className="relative w-full h-full overflow-hidden select-none cursor-ew-resize touch-none"
+      style={{ aspectRatio: aspectRatio || 'auto' }}
       onMouseDown={onMouseDown}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
