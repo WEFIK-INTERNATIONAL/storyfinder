@@ -219,7 +219,7 @@ const ContactClient = () => {
                 <div className="contact-col">
                     <Copy delay={0.8}>
                         <h2 className="font-big">
-                            Still frames hold moving memories
+                            Sometimes loneliness is the clearest lens.
                         </h2>
                     </Copy>
                 </div>
@@ -239,10 +239,10 @@ const ContactClient = () => {
                             <p className="sm">Contact</p>
                             <p>Kolkata, India</p>
                             <Link
-                                href={'mailto:supratik@gmail.com'}
+                                href={'mailto:supratiksahis459@gmail.com'}
                                 className="text-[1.25rem] font-normal leading-1.2"
                             >
-                                supratik@gmail.com
+                                supratiksahis459@gmail.com
                             </Link>
                             <Link
                                 href={'tel:+91 8167084856'}
@@ -273,23 +273,18 @@ const ContactClient = () => {
             <div className="contact-footer">
                 <div className="container">
                     <Copy delay={1.6} animateOnScroll={false}>
-                        <p className="sm">Made by Wefik</p>
+                        <Link href="https://wefik.in" target="_blank" className="sm">Made by Wefik</Link>
                     </Copy>
 
                     <div className="contact-socials">
                         <Copy delay={1.7} animateOnScroll={false}>
-                            <a className="sm" href="#" target="_blank">
+                            <a className="sm" href="https://www.instagram.com/_storyfinder__" target="_blank">
                                 Instagram
                             </a>
                         </Copy>
                         <Copy delay={1.8} animateOnScroll={false}>
-                            <a className="sm" href="#" target="_blank">
+                            <a className="sm" href="https://www.pexels.com/@story-finder-269808633/" target="_blank">
                                 PIXEL
-                            </a>
-                        </Copy>
-                        <Copy delay={1.9} animateOnScroll={false}>
-                            <a className="sm" href="#" target="_blank">
-                                Twitter
                             </a>
                         </Copy>
                     </div>

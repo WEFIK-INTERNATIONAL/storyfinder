@@ -5,8 +5,9 @@ import { client } from '@/lib/sanityClient';
 import { GALLERY_QUERY } from '../../../../../sanity/lib/queries';
 import { getWatermarkedUrl } from '@/lib/watermarkHelper';
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params, searchParams }) {
     const { slug } = await params;
+    const resolvedSearchParams = await searchParams;
     const data = await client.fetch(GALLERY_QUERY, { slug });
 
     if (!data) {
@@ -15,9 +16,17 @@ export async function generateMetadata({ params }) {
         };
     }
 
+    // Default to the first image, but use the specific one if ?img=index is provided
+    const imageIndex = parseInt(resolvedSearchParams?.img, 10);
+    const selectedImage = 
+        !isNaN(imageIndex) && data.photos?.[imageIndex] 
+            ? data.photos[imageIndex] 
+            : data.photos?.[0];
+
     const ogImage =
-        data.photos?.[0]?.image?.url ||
+        selectedImage?.image?.url ||
         'https://storyfinder.me/fallback/fallback-image-profile.png';
+    const specificUrl = !isNaN(imageIndex) ? `https://storyfinder.me/gallery/${slug}?img=${imageIndex}` : `https://storyfinder.me/gallery/${slug}`;
 
     return {
         title: `${data.title} | Photography Gallery`,
@@ -37,7 +46,7 @@ export async function generateMetadata({ params }) {
             description:
                 data.description ||
                 `Explore the ${data.title} photography gallery by Supratik Sahis.`,
-            url: `https://storyfinder.me/gallery/${slug}`,
+            url: specificUrl,
             type: 'website',
             siteName: 'Storyfinder',
             locale: 'en_IN',

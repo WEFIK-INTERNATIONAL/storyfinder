@@ -171,6 +171,23 @@ body.controls-visible .controls-veil {
     border-radius: 4px;
 }
 
+/* ── Control Bar Active & Hover States ── */
+.switch-button {
+    transition: color 0.3s ease;
+}
+
+.switch-button:hover {
+    color: #e3e3db !important;
+}
+
+.switch-button-current {
+    color: #e3e3db !important;
+}
+
+.switch-button-current .indicator-dot {
+    opacity: 1 !important;
+}
+
 .sound-wave-canvas {
     border: none !important;
     outline: none !important;

@@ -129,6 +129,7 @@ export const FEATURED_PHOTOS_QUERY = `
   title,
   "slug": slug.current,
   "imageUrl": rawImage.asset->url,
+  "lqip": rawImage.asset->metadata.lqip
 }`
 
 export const PHOTOS_BY_CATEGORY_WITH_EDITED_QUERY = `

@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 import StoryfinderLogo from '@/components/icons/StoryFinderLogo';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSoundStore } from '@/store/useSoundStore';
 
 gsap.registerPlugin(useGSAP);
 
@@ -415,11 +416,52 @@ const Menu = ({ pageRef }) => {
         return () => window.removeEventListener('keydown', handleKey);
     }, [isMenuOpen, toggleMenu]);
 
+    /* ── Force-close menu on route change (fixes menu-stays-open bug) ── */
+    const prevPathnameRef = useRef(pathname);
+    useEffect(() => {
+        if (prevPathnameRef.current !== pathname) {
+            prevPathnameRef.current = pathname;
+            if (isMenuOpen) {
+                // Force instant close — page transition overlay already covers screen
+                const menuOverlay = menuOverlayRef.current;
+                const menuLinks = menuLinksRef.current;
+                const linkHighlighter = linkHighlighterRef.current;
+                const menuImage = menuImageRef.current;
+                const menuLinksWrapper = menuLinksWrapperRef.current;
+                const openLabel = openLabelRef.current;
+                const closeLabel = closeLabelRef.current;
+
+                gsap.killTweensOf([menuOverlay, menuImage, ...menuLinks, linkHighlighter, openLabel, closeLabel]);
+
+                gsap.set(menuOverlay, { clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)' });
+                gsap.set(menuLinks, { y: '150%' });
+                gsap.set(linkHighlighter, { y: '150%' });
+                gsap.set(menuImage, { y: '0', scale: 0.5, opacity: 0.25 });
+                gsap.set(menuLinksWrapper, { x: 0 });
+                gsap.set([openLabel, closeLabel], { y: '0%' });
+                gsap.set(menuLinkContainersRef.current, { overflow: 'hidden' });
+
+                menuColsRef.current.forEach((col) => {
+                    if (!col) return;
+                    gsap.set(col.querySelectorAll('.split-line'), { y: '100%' });
+                });
+
+                currentX.current = 0;
+                targetX.current = 0;
+                setIsMenuOpen(false);
+                setIsMenuAnimating(false);
+            }
+        }
+    }, [pathname, isMenuOpen]);
+
+    /* ── Sound toggle state ── */
+    const { enabled: soundEnabled, toggleSound } = useSoundStore();
+
     return (
         <>
             <nav className="">
                 <div className="flex gap-4 items-center">
-                    <div className="nav-logo bg-[#ccccc4] px-2 py-1.5 rounded-[0.5rem]">
+                    <div className="nav-logo" style={{ mixBlendMode: 'difference' }}>
                         <Link
                             href="/"
                             className="flex w-fit flex-row gap-2 items-center"
@@ -432,30 +474,54 @@ const Menu = ({ pageRef }) => {
                                 );
                             }}
                         >
-                            <StoryfinderLogo />
-                            <div className="font-accent font-bold text-xl text-black">
-                                StoryF.
+                            <StoryfinderLogo width={32} height={32} />
+                            <div className="hidden sm:block font-accent font-bold text-xl text-white">
+                                StoryFinder
                             </div>
                         </Link>
                     </div>
                 </div>
 
-                <button
-                    className="nav-toggle"
-                    ref={navToggleRef}
-                    aria-expanded={isMenuOpen}
-                    onClick={toggleMenu}
-                    aria-label="Toggle menu"
-                >
-                    <div className="nav-toggle-wrapper font-accent">
-                        <p ref={openLabelRef} className="open-label">
-                            Menu
-                        </p>
-                        <p ref={closeLabelRef} className="close-label">
-                            Close
-                        </p>
-                    </div>
-                </button>
+                <div className="flex gap-3 items-center">
+                    {/* Sound toggle — visible on all pages */}
+                    <button
+                        className="nav-sound-toggle"
+                        type="button"
+                        aria-label={soundEnabled ? 'Mute sounds' : 'Enable sounds'}
+                        aria-pressed={soundEnabled}
+                        onClick={toggleSound}
+                    >
+                        <span className="nav-sound-indicator">
+                            {[...Array(4)].map((_, i) => (
+                                <span
+                                    key={i}
+                                    className={`nav-sound-bar ${soundEnabled ? 'active' : ''}`}
+                                    style={{ animationDelay: `${i * 0.15}s` }}
+                                />
+                            ))}
+                        </span>
+                        <span className="nav-sound-label font-display">
+                            {soundEnabled ? 'ON' : 'OFF'}
+                        </span>
+                    </button>
+
+                    <button
+                        className="nav-toggle"
+                        ref={navToggleRef}
+                        aria-expanded={isMenuOpen}
+                        onClick={toggleMenu}
+                        aria-label="Toggle menu"
+                    >
+                        <div className="nav-toggle-wrapper font-accent">
+                            <p ref={openLabelRef} className="open-label">
+                                Menu
+                            </p>
+                            <p ref={closeLabelRef} className="close-label">
+                                Close
+                            </p>
+                        </div>
+                    </button>
+                </div>
             </nav>
             <div className="menu-overlay" ref={menuOverlayRef}>
                 <div className="menu-content font-body text-[#ccccc4]">
@@ -476,11 +542,11 @@ const Menu = ({ pageRef }) => {
                         </div>
                         <div className="menu-content-group">
                             <p>Say Hello</p>
-                            <p>storyfinder@gmail.com</p>
+                            <p>supratiksahis459@gmail.com</p>
                         </div>
                         <div className="menu-content-group">
                             <p>Hotline</p>
-                            <p>+0000000000</p>
+                            <p>+91 8167084856</p>
                         </div>
                     </div>
 
@@ -493,14 +559,14 @@ const Menu = ({ pageRef }) => {
                         <div className="menu-content-group">
                             <p>Field Log</p>
                             <a
-                                href="#"
+                                href="https://www.instagram.com/_storyfinder__"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
                                 Instagram
                             </a>
                             <a
-                                href="#"
+                                href="https://www.pexels.com/@story-finder-269808633/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
@@ -509,7 +575,7 @@ const Menu = ({ pageRef }) => {
                         </div>
                         <div className="menu-content-group">
                             <p>TAGLINE</p>
-                            <p>CAPTURING THE UNSEEN</p>
+                            <p>Sometimes loneliness is the clearest lens.</p>
                         </div>
                         <div className="menu-content-group">
                             <p>Credits</p>

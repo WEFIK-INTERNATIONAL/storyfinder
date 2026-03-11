@@ -6,7 +6,7 @@
 .home-overlay {
     position: fixed;
     top: 2.25rem; /* Aligned with nav padding (2rem) */
-    right: 9rem; /* Left of the Menu toggle */
+    right: 16rem; /* Clear the sound toggle + Menu button */
     z-index: 75; /* Just under the menu (z-80) */
     pointer-events: auto; /* Enable clicks on sound button and text selection */
     display: flex;

@@ -21,7 +21,7 @@ export const portableTextComponents = {
                     </div>
 
                     {value?.caption && (
-                        <figcaption className="text-center text-sm text-gray-500 mt-3">
+                        <figcaption className="text-center text-sm text-[#e3e3db]/50 mt-3 font-[var(--font-monolith)] uppercase tracking-widest">
                             {value.caption}
                         </figcaption>
                     )}
@@ -61,13 +61,13 @@ export const portableTextComponents = {
         ),
 
         normal: ({ children }) => (
-            <p className="text-lg leading-relaxed text-gray-700 mb-5">
+            <p className="text-lg leading-relaxed text-[#e3e3db]/85 mb-5">
                 {children}
             </p>
         ),
 
         blockquote: ({ children }) => (
-            <blockquote className="border-l-4 border-gray-300 pl-4 italic text-gray-600 my-6">
+            <blockquote className="border-l-3 border-[#c0501a]/50 pl-6 italic text-[#e3e3db]/70 my-8">
                 {children}
             </blockquote>
         ),
@@ -76,12 +76,12 @@ export const portableTextComponents = {
     /* ================= LISTS ================= */
     list: {
         bullet: ({ children }) => (
-            <ul className="list-disc pl-6 space-y-2 mb-5 text-gray-700">
+            <ul className="list-disc pl-6 space-y-2 mb-5 text-[#e3e3db]/85">
                 {children}
             </ul>
         ),
         number: ({ children }) => (
-            <ol className="list-decimal pl-6 space-y-2 mb-5 text-gray-700">
+            <ol className="list-decimal pl-6 space-y-2 mb-5 text-[#e3e3db]/85">
                 {children}
             </ol>
         ),
@@ -118,7 +118,7 @@ export const portableTextComponents = {
                     href={value?.href}
                     target={target}
                     rel="noopener noreferrer"
-                    className="text-blue-600 underline hover:text-blue-800"
+                    className="text-[#c0501a] no-underline border-b border-[#c0501a]/40 hover:border-[#c0501a] hover:text-[#e3e3db] transition-colors duration-300"
                 >
                     {children}
                 </a>

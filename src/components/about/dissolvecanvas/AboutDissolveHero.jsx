@@ -39,7 +39,7 @@ export default function Home() {
             <h1>Storyfinder</h1>
           </Copy>
           <Copy delay={0.95}>
-            <p>Solid form gives way to liquid movement.</p>
+            <p>Sometimes loneliness is the clearest lens.</p>
           </Copy>
         </div>
         <DissolveCanvas scrollProgressRef={scrollProgressRef} />
