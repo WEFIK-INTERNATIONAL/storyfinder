@@ -7,6 +7,8 @@ import { useRef } from 'react';
 import { gsap } from '@/lib/gsap';
 import { useGSAP } from '@gsap/react';
 import Footer from '@/components/layout/footer/Footer';
+import { useViewTransition } from '@/hooks/useViewTransition';
+import soundManager from '@/lib/soundManager';
 
 const FEATURED_WORK = [
     { src: '/spotlight/spotlight-1.jpg', num: '01', title: 'Golden Hour Portrait' },
@@ -60,6 +62,14 @@ const STATS = [
 
 export default function MobileHome() {
     const rootRef = useRef(null);
+    const { navigateWithTransition } = useViewTransition();
+
+    const handleNav = (e, href) => {
+        e.preventDefault();
+        e.stopPropagation();
+        soundManager.play('link-click');
+        navigateWithTransition(href);
+    };
 
     useGSAP(() => {
         /* ══════════════════════════════════════════════
@@ -417,7 +427,11 @@ export default function MobileHome() {
                 </div>
 
                 {/* Gallery CTA — editorial underline style */}
-                <Link href="/gallery" className="mh-work-gallery-cta">
+                <Link 
+                    href="/gallery" 
+                    className="mh-work-gallery-cta"
+                    onClick={(e) => handleNav(e, '/gallery')}
+                >
                     <span className="mh-work-gallery-cta-label">Explore Full Gallery</span>
                     <span className="mh-work-gallery-cta-line" />
                     <svg className="mh-work-gallery-cta-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -457,6 +471,7 @@ export default function MobileHome() {
                         key={post.slug}
                         href={`/blog/${post.slug}`}
                         className="mh-blog-card"
+                        onClick={(e) => handleNav(e, `/blog/${post.slug}`)}
                     >
                         <div className="mh-blog-card-img">
                             <Image
@@ -480,7 +495,11 @@ export default function MobileHome() {
                         </svg>
                     </Link>
                 ))}
-                <Link href="/blog" className="mh-blog-cta">
+                <Link 
+                    href="/blog" 
+                    className="mh-blog-cta"
+                    onClick={(e) => handleNav(e, '/blog')}
+                >
                     <span className="mh-blog-cta-label">Read All Posts</span>
                     <span className="mh-blog-cta-line" />
                     <svg className="mh-blog-cta-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none">

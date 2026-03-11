@@ -16,7 +16,7 @@ export default function HomeClient({ images }) {
     useEffect(() => { setMounted(true); }, []);
 
     useEffect(() => {
-        if (!mounted || isMobileOrTablet) return;
+        if (!mounted || isMobileOrTablet === undefined || isMobileOrTablet) return;
 
         const revealOverlay = () => {
             const el = overlayRef.current;
@@ -40,7 +40,7 @@ export default function HomeClient({ images }) {
         };
     }, [mounted, isMobileOrTablet]);
 
-    if (!mounted) {
+    if (!mounted || isMobileOrTablet === undefined) {
         return <Preloader />;
     }
 
