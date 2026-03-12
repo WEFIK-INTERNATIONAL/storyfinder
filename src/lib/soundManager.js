@@ -18,11 +18,16 @@ class SoundManager {
         this._loopAudio = null;
         this._loopName = null;
 
-        this.enabled = true;
+        this.enabled = false;
         this.volume = 0.3;
         this.musicVolume = 0.06;
         this.isInitialized = false;
         this._interactionUnlocked = false;
+
+        /** Web Audio API context for low-latency click sound */
+        this._audioCtx = null;
+        /** @type {AudioBuffer|null} pre-decoded click sound buffer */
+        this._clickBuffer = null;
 
         this.soundLibrary = {
             // UI
@@ -103,43 +108,63 @@ class SoundManager {
 
     /**
      * Unlock audio playback after first user interaction.
-     * Browsers block autoplay until a user gesture has occurred.
+     * Uses a silent 1-frame AudioContext buffer — no actual audio files are played,
+     * which eliminates the "audio chaos" that occurred when playing/pausing every
+     * pool element on mobile.
      */
     initOnInteraction() {
         if (this._interactionUnlocked) return;
         this._interactionUnlocked = true;
 
-        // Resume all audio contexts by playing then immediately pausing a silent buffer
-        this.pools.forEach((pool) => {
-            pool.forEach((audio) => {
-                audio.muted = true; // Mute during unlock to prevent chaos
-                const playPromise = audio.play();
-                if (playPromise) {
-                    playPromise.then(() => {
-                        audio.pause();
-                        audio.currentTime = 0;
-                        audio.muted = false;
-                    }).catch(() => { 
-                        audio.muted = false;
-                    });
-                }
-            });
-        });
-
-        // Also unlock the loop audio
-        if (this._loopAudio) {
-            this._loopAudio.muted = true;
-            const p = this._loopAudio.play();
-            if (p) {
-                p.then(() => {
-                    this._loopAudio.pause();
-                    this._loopAudio.currentTime = 0;
-                    this._loopAudio.muted = false;
-                }).catch(() => {
-                    this._loopAudio.muted = false;
-                });
+        // Unlock via a completely silent AudioContext buffer (no sound files played)
+        try {
+            const AC = window.AudioContext || window.webkitAudioContext;
+            if (AC) {
+                const ctx = new AC();
+                const buf = ctx.createBuffer(1, 1, 22050);
+                const src = ctx.createBufferSource();
+                src.buffer = buf;
+                src.connect(ctx.destination);
+                src.start(0);
+                // Keep this context alive as our main Web Audio context
+                this._audioCtx = ctx;
+                // Now pre-decode the click sound for zero-latency playback
+                this._preloadClickBuffer();
             }
+        } catch (e) {
+            // Web Audio API not available — HTML Audio pool is the fallback
         }
+    }
+
+    /** Pre-decode the click sound into a Web Audio buffer for near-zero latency. */
+    async _preloadClickBuffer() {
+        if (!this._audioCtx) return;
+        try {
+            const response = await fetch('/sounds/click.mp3');
+            const arrayBuffer = await response.arrayBuffer();
+            this._clickBuffer = await this._audioCtx.decodeAudioData(arrayBuffer);
+        } catch (e) {
+            // Fallback to HTML Audio pool if fetch/decode fails
+        }
+    }
+
+    /** Play the click sound instantly via Web Audio API if available. */
+    _playClickInstant() {
+        if (this._audioCtx && this._clickBuffer) {
+            // Resume context if it was suspended (browser autoplay policy)
+            if (this._audioCtx.state === 'suspended') {
+                this._audioCtx.resume().catch(() => {});
+            }
+            const src = this._audioCtx.createBufferSource();
+            src.buffer = this._clickBuffer;
+            const gain = this._audioCtx.createGain();
+            gain.gain.value = Math.max(0, Math.min(1, this.volume));
+            src.connect(gain);
+            gain.connect(this._audioCtx.destination);
+            src.start(0);
+            return true;
+        }
+        return false; // Signal to fall back to HTML Audio pool
     }
 
     /* ── Playback ─────────────────────────────────────────────── */
@@ -153,6 +178,11 @@ class SoundManager {
             const last = this._lastPlayed.get(soundName) ?? 0;
             if (now - last < DEBOUNCE_MS) return;
             this._lastPlayed.set(soundName, now);
+        }
+
+        // Use the pre-decoded Web Audio buffer for zero-latency click
+        if (soundName === 'click' && !options.volume) {
+            if (this._playClickInstant()) return;
         }
 
         const pool = this.pools.get(soundName);
