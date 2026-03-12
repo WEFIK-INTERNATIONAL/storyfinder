@@ -20,11 +20,15 @@ const BASE_SCROLL_SETTINGS = {
 
 const MOBILE_SCROLL_SETTINGS = {
     ...BASE_SCROLL_SETTINGS,
-    duration: 0.8,
-    smoothTouch: true,
-    touchMultiplier: 1.5,
-    lerp: 0.09,
-    syncTouch: true,
+    duration: 0.6,
+    // Disable smooth touch overrides — let the browser handle touch scroll natively.
+    // smoothTouch: true + syncTouch: true was causing visible lag on mobile/tablet
+    // because Lenis was intercepting every touch event and re-applying easing on top
+    // of the browser's own momentum scrolling.
+    smoothTouch: false,
+    touchMultiplier: 1,
+    lerp: 0.12,
+    syncTouch: false,
 };
 
 const DESKTOP_SCROLL_SETTINGS = {

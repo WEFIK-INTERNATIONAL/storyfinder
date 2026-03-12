@@ -4,6 +4,14 @@ import { useRef, useCallback } from 'react';
 import { useTransitionRouter } from 'next-view-transitions';
 import { gsap } from '@/lib/gsap';
 
+/**
+ * Module-level (singleton) lock — ensures only ONE page transition can run at a time
+ * regardless of how many components each call useViewTransition().
+ * Previously this was a per-hook useRef, which let multiple components start
+ * competing transitions that both animated the same shared overlay element.
+ */
+let _isTransitioningGlobal = false;
+
 function createSVGOverlay() {
     let overlay = document.querySelector('.page-transition-overlay');
 
@@ -42,7 +50,6 @@ const PATHS = {
 export const useViewTransition = () => {
     const router = useTransitionRouter();
 
-    const isTransitioningRef = useRef(false);
     const failsafeTimerRef = useRef(null);
 
     const slideInOut = useCallback(
@@ -52,13 +59,13 @@ export const useViewTransition = () => {
             if (!overlayPath) {
                 router.push(href);
                 if (onRouteChange) onRouteChange();
-                isTransitioningRef.current = false;
+                _isTransitioningGlobal = false;
                 return;
             }
 
             const cleanup = () => {
                 overlay?.parentNode?.removeChild(overlay);
-                isTransitioningRef.current = false;
+                _isTransitioningGlobal = false;
                 clearTimeout(failsafeTimerRef.current);
             };
 
@@ -95,9 +102,9 @@ export const useViewTransition = () => {
                     attr: { d: PATHS.step2.unfilled },
                 });
             failsafeTimerRef.current = setTimeout(() => {
-                if (isTransitioningRef.current) {
+                if (_isTransitioningGlobal) {
                     overlay?.parentNode?.removeChild(overlay);
-                    isTransitioningRef.current = false;
+                    _isTransitioningGlobal = false;
                     router.push(href);
                 }
             }, 4000);
@@ -109,14 +116,14 @@ export const useViewTransition = () => {
         (href, onRouteChange) => {
             if (typeof window === 'undefined') return;
             if (window.location.pathname === href) return;
-            if (isTransitioningRef.current) return;
+            if (_isTransitioningGlobal) return;
             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                 router.push(href);
                 if (onRouteChange) onRouteChange();
                 return;
             }
 
-            isTransitioningRef.current = true;
+            _isTransitioningGlobal = true;
             slideInOut(href, onRouteChange);
         },
         [router, slideInOut]

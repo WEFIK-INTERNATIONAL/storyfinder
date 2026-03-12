@@ -189,18 +189,6 @@ export default function MobileHome() {
             delay: 2,
         });
 
-        /* ── parallax drift on scroll ── */
-        gsap.to('.mh-hero-ring', {
-            y: -60,
-            ease: 'none',
-            scrollTrigger: { trigger: '.mh-hero', start: 'top top', end: 'bottom top', scrub: 1 },
-        });
-        gsap.to('.mh-hero-orb', {
-            y: -40,
-            ease: 'none',
-            scrollTrigger: { trigger: '.mh-hero', start: 'top top', end: 'bottom top', scrub: 1 },
-        });
-
         /* ── work items stagger ── */
         gsap.fromTo('.mh-work-item',
             { opacity: 0, y: 40 },

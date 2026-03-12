@@ -3,7 +3,7 @@
 import { create } from 'zustand';
 
 export const useSoundStore = create((set) => ({
-    enabled: true,
+    enabled: false,
     volume: 0.3,
     isInitialized: false,
 
