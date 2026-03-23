@@ -18,15 +18,17 @@ export async function generateMetadata({ params, searchParams }) {
 
     // Default to the first image, but use the specific one if ?img=index is provided
     const imageIndex = parseInt(resolvedSearchParams?.img, 10);
-    const selectedImage = 
-        !isNaN(imageIndex) && data.photos?.[imageIndex] 
-            ? data.photos[imageIndex] 
+    const selectedImage =
+        !isNaN(imageIndex) && data.photos?.[imageIndex]
+            ? data.photos[imageIndex]
             : data.photos?.[0];
 
     const ogImage =
         selectedImage?.image?.url ||
         'https://storyfinder.me/fallback/fallback-image-profile.png';
-    const specificUrl = !isNaN(imageIndex) ? `https://storyfinder.me/gallery/${slug}?img=${imageIndex}` : `https://storyfinder.me/gallery/${slug}`;
+    const specificUrl = !isNaN(imageIndex)
+        ? `https://storyfinder.me/gallery/${slug}?img=${imageIndex}`
+        : `https://storyfinder.me/gallery/${slug}`;
 
     return {
         title: `${data.title} | Photography Gallery`,
@@ -62,7 +64,8 @@ export async function generateMetadata({ params, searchParams }) {
         twitter: {
             card: 'summary_large_image',
             title: `${data.title} | Storyfinder`,
-            description: data.description || `Photography gallery by Supratik Sahis.`,
+            description:
+                data.description || `Photography gallery by Supratik Sahis.`,
             images: [ogImage],
         },
         alternates: {
@@ -84,14 +87,17 @@ function generateJsonLd(data, slug) {
             '@id': 'https://storyfinder.me/#person',
             name: 'Supratik Sahis',
         },
-        image: data.photos?.slice(0, 5).map((photo) => ({
-            '@type': 'ImageObject',
-            contentUrl: photo.image?.url,
-            name: photo.title || data.title,
-            author: {
-                '@id': 'https://storyfinder.me/#person',
-            },
-        })).filter((img) => Boolean(img.contentUrl)),
+        image: data.photos
+            ?.slice(0, 5)
+            .map((photo) => ({
+                '@type': 'ImageObject',
+                contentUrl: photo.image?.url,
+                name: photo.title || data.title,
+                author: {
+                    '@id': 'https://storyfinder.me/#person',
+                },
+            }))
+            .filter((img) => Boolean(img.contentUrl)),
     };
 }
 

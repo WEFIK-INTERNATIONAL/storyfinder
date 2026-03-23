@@ -115,7 +115,10 @@ export default function RootLayout({ children }) {
             <head>
                 {/* ── Geo / Local SEO ───────────────────────────────────── */}
                 <meta name="geo.region" content="IN-WB" />
-                <meta name="geo.placename" content="Kolkata, West Bengal, India" />
+                <meta
+                    name="geo.placename"
+                    content="Kolkata, West Bengal, India"
+                />
                 <meta name="geo.position" content="22.5726;88.3639" />
                 <meta name="ICBM" content="22.5726, 88.3639" />
                 {/* ── Theme / PWA ───────────────────────────────────────── */}

@@ -50,7 +50,7 @@ export async function GET(req) {
         const metadata = await base.metadata();
         const width = metadata.width || 1200;
         const height = metadata.height || 800;
-        
+
         // Calculate based on the shortest dimension so portrait/landscape scale consistently
         const shortSide = Math.min(width, height);
 
@@ -58,7 +58,7 @@ export async function GET(req) {
         const calculatedWmWidth = Math.floor(shortSide * (wm.size || 0.05));
         const wmWidth = Math.max(1, calculatedWmWidth); // Prevent sharp crash if width rounds to 0
         const padding = Math.max(1, Math.floor(wmWidth * 0.25)); // 25% edge padding
-        
+
         const watermark = await sharp(wmBuffer)
             .resize(wmWidth)
             .ensureAlpha()
@@ -68,7 +68,7 @@ export async function GET(req) {
                 bottom: padding,
                 left: padding,
                 right: padding,
-                background: { r: 0, g: 0, b: 0, alpha: 0 }
+                background: { r: 0, g: 0, b: 0, alpha: 0 },
             })
             .png()
             .toBuffer();

@@ -9,10 +9,10 @@ CustomEase.create('hop', '0.9, 0, 0.1, 1');
 export let isInitialLoad = true;
 
 const IMAGES = [
-    { src: '/featured-work/work-1.jpg', priority: true },
-    { src: '/featured-work/work-2.jpg', priority: false },
-    { src: '/featured-work/work-5.jpg', priority: false },
-    { src: '/featured-work/work-3.jpg', priority: false },
+    { src: '/preloader/preloader_1.jpg', priority: true },
+    { src: '/preloader/preloader_2.jpg', priority: false },
+    { src: '/preloader/preloader_3.jpg', priority: false },
+    { src: '/preloader/preloader_4.jpg', priority: false },
 ];
 
 const Preloader = () => {

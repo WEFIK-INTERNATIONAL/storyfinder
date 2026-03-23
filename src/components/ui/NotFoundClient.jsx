@@ -26,53 +26,75 @@ export default function NotFound() {
     }, []);
 
     /* ── GSAP entrance animations ── */
-    useGSAP(() => {
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    useGSAP(
+        () => {
+            const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-        tl.from('.nf-error-code', {
-            y: 80,
-            opacity: 0,
-            duration: 1.4,
-            ease: 'expo.out',
-        })
-        .from('.nf-glitch-line', {
-            scaleX: 0,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: 'expo.out',
-        }, '-=0.8')
-        .from('.nf-subtitle', {
-            y: 30,
-            opacity: 0,
-            duration: 1,
-        }, '-=0.6')
-        .from('.nf-description', {
-            y: 20,
-            opacity: 0,
-            duration: 0.8,
-        }, '-=0.5')
-        .from('.nf-cta', {
-            y: 20,
-            opacity: 0,
-            duration: 0.8,
-        }, '-=0.4')
-        .from('.nf-footer-item', {
-            y: 15,
-            opacity: 0,
-            duration: 0.6,
-            stagger: 0.1,
-        }, '-=0.3');
+            tl.from('.nf-error-code', {
+                y: 80,
+                opacity: 0,
+                duration: 1.4,
+                ease: 'expo.out',
+            })
+                .from(
+                    '.nf-glitch-line',
+                    {
+                        scaleX: 0,
+                        duration: 0.8,
+                        stagger: 0.1,
+                        ease: 'expo.out',
+                    },
+                    '-=0.8'
+                )
+                .from(
+                    '.nf-subtitle',
+                    {
+                        y: 30,
+                        opacity: 0,
+                        duration: 1,
+                    },
+                    '-=0.6'
+                )
+                .from(
+                    '.nf-description',
+                    {
+                        y: 20,
+                        opacity: 0,
+                        duration: 0.8,
+                    },
+                    '-=0.5'
+                )
+                .from(
+                    '.nf-cta',
+                    {
+                        y: 20,
+                        opacity: 0,
+                        duration: 0.8,
+                    },
+                    '-=0.4'
+                )
+                .from(
+                    '.nf-footer-item',
+                    {
+                        y: 15,
+                        opacity: 0,
+                        duration: 0.6,
+                        stagger: 0.1,
+                    },
+                    '-=0.3'
+                );
 
-        /* ── Slow floating animation for the error code ── */
-        gsap.to('.nf-error-code', {
-            y: -8,
-            duration: 3,
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut',
-        });
-
-    }, { scope: containerRef });
+            /* ── Slow floating animation for the error code ── */
+            gsap.to('.nf-error-code', {
+                y: -8,
+                duration: 3,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+            });
+        },
+        { scope: containerRef }
+    );
 
     return (
         <div className="nf-page" ref={containerRef}>
@@ -108,14 +130,12 @@ export default function NotFound() {
                 </div>
 
                 {/* Subtitle */}
-                <h2 className="nf-subtitle">
-                    Lost in the Frame
-                </h2>
+                <h2 className="nf-subtitle">Lost in the Frame</h2>
 
                 {/* Description */}
                 <p className="nf-description">
-                    The story you&apos;re looking for doesn&apos;t exist — or perhaps it&apos;s still being
-                    captured somewhere out there.
+                    The story you&apos;re looking for doesn&apos;t exist — or
+                    perhaps it&apos;s still being captured somewhere out there.
                 </p>
 
                 {/* CTA */}

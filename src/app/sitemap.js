@@ -25,13 +25,13 @@ export default async function sitemap() {
     }));
 
     const staticPages = [
-        { route: '',            changeFrequency: 'daily',   priority: 1.0 },
-        { route: '/about',      changeFrequency: 'monthly', priority: 0.9 },
-        { route: '/gallery',    changeFrequency: 'weekly',  priority: 0.9 },
-        { route: '/blog',       changeFrequency: 'weekly',  priority: 0.8 },
-        { route: '/contact',    changeFrequency: 'monthly', priority: 0.8 },
+        { route: '', changeFrequency: 'daily', priority: 1.0 },
+        { route: '/about', changeFrequency: 'monthly', priority: 0.9 },
+        { route: '/gallery', changeFrequency: 'weekly', priority: 0.9 },
+        { route: '/blog', changeFrequency: 'weekly', priority: 0.8 },
+        { route: '/contact', changeFrequency: 'monthly', priority: 0.8 },
         { route: '/before-after', changeFrequency: 'weekly', priority: 0.7 },
-        { route: '/featured',   changeFrequency: 'monthly', priority: 0.7 },
+        { route: '/featured', changeFrequency: 'monthly', priority: 0.7 },
     ].map(({ route, changeFrequency, priority }) => ({
         url: `${baseUrl}${route}`,
         lastModified: new Date(),

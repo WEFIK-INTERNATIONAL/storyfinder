@@ -36,55 +36,58 @@ export default function BlogClient({ post }) {
         };
 
         raf = requestAnimationFrame(update);
-        
+
         return () => {
             if (raf) cancelAnimationFrame(raf);
         };
     }, []);
 
     /* ================= GSAP Animations ================= */
-    useGSAP(() => {
-        gsap.from('.blog-post-hero-title', {
-            y: 40,
-            opacity: 0,
-            duration: 1.2,
-            ease: 'power3.out',
-        });
+    useGSAP(
+        () => {
+            gsap.from('.blog-post-hero-title', {
+                y: 40,
+                opacity: 0,
+                duration: 1.2,
+                ease: 'power3.out',
+            });
 
-        gsap.from('.reveal-meta', {
-            y: 20,
-            opacity: 0,
-            duration: 0.8,
-            ease: 'power2.out',
-            delay: 0.2,
-            stagger: 0.1,
-        });
+            gsap.from('.reveal-meta', {
+                y: 20,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power2.out',
+                delay: 0.2,
+                stagger: 0.1,
+            });
 
-        gsap.from('.reveal-excerpt', {
-            y: 30,
-            opacity: 0,
-            duration: 1,
-            ease: 'power3.out',
-            delay: 0.4,
-        });
-        
-        // Stagger basic content blocks appearing on scroll
-        const contentBlocks = gsap.utils.toArray('.blog-prose > *');
-        if (contentBlocks.length > 0) {
-             contentBlocks.forEach((block) => {
-                 gsap.from(block, {
-                     y: 30,
-                     opacity: 0,
-                     duration: 0.8,
-                     ease: 'power2.out',
-                     scrollTrigger: {
-                         trigger: block,
-                         start: 'top 95%',
-                     }
-                 });
-             });
-        }
-    }, { scope: containerRef });
+            gsap.from('.reveal-excerpt', {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out',
+                delay: 0.4,
+            });
+
+            // Stagger basic content blocks appearing on scroll
+            const contentBlocks = gsap.utils.toArray('.blog-prose > *');
+            if (contentBlocks.length > 0) {
+                contentBlocks.forEach((block) => {
+                    gsap.from(block, {
+                        y: 30,
+                        opacity: 0,
+                        duration: 0.8,
+                        ease: 'power2.out',
+                        scrollTrigger: {
+                            trigger: block,
+                            start: 'top 95%',
+                        },
+                    });
+                });
+            }
+        },
+        { scope: containerRef }
+    );
 
     /* ================= TOC ================= */
     useEffect(() => {
@@ -94,7 +97,23 @@ export default function BlogClient({ post }) {
             h.id = id;
             return { id, text: h.innerText };
         });
-        setToc(items);
+
+        const t = setTimeout(() => {
+            setToc((prev) => {
+                if (
+                    prev.length === items.length &&
+                    prev.every(
+                        (item, idx) =>
+                            item.id === items[idx].id &&
+                            item.text === items[idx].text
+                    )
+                ) {
+                    return prev;
+                }
+                return items;
+            });
+        }, 0);
+        return () => clearTimeout(t);
     }, [post.body]);
 
     /* ================= Active Section Tracking ================= */
@@ -120,24 +139,28 @@ export default function BlogClient({ post }) {
         const fullUrl = window.location.href;
 
         if (navigator.share) {
-            navigator.share({
-                title: post.title,
-                url: fullUrl
-            }).catch(console.error);
+            navigator
+                .share({
+                    title: post.title,
+                    url: fullUrl,
+                })
+                .catch(console.error);
         } else {
             navigator.clipboard.writeText(fullUrl);
-            alert("Link copied to clipboard!");
+            alert('Link copied to clipboard!');
         }
     };
 
-    const isNew = post.publishedAt && differenceInDays(new Date(), parseISO(post.publishedAt)) <= 7;
+    const isNew =
+        post.publishedAt &&
+        differenceInDays(new Date(), parseISO(post.publishedAt)) <= 7;
 
     /* ================= Estimate reading time ================= */
     const estimateReadingTime = () => {
         if (!post.body) return null;
         const text = post.body
-            .filter(b => b._type === 'block')
-            .map(b => b.children?.map(c => c.text).join(' '))
+            .filter((b) => b._type === 'block')
+            .map((b) => b.children?.map((c) => c.text).join(' '))
             .join(' ');
         const words = text.split(/\s+/).length;
         return Math.max(1, Math.ceil(words / 200));
@@ -166,8 +189,14 @@ export default function BlogClient({ post }) {
                         fill
                         priority
                         className="object-cover opacity-80"
-                        placeholder={post.mainImage.asset?.metadata?.lqip ? "blur" : "empty"}
-                        blurDataURL={post.mainImage.asset?.metadata?.lqip || undefined}
+                        placeholder={
+                            post.mainImage.asset?.metadata?.lqip
+                                ? 'blur'
+                                : 'empty'
+                        }
+                        blurDataURL={
+                            post.mainImage.asset?.metadata?.lqip || undefined
+                        }
                     />
 
                     {/* Gradient Overlay & Grain */}
@@ -185,17 +214,18 @@ export default function BlogClient({ post }) {
 
             {/* ================= CONTENT ================= */}
             <div className="blog-post-content-wrapper">
-                
                 {/* METADATA & MAIN CONTENT */}
                 <div className="blog-post-main-col">
-                    
                     {/* ── Metadata Strip ── */}
                     <div className="blog-post-meta-strip reveal-meta">
                         <div className="blog-post-meta-left">
                             {/* Categories */}
                             <div className="blog-post-categories">
                                 {post.categories?.map((cat, idx) => (
-                                    <span key={idx} className="blog-post-category">
+                                    <span
+                                        key={idx}
+                                        className="blog-post-category"
+                                    >
                                         {cat.title}
                                     </span>
                                 ))}
@@ -210,7 +240,12 @@ export default function BlogClient({ post }) {
                             <span className="blog-post-meta-item">
                                 <FiCalendar size={13} />
                                 <time dateTime={post.publishedAt}>
-                                    {post.publishedAt ? format(parseISO(post.publishedAt), 'MMM d, yyyy') : 'Recently'}
+                                    {post.publishedAt
+                                        ? format(
+                                              parseISO(post.publishedAt),
+                                              'MMM d, yyyy'
+                                          )
+                                        : 'Recently'}
                                 </time>
                             </span>
 
@@ -222,8 +257,8 @@ export default function BlogClient({ post }) {
                             )}
 
                             <span className="blog-post-meta-divider" />
-                            
-                            <button 
+
+                            <button
                                 onClick={handleShare}
                                 className="blog-post-share-btn"
                                 aria-label="Share this post"
@@ -237,9 +272,7 @@ export default function BlogClient({ post }) {
                     {/* ── Excerpt ── */}
                     {post.excerpt && (
                         <div className="blog-post-excerpt-wrapper reveal-excerpt">
-                            <p className="blog-post-excerpt">
-                                {post.excerpt}
-                            </p>
+                            <p className="blog-post-excerpt">{post.excerpt}</p>
                         </div>
                     )}
 
@@ -269,9 +302,7 @@ export default function BlogClient({ post }) {
                 {toc.length > 0 && (
                     <aside className="blog-post-toc-aside">
                         <div className="blog-post-toc-container">
-                            <h4 className="blog-post-toc-title">
-                                Index
-                            </h4>
+                            <h4 className="blog-post-toc-title">Index</h4>
                             <div className="blog-post-toc-nav">
                                 {toc.map((item, idx) => (
                                     <Link
@@ -279,7 +310,9 @@ export default function BlogClient({ post }) {
                                         href={`#${item.id}`}
                                         className={`blog-post-toc-link ${activeSection === item.id ? 'active' : ''}`}
                                     >
-                                        <span className="blog-post-toc-number">{String(idx + 1).padStart(2, '0')}</span>
+                                        <span className="blog-post-toc-number">
+                                            {String(idx + 1).padStart(2, '0')}
+                                        </span>
                                         {item.text}
                                     </Link>
                                 ))}

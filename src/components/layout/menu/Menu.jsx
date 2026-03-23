@@ -431,9 +431,18 @@ const Menu = ({ pageRef }) => {
                 const openLabel = openLabelRef.current;
                 const closeLabel = closeLabelRef.current;
 
-                gsap.killTweensOf([menuOverlay, menuImage, ...menuLinks, linkHighlighter, openLabel, closeLabel]);
+                gsap.killTweensOf([
+                    menuOverlay,
+                    menuImage,
+                    ...menuLinks,
+                    linkHighlighter,
+                    openLabel,
+                    closeLabel,
+                ]);
 
-                gsap.set(menuOverlay, { clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)' });
+                gsap.set(menuOverlay, {
+                    clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)',
+                });
                 gsap.set(menuLinks, { y: '150%' });
                 gsap.set(linkHighlighter, { y: '150%' });
                 gsap.set(menuImage, { y: '0', scale: 0.5, opacity: 0.25 });
@@ -443,13 +452,17 @@ const Menu = ({ pageRef }) => {
 
                 menuColsRef.current.forEach((col) => {
                     if (!col) return;
-                    gsap.set(col.querySelectorAll('.split-line'), { y: '100%' });
+                    gsap.set(col.querySelectorAll('.split-line'), {
+                        y: '100%',
+                    });
                 });
 
                 currentX.current = 0;
                 targetX.current = 0;
-                setIsMenuOpen(false);
-                setIsMenuAnimating(false);
+                setTimeout(() => {
+                    setIsMenuOpen(false);
+                    setIsMenuAnimating(false);
+                }, 0);
             }
         }
     }, [pathname, isMenuOpen]);
@@ -461,7 +474,10 @@ const Menu = ({ pageRef }) => {
         <>
             <nav className="">
                 <div className="flex gap-4 items-center">
-                    <div className="nav-logo" style={{ mixBlendMode: 'difference' }}>
+                    <div
+                        className="nav-logo"
+                        style={{ mixBlendMode: 'difference' }}
+                    >
                         <Link
                             href="/"
                             className="flex w-fit flex-row gap-2 items-center"
@@ -487,7 +503,9 @@ const Menu = ({ pageRef }) => {
                     <button
                         className="nav-sound-toggle"
                         type="button"
-                        aria-label={soundEnabled ? 'Mute sounds' : 'Enable sounds'}
+                        aria-label={
+                            soundEnabled ? 'Mute sounds' : 'Enable sounds'
+                        }
                         aria-pressed={soundEnabled}
                         onClick={toggleSound}
                     >

@@ -1,6 +1,7 @@
 import { client } from '@/lib/sanityClient';
 import { FEATURED_PHOTOS_QUERY } from '../../../sanity/lib/queries';
 import HomeClient from '../../components/home/HomeClient';
+import Link from 'next/link';
 
 export const metadata = {
     title: 'Supratik Sahis — Photographer & Visual Storyteller',
@@ -96,7 +97,8 @@ function generateJsonLd(images) {
                     '@type': 'SearchAction',
                     target: {
                         '@type': 'EntryPoint',
-                        urlTemplate: 'https://storyfinder.me/gallery?q={search_term_string}',
+                        urlTemplate:
+                            'https://storyfinder.me/gallery?q={search_term_string}',
                     },
                     'query-input': 'required name=search_term_string',
                 },
@@ -153,25 +155,27 @@ export default async function Home() {
             >
                 <h1>Supratik Sahis — Photographer &amp; Visual Storyteller</h1>
                 <p>
-                    Professional photographer based in Kolkata, originally from Bankura,
-                    West Bengal. Specializing in portrait, documentary, editorial, fine
-                    art, and wildlife photography. Capturing moments that refuse to repeat
-                    themselves.
+                    Professional photographer based in Kolkata, originally from
+                    Bankura, West Bengal. Specializing in portrait, documentary,
+                    editorial, fine art, and wildlife photography. Capturing
+                    moments that refuse to repeat themselves.
                 </p>
                 <h2>Featured Photography</h2>
                 <ul>
                     {data?.map((photo) => (
                         <li key={photo._id}>
-                            <a href={`/gallery/${photo.slug}`}>{photo.title}</a>
+                            <Link href={`/gallery/${photo.slug}`}>
+                                {photo.title}
+                            </Link>
                         </li>
                     ))}
                 </ul>
                 <nav aria-label="Main sections">
-                    <a href="/gallery">Explore Full Gallery</a>
-                    <a href="/about">About the Photographer</a>
-                    <a href="/before-after">Retouching Portfolio</a>
-                    <a href="/blog">Photography Blog</a>
-                    <a href="/contact">Contact</a>
+                    <Link href="/gallery">Explore Full Gallery</Link>
+                    <Link href="/about">About the Photographer</Link>
+                    <Link href="/before-after">Retouching Portfolio</Link>
+                    <Link href="/blog">Photography Blog</Link>
+                    <Link href="/contact">Contact</Link>
                 </nav>
             </div>
 

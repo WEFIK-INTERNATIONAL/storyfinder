@@ -13,10 +13,14 @@ export default function HomeClient({ images }) {
     const [mounted, setMounted] = useState(false);
     const overlayRef = useRef(null);
 
-    useEffect(() => { setMounted(true); }, []);
+    useEffect(() => {
+        const t = setTimeout(() => setMounted(true), 0);
+        return () => clearTimeout(t);
+    }, []);
 
     useEffect(() => {
-        if (!mounted || isMobileOrTablet === undefined || isMobileOrTablet) return;
+        if (!mounted || isMobileOrTablet === undefined || isMobileOrTablet)
+            return;
 
         const revealOverlay = () => {
             const el = overlayRef.current;
@@ -74,12 +78,17 @@ export default function HomeClient({ images }) {
                     aria-label="Homepage secondary navigation and controls"
                 >
                     <div className="home-overlay__item hidden lg:flex">
-                        <span className="home-overlay__label tracking-widest">DRAG</span>
-                        <span className="home-overlay__value text-white/50 tracking-widest">[EXPLORE]</span>
+                        <span className="home-overlay__label tracking-widest">
+                            DRAG
+                        </span>
+                        <span className="home-overlay__value text-white/50 tracking-widest">
+                            [EXPLORE]
+                        </span>
                     </div>
 
                     <div className="home-overlay__item home-overlay__tagline !hidden xl:!block">
-                        SUPRATIK SAHIS IS A VISUAL STORYTELLER<br/>
+                        SUPRATIK SAHIS IS A VISUAL STORYTELLER
+                        <br />
                         CRAFTING EXPERIENCES THROUGH PHOTOGRAPHY.
                     </div>
                 </div>
