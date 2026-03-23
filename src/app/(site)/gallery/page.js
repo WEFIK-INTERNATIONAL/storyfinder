@@ -38,7 +38,8 @@ export const metadata = {
     twitter: {
         card: 'summary_large_image',
         title: 'Photography Galleries | Storyfinder',
-        description: 'Browse curated photography collections by Supratik Sahis.',
+        description:
+            'Browse curated photography collections by Supratik Sahis.',
         images: ['https://storyfinder.me/fallback/fallback-image-profile.png'],
     },
     alternates: {

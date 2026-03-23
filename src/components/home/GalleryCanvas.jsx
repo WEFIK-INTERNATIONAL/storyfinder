@@ -487,7 +487,7 @@ export default function GalleryCanvas({ images = [] }) {
                 },
             });
         },
-        [setCurrentGapStore, initDraggable]
+        [setCurrentGapStore, initDraggable, GRID_ITEMS]
     );
 
     const updateZoomButtons = useCallback((activeEl, zoomLevel) => {
@@ -510,70 +510,6 @@ export default function GalleryCanvas({ images = [] }) {
             }
         }
     }, []);
-
-    const setZoom = useCallback(
-        (zoomLevel, buttonEl = null) => {
-            if (zoomStateRef.current.isActive) {
-                exitZoomMode();
-                return;
-            }
-
-            const newGap = calculateGapForZoom(zoomLevel);
-            const oldZoom = stateRef.current.currentZoom;
-            soundManager.play(zoomLevel < oldZoom ? 'zoom-out' : 'zoom-in');
-
-            localDispatch({ type: 'SET_ZOOM', zoom: zoomLevel, gap: newGap });
-            setZoomStore(zoomLevel);
-            animateZoomTransition(zoomLevel, newGap);
-            if (percentageRef.current)
-                percentageRef.current.textContent = `${Math.round(zoomLevel * 100)}%`;
-            updateZoomButtons(buttonEl, zoomLevel);
-        },
-        [animateZoomTransition, setZoomStore, updateZoomButtons]
-    );
-
-    const autoFitZoom = useCallback(
-        (buttonEl = null) => {
-            if (zoomStateRef.current.isActive) {
-                exitZoomMode();
-                return;
-            }
-
-            const fitZoom = calculateFitZoom();
-            const newGap = calculateGapForZoom(fitZoom);
-            const oldZoom = stateRef.current.currentZoom;
-            soundManager.play(fitZoom < oldZoom ? 'zoom-out' : 'zoom-in');
-
-            localDispatch({ type: 'SET_ZOOM', zoom: fitZoom, gap: newGap });
-            setZoomStore(fitZoom);
-            animateZoomTransition(fitZoom, newGap, 1.0);
-            if (percentageRef.current)
-                percentageRef.current.textContent = `${Math.round(fitZoom * 100)}%`;
-            updateZoomButtons(buttonEl, null);
-        },
-        [animateZoomTransition, setZoomStore, updateZoomButtons]
-    );
-
-    const resetPosition = useCallback(() => {
-        if (zoomStateRef.current.isActive) {
-            exitZoomMode();
-            return;
-        }
-        const { currentZoom, currentGap } = stateRef.current;
-        const dims = calculateGridDimensions(currentZoom, currentGap);
-        const x = (window.innerWidth - dims.scaledWidth) / 2;
-        const y = (window.innerHeight - dims.scaledHeight) / 2;
-        gsap.to(canvasWrapperRef.current, {
-            duration: 1.0,
-            x,
-            y,
-            ease: centerEase,
-            onComplete: () => {
-                lastValidPosRef.current = { x, y };
-                initDraggable(currentZoom, currentGap);
-            },
-        });
-    }, [initDraggable]);
 
     const exitZoomMode = useCallback(() => {
         const zs = zoomStateRef.current;
@@ -690,6 +626,70 @@ export default function GalleryCanvas({ images = [] }) {
             },
         });
     }, [closeImageStore, releaseFocusTrap]);
+
+    const setZoom = useCallback(
+        (zoomLevel, buttonEl = null) => {
+            if (zoomStateRef.current.isActive) {
+                exitZoomMode();
+                return;
+            }
+
+            const newGap = calculateGapForZoom(zoomLevel);
+            const oldZoom = stateRef.current.currentZoom;
+            soundManager.play(zoomLevel < oldZoom ? 'zoom-out' : 'zoom-in');
+
+            localDispatch({ type: 'SET_ZOOM', zoom: zoomLevel, gap: newGap });
+            setZoomStore(zoomLevel);
+            animateZoomTransition(zoomLevel, newGap);
+            if (percentageRef.current)
+                percentageRef.current.textContent = `${Math.round(zoomLevel * 100)}%`;
+            updateZoomButtons(buttonEl, zoomLevel);
+        },
+        [animateZoomTransition, setZoomStore, updateZoomButtons, exitZoomMode]
+    );
+
+    const autoFitZoom = useCallback(
+        (buttonEl = null) => {
+            if (zoomStateRef.current.isActive) {
+                exitZoomMode();
+                return;
+            }
+
+            const fitZoom = calculateFitZoom();
+            const newGap = calculateGapForZoom(fitZoom);
+            const oldZoom = stateRef.current.currentZoom;
+            soundManager.play(fitZoom < oldZoom ? 'zoom-out' : 'zoom-in');
+
+            localDispatch({ type: 'SET_ZOOM', zoom: fitZoom, gap: newGap });
+            setZoomStore(fitZoom);
+            animateZoomTransition(fitZoom, newGap, 1.0);
+            if (percentageRef.current)
+                percentageRef.current.textContent = `${Math.round(fitZoom * 100)}%`;
+            updateZoomButtons(buttonEl, null);
+        },
+        [animateZoomTransition, setZoomStore, updateZoomButtons, exitZoomMode]
+    );
+
+    const resetPosition = useCallback(() => {
+        if (zoomStateRef.current.isActive) {
+            exitZoomMode();
+            return;
+        }
+        const { currentZoom, currentGap } = stateRef.current;
+        const dims = calculateGridDimensions(currentZoom, currentGap);
+        const x = (window.innerWidth - dims.scaledWidth) / 2;
+        const y = (window.innerHeight - dims.scaledHeight) / 2;
+        gsap.to(canvasWrapperRef.current, {
+            duration: 1.0,
+            x,
+            y,
+            ease: centerEase,
+            onComplete: () => {
+                lastValidPosRef.current = { x, y };
+                initDraggable(currentZoom, currentGap);
+            },
+        });
+    }, [initDraggable, exitZoomMode]);
 
     const enterZoomMode = useCallback(
         (index) => {
@@ -822,7 +822,7 @@ export default function GalleryCanvas({ images = [] }) {
             zoomStateRef.current._keyHandler = keyHandler;
             document.addEventListener('keydown', keyHandler);
         },
-        [openImageStore, exitZoomMode, trapFocus]
+        [openImageStore, exitZoomMode, trapFocus, GRID_ITEMS]
     );
 
     const showControls = useCallback(() => {
@@ -906,7 +906,7 @@ export default function GalleryCanvas({ images = [] }) {
                 showControls();
             },
         });
-    }, [showControls]);
+    }, [showControls, GRID_ITEMS]);
 
     const setupViewportObserver = useCallback(() => {
         observerRef.current?.disconnect();
@@ -943,7 +943,7 @@ export default function GalleryCanvas({ images = [] }) {
             const el = itemRefs.current[i]?.wrapper;
             if (el) observerRef.current.observe(el);
         });
-    }, []);
+    }, [GRID_ITEMS]);
 
     useEffect(() => {
         const wrapper = canvasWrapperRef.current;
@@ -1022,6 +1022,8 @@ export default function GalleryCanvas({ images = [] }) {
             },
         });
 
+        const zs = zoomStateRef.current;
+        const items = itemRefs.current;
         return () => {
             if (preloaderListenerRef.current) {
                 window.removeEventListener(
@@ -1035,15 +1037,21 @@ export default function GalleryCanvas({ images = [] }) {
             clearTimeout(resizeTimerRef.current);
             gsap.killTweensOf(wrapper);
             GRID_ITEMS.forEach((_, i) => {
-                const el = itemRefs.current[i]?.wrapper;
+                const el = items[i]?.wrapper;
                 if (el) gsap.killTweensOf(el);
             });
             observerRef.current?.disconnect();
             draggableRef.current?.kill();
-            zoomStateRef.current.scalingOverlay?.remove();
+            zs.scalingOverlay?.remove();
             document.body.classList.remove('dragging', 'zoom-mode');
         };
-    }, []);
+    }, [
+        GRID_ITEMS,
+        initDraggable,
+        initSoundWave,
+        playIntroAnimation,
+        setupViewportObserver,
+    ]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -1249,13 +1257,16 @@ export default function GalleryCanvas({ images = [] }) {
             {/* Controls */}
             <div
                 className="controls-container fixed bottom-5 left-1/2 -translate-x-1/2 flex opacity-0"
-                style={{ transition: 'left 1.2s cubic-bezier(0.87,0,0.13,1)', zIndex: 'var(--z-controls)' }}
+                style={{
+                    transition: 'left 1.2s cubic-bezier(0.87,0,0.13,1)',
+                    zIndex: 'var(--z-controls)',
+                }}
                 ref={controlsRef}
                 role="toolbar"
                 aria-label="Gallery controls"
             >
                 <div
-                    className="percentage-indicator bg-[#ff6e14] px-3 md:px-5 py-[0.625em] rounded-[0.25em] flex items-center justify-center font-display text-[0.85em] font-normal uppercase text-[#e3e3db] min-w-[3em] md:min-w-[5em] whitespace-nowrap"
+                    className="percentage-indicator bg-[#ff6e14] px-3 md:px-5 py-[0.625em] rounded-[0.25em] flex items-center justify-center font-display text-[0.85em] font-normal uppercase text-rt-cream min-w-[3em] md:min-w-[5em] whitespace-nowrap"
                     ref={percentageRef}
                     aria-live="polite"
                     aria-label="Current zoom level"

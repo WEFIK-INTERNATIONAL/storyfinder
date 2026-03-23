@@ -35,18 +35,18 @@
 }
 
 @theme {
-  --color-rt-dark:    #141210;
-  --color-rt-darker:  #0f0d0b;
-  --color-rt-cream:   #e3e3db;
-  --color-rt-orange:  #c0501a;
+    --color-rt-dark: #141210;
+    --color-rt-darker: #0f0d0b;
+    --color-rt-cream: #e3e3db;
+    --color-rt-orange: #c0501a;
 
-  --font-family-display: var(--font-big-shoulders), sans-serif;
-  --font-family-mono:    var(--font-monolith), monospace;
+    --font-family-display: var(--font-big-shoulders), sans-serif;
+    --font-family-mono: var(--font-monolith), monospace;
 
-  --animate-rt-spin:    rt-spin 0.9s linear infinite;
-  --animate-rt-wipe:    rt-wipe 0.9s cubic-bezier(0.77, 0, 0.18, 1) forwards;
-  --animate-rt-wipe-sm: rt-wipe 0.75s cubic-bezier(0.77, 0, 0.18, 1) forwards;
-  --animate-rt-pulse:   rt-pulse 1.5s ease-in-out infinite;
+    --animate-rt-spin: rt-spin 0.9s linear infinite;
+    --animate-rt-wipe: rt-wipe 0.9s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+    --animate-rt-wipe-sm: rt-wipe 0.75s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+    --animate-rt-pulse: rt-pulse 1.5s ease-in-out infinite;
 }
 
 @layer utilities {
@@ -227,5 +227,3 @@ body.zoom-mode {
 .logo-container:hover .circle-2 {
     transform: translate(0.5rem, -50%);
 }
-
-

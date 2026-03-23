@@ -92,7 +92,9 @@ const StoryfinderLogo = ({ className = '', width = 28, height = 28 }) => {
             {PATHS.map((d, i) => (
                 <path
                     key={i}
-                    ref={(el) => { pathRefs.current[i] = el; }}
+                    ref={(el) => {
+                        pathRefs.current[i] = el;
+                    }}
                     d={d}
                     fill="white"
                     style={{ opacity: 0 }}

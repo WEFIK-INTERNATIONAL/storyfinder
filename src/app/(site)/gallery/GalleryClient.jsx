@@ -166,8 +166,14 @@ const GalleryClient = ({ galleries }) => {
                                                         alt={imgData.title}
                                                         fill
                                                         sizes="(max-width: 1000px) 0vw, 250px"
-                                                        placeholder={imgData.lqip ? 'blur' : 'empty'}
-                                                        blurDataURL={imgData.lqip}
+                                                        placeholder={
+                                                            imgData.lqip
+                                                                ? 'blur'
+                                                                : 'empty'
+                                                        }
+                                                        blurDataURL={
+                                                            imgData.lqip
+                                                        }
                                                         className="object-cover"
                                                     />
                                                 </div>

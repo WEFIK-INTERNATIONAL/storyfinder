@@ -247,11 +247,21 @@
     z-index: 0;
 }
 
-.af-cta-btn:hover::before { transform: scaleX(1); }
-.af-cta-btn:hover          { color: #e3e3db; }
+.af-cta-btn:hover::before {
+    transform: scaleX(1);
+}
+.af-cta-btn:hover {
+    color: #e3e3db;
+}
 .af-cta-btn span,
-.af-cta-btn svg            { position: relative; z-index: 1; }
-.af-cta-btn:hover svg      { transform: translateX(4px); transition: transform 0.3s; }
+.af-cta-btn svg {
+    position: relative;
+    z-index: 1;
+}
+.af-cta-btn:hover svg {
+    transform: translateX(4px);
+    transition: transform 0.3s;
+}
 
 /* ================================================================
    RESPONSIVE
@@ -261,13 +271,32 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 1.25rem;
     }
-    .af-headline { padding: 2.5rem 5vw 0; }
+    .af-headline {
+        padding: 2.5rem 5vw 0;
+    }
 }
 
 @media (max-width: 600px) {
-    .af-header   { padding: 3.5rem 1.5rem 0; }
-    .af-headline { padding: 2rem 1.5rem 0; flex-direction: column; align-items: flex-start; }
-    .af-grid     { grid-template-columns: 1fr; padding: 2.5rem 1.5rem 3.5rem; }
-    .af-cta-row  { padding: 0 1.5rem 3.5rem; flex-direction: column; align-items: flex-start; }
-    .af-intro-band { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+    .af-header {
+        padding: 3.5rem 1.5rem 0;
+    }
+    .af-headline {
+        padding: 2rem 1.5rem 0;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .af-grid {
+        grid-template-columns: 1fr;
+        padding: 2.5rem 1.5rem 3.5rem;
+    }
+    .af-cta-row {
+        padding: 0 1.5rem 3.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .af-intro-band {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+    }
 }

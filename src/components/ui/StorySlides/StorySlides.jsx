@@ -6,21 +6,6 @@ import Button from '@/components/ui/button/Button';
 import Image from 'next/image';
 
 export default function StorySlides({ stories }) {
-    if (!stories || stories.length === 0) {
-        return (
-            <div className="flex flex-col gap-6 items-center justify-center w-full min-h-screen bg-[#111] text-[#e3e3db]">
-                <p className="font-display text-sm tracking-widest uppercase opacity-40">
-                    No stories found yet
-                </p>
-                <div className="link">
-                    <Button variant="light" href="/">
-                        Back to Home
-                    </Button>
-                </div>
-            </div>
-        );
-    }
-
     const storiesContainerRef = useRef(null);
     const activeStoryRef = useRef(0);
     const isAnimatingRef = useRef(false);
@@ -30,10 +15,10 @@ export default function StorySlides({ stories }) {
     const contentUpdateDelay = 0.4;
 
     const [profileImgSrc, setProfileImgSrc] = useState(
-        stories[0]?.profileImg || '/fallback/fallback-image-profile.png'
+        stories?.[0]?.profileImg || '/fallback/fallback-image-profile.png'
     );
     const [profileImgLqip, setProfileImgLqip] = useState(
-        stories[0]?.profileImgLqip || ''
+        stories?.[0]?.profileImgLqip || ''
     );
 
     const resetIndexHighlight = useCallback((index, container) => {
@@ -139,6 +124,7 @@ export default function StorySlides({ stories }) {
     }, []);
 
     useEffect(() => {
+        if (!stories) return;
         changeStoryRef.current = (container) => {
             if (isAnimatingRef.current) return;
             isAnimatingRef.current = true;
@@ -234,10 +220,13 @@ export default function StorySlides({ stories }) {
 
                         animateNewImage(newImgContainer);
                         animateImageScale(currentImg, newStoryImg);
-                        
+
                         // Proceed with highlighting and cleanup only when the image is ready
                         resetIndexHighlight(previousStory, container);
-                        animateIndexHighlight(activeStoryRef.current, container);
+                        animateIndexHighlight(
+                            activeStoryRef.current,
+                            container
+                        );
                         cleanUpElements(container);
 
                         clearTimeout(storyTimeoutRef.current);
@@ -254,9 +243,12 @@ export default function StorySlides({ stories }) {
                         animateNewImage(newImgContainer);
                         animateImageScale(currentImg, newStoryImg);
                         resetIndexHighlight(previousStory, container);
-                        animateIndexHighlight(activeStoryRef.current, container);
+                        animateIndexHighlight(
+                            activeStoryRef.current,
+                            container
+                        );
                         cleanUpElements(container);
-                        
+
                         clearTimeout(storyTimeoutRef.current);
                         storyTimeoutRef.current = setTimeout(
                             () => changeStoryRef.current?.(container),
@@ -268,7 +260,9 @@ export default function StorySlides({ stories }) {
 
             // Profile image update needs a timeout ref too to clear it on unmount
             const profileTimeout = setTimeout(() => {
-                setProfileImgSrc(story.profileImg || '/fallback/fallback-image-profile.png');
+                setProfileImgSrc(
+                    story.profileImg || '/fallback/fallback-image-profile.png'
+                );
                 setProfileImgLqip(story.profileImgLqip || '');
 
                 const link = container.querySelector('.link a');
@@ -293,8 +287,8 @@ export default function StorySlides({ stories }) {
         resetIndexHighlight,
         animateIndexHighlight,
         cleanUpElements,
-        storyDuration,
         contentUpdateDelay,
+        stories,
     ]);
 
     useEffect(() => {
@@ -326,7 +320,22 @@ export default function StorySlides({ stories }) {
             }
             gsap.killTweensOf(container.querySelectorAll('*'));
         };
-    }, [resetIndexHighlight, animateIndexHighlight, storyDuration]);
+    }, [stories, resetIndexHighlight, animateIndexHighlight, storyDuration]);
+
+    if (!stories || stories.length === 0) {
+        return (
+            <div className="flex flex-col gap-6 items-center justify-center w-full min-h-screen bg-[#111] text-rt-cream">
+                <p className="font-display text-sm tracking-widest uppercase opacity-40">
+                    No stories found yet
+                </p>
+                <div className="link">
+                    <Button variant="light" href="/">
+                        Back to Home
+                    </Button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="stories-container stories" ref={storiesContainerRef}>
@@ -348,13 +357,13 @@ export default function StorySlides({ stories }) {
 
             <div className="story-img">
                 <div className="img">
-                    <Image 
-                        src={stories[0].storyImg} 
-                        alt={stories[0]?.profileName || 'Featured Story'} 
-                        fill={true} 
-                        priority={true} 
-                        className="object-cover" 
-                        placeholder={stories[0].storyImgLqip ? "blur" : "empty"}
+                    <Image
+                        src={stories[0].storyImg}
+                        alt={stories[0]?.profileName || 'Featured Story'}
+                        fill={true}
+                        priority={true}
+                        className="object-cover"
+                        placeholder={stories[0].storyImgLqip ? 'blur' : 'empty'}
                         blurDataURL={stories[0].storyImgLqip || undefined}
                     />
                 </div>
@@ -379,11 +388,14 @@ export default function StorySlides({ stories }) {
 
                     <div className="profile">
                         <div className="profile-icon">
-                            <Image 
-                                src={profileImgSrc || '/fallback/fallback-image-profile.png'} 
-                                alt="" 
-                                fill={true} 
-                                placeholder={profileImgLqip ? "blur" : "empty"}
+                            <Image
+                                src={
+                                    profileImgSrc ||
+                                    '/fallback/fallback-image-profile.png'
+                                }
+                                alt=""
+                                fill={true}
+                                placeholder={profileImgLqip ? 'blur' : 'empty'}
                                 blurDataURL={profileImgLqip || undefined}
                             />
                         </div>

@@ -39,7 +39,8 @@ export const metadata = {
     twitter: {
         card: 'summary_large_image',
         title: 'Before & After Retouching | Storyfinder',
-        description: 'Professional retouching transformations by Supratik Sahis.',
+        description:
+            'Professional retouching transformations by Supratik Sahis.',
         images: ['https://storyfinder.me/fallback/fallback-image-profile.png'],
     },
     alternates: {

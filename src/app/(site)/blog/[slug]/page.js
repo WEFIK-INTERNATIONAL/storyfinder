@@ -21,7 +21,8 @@ export async function generateMetadata({ params }) {
 
     return {
         title: `${post.title} | Storyfinder Journal`,
-        description: post.excerpt || 'A journal entry from photographer Supratik Sahis.',
+        description:
+            post.excerpt || 'A journal entry from photographer Supratik Sahis.',
         keywords: [
             ...(post.categories?.map((c) => c.title) || []),
             'photography blog',
@@ -30,7 +31,9 @@ export async function generateMetadata({ params }) {
             'Storyfinder journal',
             post.title,
         ],
-        authors: [{ name: 'Supratik Sahis', url: 'https://storyfinder.me/about' }],
+        authors: [
+            { name: 'Supratik Sahis', url: 'https://storyfinder.me/about' },
+        ],
         openGraph: {
             title: `${post.title} | Storyfinder`,
             description: post.excerpt,

@@ -23,7 +23,6 @@ export default function Minimap({
     const router = useRouter();
 
     const state = useRef({
-        isHorizontal: false,
         maxTranslate: 0,
         currentTranslate: 0,
         targetTranslate: 0,
@@ -43,6 +42,10 @@ export default function Minimap({
     const [previewReady, setPreviewReady] = useState(false);
     const [copied, setCopied] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
+    const [isHorizontal, setIsHorizontal] = useState(() => {
+        if (typeof window === 'undefined') return false;
+        return window.innerWidth <= 900;
+    });
 
     const imageKeys = useMemo(
         () => images.map((img, i) => img.id ?? img.src ?? String(i)),
@@ -50,12 +53,15 @@ export default function Minimap({
     );
 
     const lerp = (s, e, f) => s + (e - s) * f;
-    const getPos = useCallback((e) => {
-        const touch = e.touches?.[0] ?? e.changedTouches?.[0];
-        return state.current.isHorizontal
-            ? (touch?.clientX ?? e.clientX)
-            : (touch?.clientY ?? e.clientY);
-    }, []);
+    const getPos = useCallback(
+        (e) => {
+            const touch = e.touches?.[0] ?? e.changedTouches?.[0];
+            return isHorizontal
+                ? (touch?.clientX ?? e.clientX)
+                : (touch?.clientY ?? e.clientY);
+        },
+        [isHorizontal]
+    );
 
     const clamp = useCallback((value) => {
         const st = state.current;
@@ -77,12 +83,15 @@ export default function Minimap({
         [images.length]
     );
 
-    const applyTransform = useCallback((value) => {
-        if (!itemsRef.current) return;
-        itemsRef.current.style.transform = state.current.isHorizontal
-            ? `translateX(${value}px)`
-            : `translateY(${value}px)`;
-    }, []);
+    const applyTransform = useCallback(
+        (value) => {
+            if (!itemsRef.current) return;
+            itemsRef.current.style.transform = isHorizontal
+                ? `translateX(${value}px)`
+                : `translateY(${value}px)`;
+        },
+        [isHorizontal]
+    );
 
     const syncOpacity = useCallback((idx) => {
         itemRefs.current.forEach((el, i) => {
@@ -229,7 +238,8 @@ export default function Minimap({
 
     const handleResize = useCallback(() => {
         const st = state.current;
-        st.isHorizontal = window.innerWidth <= 900;
+        const horizontal = window.innerWidth <= 900;
+        setIsHorizontal(horizontal);
         st.maxTranslate = computeMaxTranslate();
         const clamped = clamp(st.targetTranslate);
         st.targetTranslate = clamped;
@@ -246,9 +256,12 @@ export default function Minimap({
             const response = await fetch(previewSrc);
             const blob = await response.blob();
             const blobUrl = window.URL.createObjectURL(blob);
-            
-            const filename = `${category || 'gallery'}-${state.current.currentIndex + 1}.jpg`.toLowerCase().replace(/\s+/g, '-');
-            
+
+            const filename =
+                `${category || 'gallery'}-${state.current.currentIndex + 1}.jpg`
+                    .toLowerCase()
+                    .replace(/\s+/g, '-');
+
             const a = document.createElement('a');
             a.href = blobUrl;
             a.download = filename;
@@ -289,7 +302,8 @@ export default function Minimap({
         if (!images.length) return;
 
         const st = state.current;
-        st.isHorizontal = window.innerWidth <= 900;
+        const horizontal = window.innerWidth <= 900;
+        setTimeout(() => setIsHorizontal(horizontal), 0);
         st.maxTranslate = computeMaxTranslate();
         st.currentTranslate = 0;
         st.targetTranslate = 0;
@@ -389,7 +403,9 @@ export default function Minimap({
                         fill
                         priority
                         className={`minimap-preview-img ${previewReady ? 'is-ready' : ''}`}
-                        placeholder={images[activeIndex]?.lqip ? 'blur' : 'empty'}
+                        placeholder={
+                            images[activeIndex]?.lqip ? 'blur' : 'empty'
+                        }
                         blurDataURL={images[activeIndex]?.lqip}
                         onLoad={() => setPreviewReady(true)}
                         sizes="100vw"
@@ -463,9 +479,7 @@ export default function Minimap({
                 className="minimap-strip"
                 role="listbox"
                 aria-label={`${category} image thumbnails`}
-                aria-orientation={
-                    state.current.isHorizontal ? 'horizontal' : 'vertical'
-                }
+                aria-orientation={isHorizontal ? 'horizontal' : 'vertical'}
             >
                 <div className="minimap-indicator" aria-hidden="true" />
 

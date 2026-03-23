@@ -23,12 +23,18 @@ export function useMobile() {
     }, []);
 
     const isMobile =
-        windowWidth !== undefined ? windowWidth < BREAKPOINTS.mobile : undefined;
+        windowWidth !== undefined
+            ? windowWidth < BREAKPOINTS.mobile
+            : undefined;
     const isTablet =
-        windowWidth !== undefined ?
-        (windowWidth >= BREAKPOINTS.mobile && windowWidth < BREAKPOINTS.tablet) : undefined;
+        windowWidth !== undefined
+            ? windowWidth >= BREAKPOINTS.mobile &&
+              windowWidth < BREAKPOINTS.tablet
+            : undefined;
     const isMobileOrTablet =
-        windowWidth !== undefined ? windowWidth < BREAKPOINTS.tablet : undefined;
+        windowWidth !== undefined
+            ? windowWidth < BREAKPOINTS.tablet
+            : undefined;
 
     return { isMobile, isTablet, isMobileOrTablet };
 }

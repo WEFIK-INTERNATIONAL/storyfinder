@@ -38,69 +38,93 @@ const FEATURED = [
 ];
 
 const AboutFeatured = () => {
-    const sectionRef   = useRef(null);
-    const cardsRef     = useRef([]);
-    const ruleRef      = useRef(null);
-    const headlineRef  = useRef(null);
-    const subtitleRef  = useRef(null);
-    const ctaRef       = useRef(null);
+    const sectionRef = useRef(null);
+    const cardsRef = useRef([]);
+    const ruleRef = useRef(null);
+    const headlineRef = useRef(null);
+    const subtitleRef = useRef(null);
+    const ctaRef = useRef(null);
 
     const pathname = usePathname();
     const { navigateWithTransition } = useViewTransition();
 
-    useGSAP(() => {
-        /* Animate the rule */
-        if (ruleRef.current) {
-            gsap.from(ruleRef.current, {
-                scaleX: 0,
-                transformOrigin: 'left',
-                duration: 1.4,
-                ease: 'expo.inOut',
-                scrollTrigger: { trigger: ruleRef.current, start: 'top 90%' },
-            });
-        }
+    useGSAP(
+        () => {
+            /* Animate the rule */
+            if (ruleRef.current) {
+                gsap.from(ruleRef.current, {
+                    scaleX: 0,
+                    transformOrigin: 'left',
+                    duration: 1.4,
+                    ease: 'expo.inOut',
+                    scrollTrigger: {
+                        trigger: ruleRef.current,
+                        start: 'top 90%',
+                    },
+                });
+            }
 
-        /* Stagger cards in */
-        cardsRef.current.forEach((card, i) => {
-            if (!card) return;
-            gsap.from(card, {
-                y: 60,
-                opacity: 0,
-                duration: 0.9,
-                delay: i * 0.08,
-                ease: 'power3.out',
-                scrollTrigger: { trigger: card, start: 'top 92%' },
+            /* Stagger cards in */
+            cardsRef.current.forEach((card, i) => {
+                if (!card) return;
+                gsap.from(card, {
+                    y: 60,
+                    opacity: 0,
+                    duration: 0.9,
+                    delay: i * 0.08,
+                    ease: 'power3.out',
+                    scrollTrigger: { trigger: card, start: 'top 92%' },
+                });
             });
-        });
 
-        /* Headline slides up */
-        if (headlineRef.current) {
-            gsap.from(headlineRef.current, {
-                y: 50, opacity: 0, duration: 1, ease: 'power3.out',
-                scrollTrigger: { trigger: headlineRef.current, start: 'top 90%' },
-            });
-        }
+            /* Headline slides up */
+            if (headlineRef.current) {
+                gsap.from(headlineRef.current, {
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: headlineRef.current,
+                        start: 'top 90%',
+                    },
+                });
+            }
 
-        /* Subtitle fades in */
-        if (subtitleRef.current) {
-            gsap.from(subtitleRef.current, {
-                y: 30, opacity: 0, duration: 0.9, delay: 0.15, ease: 'power3.out',
-                scrollTrigger: { trigger: subtitleRef.current, start: 'top 92%' },
-            });
-        }
+            /* Subtitle fades in */
+            if (subtitleRef.current) {
+                gsap.from(subtitleRef.current, {
+                    y: 30,
+                    opacity: 0,
+                    duration: 0.9,
+                    delay: 0.15,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: subtitleRef.current,
+                        start: 'top 92%',
+                    },
+                });
+            }
 
-        /* CTA row slides up */
-        if (ctaRef.current) {
-            gsap.from(ctaRef.current, {
-                y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
-                scrollTrigger: { trigger: ctaRef.current, start: 'top 94%' },
-            });
-        }
-    }, { scope: sectionRef });
+            /* CTA row slides up */
+            if (ctaRef.current) {
+                gsap.from(ctaRef.current, {
+                    y: 30,
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: ctaRef.current,
+                        start: 'top 94%',
+                    },
+                });
+            }
+        },
+        { scope: sectionRef }
+    );
 
     return (
         <section ref={sectionRef} className="af">
-
             {/* ── HEADER ── */}
             <div className="af-header">
                 <div className="af-intro-band">
@@ -116,8 +140,8 @@ const AboutFeatured = () => {
                     In The <span className="af-title-ghost">Press</span>
                 </h2>
                 <p ref={subtitleRef} className="af-subtitle">
-                    Selected photographs featured in leading publications
-                    and news articles around the world.
+                    Selected photographs featured in leading publications and
+                    news articles around the world.
                 </p>
             </div>
 
@@ -126,7 +150,7 @@ const AboutFeatured = () => {
                 {FEATURED.map((item, i) => (
                     <div
                         key={item.id}
-                        ref={el => (cardsRef.current[i] = el)}
+                        ref={(el) => (cardsRef.current[i] = el)}
                         className="af-card"
                     >
                         <div className="af-card-img">
@@ -140,12 +164,18 @@ const AboutFeatured = () => {
                             <div className="af-card-overlay" />
 
                             {/* Publication badge */}
-                            <span className="af-card-pub">{item.publication}</span>
+                            <span className="af-card-pub">
+                                {item.publication}
+                            </span>
 
                             {/* Bottom info */}
                             <div className="af-card-info">
-                                <span className="af-card-title">{item.title}</span>
-                                <span className="af-card-caption">{item.caption}</span>
+                                <span className="af-card-title">
+                                    {item.title}
+                                </span>
+                                <span className="af-card-caption">
+                                    {item.caption}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -155,8 +185,8 @@ const AboutFeatured = () => {
             {/* ── CTA ── */}
             <div ref={ctaRef} className="af-cta-row">
                 <span className="af-cta-note">More features coming soon</span>
-                <Link 
-                    href="/featured" 
+                <Link
+                    href="/featured"
                     className="af-cta-btn"
                     onClick={(e) => {
                         e.preventDefault();
@@ -166,11 +196,16 @@ const AboutFeatured = () => {
                 >
                     <span>View All Features</span>
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                        <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path
+                            d="M2 7h10M7 2l5 5-5 5"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
                     </svg>
                 </Link>
             </div>
-
         </section>
     );
 };

@@ -192,7 +192,11 @@
     bottom: 0.3em;
     width: 3px;
     border-radius: 2px;
-    background: linear-gradient(to bottom, var(--color-rt-orange, #c0501a), transparent);
+    background: linear-gradient(
+        to bottom,
+        var(--color-rt-orange, #c0501a),
+        transparent
+    );
 }
 
 .blog-post-excerpt {
@@ -278,7 +282,9 @@
     color: var(--color-rt-orange, #c0501a);
     text-decoration: none;
     border-bottom: 1px solid rgba(192, 80, 26, 0.3);
-    transition: border-bottom-color 0.3s ease, color 0.3s ease;
+    transition:
+        border-bottom-color 0.3s ease,
+        color 0.3s ease;
 }
 
 .blog-prose a:hover {
@@ -308,7 +314,7 @@
 }
 
 .blog-prose ul li::before {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     top: 0.65em;
@@ -378,7 +384,9 @@
     color: rgba(227, 227, 219, 0.4);
     text-decoration: none;
     padding: 0.8rem 0;
-    transition: color 0.3s ease, gap 0.3s ease;
+    transition:
+        color 0.3s ease,
+        gap 0.3s ease;
 }
 
 .blog-post-back-link:hover {

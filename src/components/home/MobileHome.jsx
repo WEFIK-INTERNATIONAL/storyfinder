@@ -11,27 +11,72 @@ import { useViewTransition } from '@/hooks/useViewTransition';
 import soundManager from '@/lib/soundManager';
 
 const FEATURED_WORK = [
-    { src: '/spotlight/spotlight-1.jpg', num: '01', title: 'Golden Hour Portrait' },
-    { src: '/spotlight/spotlight-5.jpg', num: '02', title: 'Into the Wild' },
-    { src: '/spotlight/spotlight-9.jpg', num: '03', title: 'Misty Horizons' },
-    { src: '/featured-work/work-2.jpg', num: '04', title: 'Urban Chronicles' },
-    { src: '/featured-work/work-4.jpg', num: '05', title: 'Silent Frames' },
+    {
+        src: '/mhomework/mhomework_1.jpg',
+        num: '01',
+        title: 'Sacred fiery ritual',
+    },
+    {
+        src: '/mhomework/mhomework_2.jpg',
+        num: '02',
+        title: 'Calm intense gaze',
+    },
+    {
+        src: '/mhomework/mhomework_3.jpg',
+        num: '03',
+        title: 'Majestic architecture',
+    },
+    {
+        src: '/mhomework/mhomework_4.jpg',
+        num: '04',
+        title: 'Childhood festive focus',
+    },
+    {
+        src: '/mhomework/mhomework_5.jpg',
+        num: '05',
+        title: 'Serene coastal solitude',
+    },
 ];
 
 const EXPERTISE = [
-    { num: '01', name: 'Portrait', desc: 'Sculpting character, mood, and narrative through controlled light and intimate framing.' },
-    { num: '02', name: 'Documentary', desc: 'Raw, unscripted moments preserved in their purest emotional form.' },
-    { num: '03', name: 'Editorial', desc: 'Curated visual stories crafted for publications, brands, and print media.' },
-    { num: '04', name: 'Fine Art', desc: 'Where photography meets concept — images designed to evoke, not just represent.' },
-    { num: '05', name: 'Retouch', desc: 'Pixel-level refinement that elevates every frame to its highest possible form.' },
-    { num: '06', name: 'Wildlife', desc: 'Patience and instinct collide — capturing untamed beauty in fleeting seconds.' },
+    {
+        num: '01',
+        name: 'Portrait',
+        desc: 'Sculpting character, mood, and narrative through controlled light and intimate framing.',
+    },
+    {
+        num: '02',
+        name: 'Street',
+        desc: 'Capturing the raw, unscripted pulse of the city — where chaos meets composition.',
+    },
+    {
+        num: '03',
+        name: 'Travel',
+        desc: 'Documenting journeys that blend cultural immersion with visual storytelling.',
+    },
+    {
+        num: '04',
+        name: 'Nature',
+        desc: 'Where the wild speaks — blending untamed landscapes with refined composition.',
+    },
+    {
+        num: '05',
+        name: 'Indoor',
+        desc: 'Transforming spaces into experiences through light, shadow, and perspective.',
+    },
+    {
+        num: '06',
+        name: 'Others',
+        desc: 'Beyond the frame — exploring the spaces between moments and genres.',
+    },
 ];
 
 const BLOG_POSTS = [
     {
         slug: 'the-art-of-golden-hour',
         title: 'The Art of Golden Hour',
-        excerpt: 'Why the last 40 minutes of sunlight create unrepeatable magic — and how to chase it.',
+        excerpt:
+            'Why the last 40 minutes of sunlight create unrepeatable magic — and how to chase it.',
         date: 'Feb 2026',
         tag: 'Technique',
         img: '/spotlight/spotlight-2.jpg',
@@ -39,7 +84,8 @@ const BLOG_POSTS = [
     {
         slug: 'kolkata-through-my-lens',
         title: 'Kolkata Through My Lens',
-        excerpt: 'A visual diary of vanishing lanes, monsoon reflections, and faces that carry centuries.',
+        excerpt:
+            'A visual diary of vanishing lanes, monsoon reflections, and faces that carry centuries.',
         date: 'Jan 2026',
         tag: 'Stories',
         img: '/spotlight/spotlight-6.jpg',
@@ -47,7 +93,8 @@ const BLOG_POSTS = [
     {
         slug: 'behind-the-retouch',
         title: 'Behind The Retouch',
-        excerpt: 'From raw capture to final frame — a transparent look at my editing philosophy.',
+        excerpt:
+            'From raw capture to final frame — a transparent look at my editing philosophy.',
         date: 'Dec 2025',
         tag: 'Process',
         img: '/spotlight/spotlight-10.jpg',
@@ -71,164 +118,266 @@ export default function MobileHome() {
         navigateWithTransition(href);
     };
 
-    useGSAP(() => {
-        /* ══════════════════════════════════════════════
+    useGSAP(
+        () => {
+            /* ══════════════════════════════════════════════
            CINEMATIC LOAD SEQUENCE
            ══════════════════════════════════════════════ */
-        const loadTl = gsap.timeline({ delay: 0.3 });
+            const loadTl = gsap.timeline({ delay: 0.3 });
 
-        // Phase 1 — Reveal line sweeps across
-        loadTl
-            .fromTo('.mh-hero-reveal-line',
-                { scaleX: 0 },
-                { scaleX: 1, duration: 0.8, ease: 'power4.inOut' }, 0
-            )
-            .to('.mh-hero-reveal-line',
-                { opacity: 0, duration: 0.4, ease: 'power2.out' }, 0.7
-            )
+            // Phase 1 — Reveal line sweeps across
+            loadTl
+                .fromTo(
+                    '.mh-hero-reveal-line',
+                    { scaleX: 0 },
+                    { scaleX: 1, duration: 0.8, ease: 'power4.inOut' },
+                    0
+                )
+                .to(
+                    '.mh-hero-reveal-line',
+                    { opacity: 0, duration: 0.4, ease: 'power2.out' },
+                    0.7
+                )
 
-        // Phase 2 — Gradient background fades in
-            .fromTo('.mh-hero-gradient',
-                { opacity: 0 },
-                { opacity: 1, duration: 1.2, ease: 'power2.out' }, 0.3
-            )
+                // Phase 2 — Gradient background fades in
+                .fromTo(
+                    '.mh-hero-gradient',
+                    { opacity: 0 },
+                    { opacity: 1, duration: 1.2, ease: 'power2.out' },
+                    0.3
+                )
 
-        // Phase 3 — Particles fade in
-            .fromTo('.mh-hero-particles',
-                { opacity: 0 },
-                { opacity: 1, duration: 1.5, ease: 'power1.out' }, 0.5
-            )
+                // Phase 3 — Particles fade in
+                .fromTo(
+                    '.mh-hero-particles',
+                    { opacity: 0 },
+                    { opacity: 1, duration: 1.5, ease: 'power1.out' },
+                    0.5
+                )
 
-        // Phase 4 — Lens ring scales up with rotation
-            .to('.mh-hero-ring-wrap', {
-                scale: 1,
-                opacity: 1,
-                duration: 2.0,
-                ease: 'expo.out',
-            }, 0.5)
-            .fromTo('.mh-hero-ring',
-                { rotation: -180 },
-                { rotation: 0, duration: 2.0, ease: 'expo.out' }, 0.5
-            )
+                // Phase 4 — Lens ring scales up with rotation
+                .to(
+                    '.mh-hero-ring-wrap',
+                    {
+                        scale: 1,
+                        opacity: 1,
+                        duration: 2.0,
+                        ease: 'expo.out',
+                    },
+                    0.5
+                )
+                .fromTo(
+                    '.mh-hero-ring',
+                    { rotation: -180 },
+                    { rotation: 0, duration: 2.0, ease: 'expo.out' },
+                    0.5
+                )
 
-        // Phase 5 — Orb ignites with flash
-            .to('.mh-hero-orb', {
-                scale: 1,
+                // Phase 5 — Orb ignites with flash
+                .to(
+                    '.mh-hero-orb',
+                    {
+                        scale: 1,
+                        opacity: 0.5,
+                        duration: 0.6,
+                        ease: 'power3.out',
+                    },
+                    1.0
+                )
+                .fromTo(
+                    '.mh-hero-orb-flash',
+                    { opacity: 0, scale: 0.5 },
+                    {
+                        opacity: 0.8,
+                        scale: 2.5,
+                        duration: 0.4,
+                        ease: 'power2.out',
+                    },
+                    1.0
+                )
+                .to(
+                    '.mh-hero-orb-flash',
+                    { opacity: 0, scale: 3, duration: 0.6, ease: 'power2.out' },
+                    1.3
+                )
+
+                // Phase 6 — Glow breathes in
+                .to(
+                    '.mh-hero-ring-glow',
+                    {
+                        opacity: 0.35,
+                        duration: 1.2,
+                        ease: 'power2.out',
+                    },
+                    1.2
+                )
+
+                // Phase 7 — Text cascades in
+                .fromTo(
+                    '.mh-hero-index',
+                    { opacity: 0, x: -20 },
+                    { opacity: 0.4, x: 0, duration: 0.5, ease: 'power3.out' },
+                    1.4
+                )
+                .fromTo(
+                    '.mh-hero-name-line',
+                    { opacity: 0, y: 60, skewY: 3 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        skewY: 0,
+                        duration: 0.9,
+                        stagger: 0.15,
+                        ease: 'power4.out',
+                    },
+                    1.5
+                )
+                .fromTo(
+                    '.mh-hero-tagline',
+                    { opacity: 0, y: 16 },
+                    { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+                    1.9
+                )
+
+                // Phase 8 — Scroll indicator drops in
+                .fromTo(
+                    '.mh-hero-scroll',
+                    { opacity: 0, y: 10 },
+                    { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+                    2.2
+                )
+
+                // Phase 9 — Scanlines texture fades in subtly
+                .fromTo(
+                    '.mh-hero-scanlines',
+                    { opacity: 0 },
+                    { opacity: 1, duration: 1.0, ease: 'power1.out' },
+                    1.5
+                );
+
+            /* ── hero ring continuous rotation ── */
+            gsap.to('.mh-hero-ring', {
+                rotation: 360,
+                duration: 50,
+                repeat: -1,
+                ease: 'none',
+            });
+
+            /* ── hero ring glow pulse ── */
+            gsap.to('.mh-hero-ring-glow', {
                 opacity: 0.5,
-                duration: 0.6,
-                ease: 'power3.out',
-            }, 1.0)
-            .fromTo('.mh-hero-orb-flash',
-                { opacity: 0, scale: 0.5 },
-                { opacity: 0.8, scale: 2.5, duration: 0.4, ease: 'power2.out' }, 1.0
-            )
-            .to('.mh-hero-orb-flash',
-                { opacity: 0, scale: 3, duration: 0.6, ease: 'power2.out' }, 1.3
-            )
+                scale: 1.05,
+                duration: 4,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                delay: 2,
+            });
 
-        // Phase 6 — Glow breathes in
-            .to('.mh-hero-ring-glow', {
-                opacity: 0.35,
-                duration: 1.2,
-                ease: 'power2.out',
-            }, 1.2)
+            /* ── hero orb pulse ── */
+            gsap.to('.mh-hero-orb', {
+                scale: 1.3,
+                opacity: 0.7,
+                duration: 3,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                delay: 2,
+            });
 
-        // Phase 7 — Text cascades in
-            .fromTo('.mh-hero-index',
-                { opacity: 0, x: -20 },
-                { opacity: 0.4, x: 0, duration: 0.5, ease: 'power3.out' }, 1.4
-            )
-            .fromTo('.mh-hero-name-line',
-                { opacity: 0, y: 60, skewY: 3 },
-                { opacity: 1, y: 0, skewY: 0, duration: 0.9, stagger: 0.15, ease: 'power4.out' }, 1.5
-            )
-            .fromTo('.mh-hero-tagline',
-                { opacity: 0, y: 16 },
-                { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, 1.9
-            )
-
-        // Phase 8 — Scroll indicator drops in
-            .fromTo('.mh-hero-scroll',
-                { opacity: 0, y: 10 },
-                { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 2.2
-            )
-
-        // Phase 9 — Scanlines texture fades in subtly
-            .fromTo('.mh-hero-scanlines',
-                { opacity: 0 },
-                { opacity: 1, duration: 1.0, ease: 'power1.out' }, 1.5
+            /* ── work items stagger ── */
+            gsap.fromTo(
+                '.mh-work-item',
+                { opacity: 0, y: 40 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.12,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.mh-work',
+                        start: 'top 85%',
+                        once: true,
+                    },
+                }
             );
 
-        /* ── hero ring continuous rotation ── */
-        gsap.to('.mh-hero-ring', {
-            rotation: 360,
-            duration: 50,
-            repeat: -1,
-            ease: 'none',
-        });
+            /* ── work CTA ── */
+            gsap.fromTo(
+                '.mh-work-gallery-cta',
+                { opacity: 0, y: 16 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.mh-work-gallery-cta',
+                        start: 'top 92%',
+                        once: true,
+                    },
+                }
+            );
 
-        /* ── hero ring glow pulse ── */
-        gsap.to('.mh-hero-ring-glow', {
-            opacity: 0.5,
-            scale: 1.05,
-            duration: 4,
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut',
-            delay: 2,
-        });
+            /* ── expertise items ── */
+            gsap.fromTo(
+                '.mh-expertise-item',
+                { opacity: 0, y: 24 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.08,
+                    duration: 0.7,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.mh-expertise',
+                        start: 'top 85%',
+                        once: true,
+                    },
+                }
+            );
 
-        /* ── hero orb pulse ── */
-        gsap.to('.mh-hero-orb', {
-            scale: 1.3,
-            opacity: 0.7,
-            duration: 3,
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut',
-            delay: 2,
-        });
+            /* ── blog cards ── */
+            gsap.fromTo(
+                '.mh-blog-card',
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.1,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.mh-blog',
+                        start: 'top 85%',
+                        once: true,
+                    },
+                }
+            );
 
-        /* ── work items stagger ── */
-        gsap.fromTo('.mh-work-item',
-            { opacity: 0, y: 40 },
-            { opacity: 1, y: 0, stagger: 0.12, duration: 0.8, ease: 'power3.out',
-              scrollTrigger: { trigger: '.mh-work', start: 'top 85%', once: true } }
-        );
-
-        /* ── work CTA ── */
-        gsap.fromTo('.mh-work-gallery-cta',
-            { opacity: 0, y: 16 },
-            { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-              scrollTrigger: { trigger: '.mh-work-gallery-cta', start: 'top 92%', once: true } }
-        );
-
-        /* ── expertise items ── */
-        gsap.fromTo('.mh-expertise-item',
-            { opacity: 0, y: 24 },
-            { opacity: 1, y: 0, stagger: 0.08, duration: 0.7, ease: 'power3.out',
-              scrollTrigger: { trigger: '.mh-expertise', start: 'top 85%', once: true } }
-        );
-
-        /* ── blog cards ── */
-        gsap.fromTo('.mh-blog-card',
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: 'power3.out',
-              scrollTrigger: { trigger: '.mh-blog', start: 'top 85%', once: true } }
-        );
-
-        /* ── blog CTA ── */
-        gsap.fromTo('.mh-blog-cta',
-            { opacity: 0, y: 16 },
-            { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-              scrollTrigger: { trigger: '.mh-blog-cta', start: 'top 92%', once: true } }
-        );
-
-    }, { scope: rootRef });
+            /* ── blog CTA ── */
+            gsap.fromTo(
+                '.mh-blog-cta',
+                { opacity: 0, y: 16 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.mh-blog-cta',
+                        start: 'top 92%',
+                        once: true,
+                    },
+                }
+            );
+        },
+        { scope: rootRef }
+    );
 
     return (
         <div className="mh" ref={rootRef}>
-
             {/* ── HERO ── */}
             <section className="mh-hero">
                 {/* Load reveal line */}
@@ -260,13 +409,31 @@ export default function MobileHome() {
                     <div className="mh-hero-ring">
                         <svg viewBox="0 0 400 400" fill="none">
                             {/* ── LENS BARREL — outer rings ── */}
-                            <circle cx="200" cy="200" r="195" stroke="rgba(255,110,20,0.03)" strokeWidth="0.5" />
-                            <circle cx="200" cy="200" r="185" stroke="rgba(255,110,20,0.06)" strokeWidth="0.5" />
-                            <circle cx="200" cy="200" r="170" stroke="rgba(255,110,20,0.18)" strokeWidth="0.8" />
+                            <circle
+                                cx="200"
+                                cy="200"
+                                r="195"
+                                stroke="rgba(255,110,20,0.03)"
+                                strokeWidth="0.5"
+                            />
+                            <circle
+                                cx="200"
+                                cy="200"
+                                r="185"
+                                stroke="rgba(255,110,20,0.06)"
+                                strokeWidth="0.5"
+                            />
+                            <circle
+                                cx="200"
+                                cy="200"
+                                r="170"
+                                stroke="rgba(255,110,20,0.18)"
+                                strokeWidth="0.8"
+                            />
 
                             {/* ── GRIP TEXTURE — tick marks on barrel ── */}
                             {[...Array(72)].map((_, i) => {
-                                const angle = (i * 5) * (Math.PI / 180);
+                                const angle = i * 5 * (Math.PI / 180);
                                 const isLong = i % 6 === 0;
                                 const innerR = isLong ? 163 : 166;
                                 const x1 = 200 + innerR * Math.cos(angle);
@@ -276,36 +443,77 @@ export default function MobileHome() {
                                 return (
                                     <line
                                         key={`tick-${i}`}
-                                        x1={x1} y1={y1} x2={x2} y2={y2}
-                                        stroke={isLong ? 'rgba(255,110,20,0.3)' : 'rgba(255,110,20,0.10)'}
+                                        x1={x1}
+                                        y1={y1}
+                                        x2={x2}
+                                        y2={y2}
+                                        stroke={
+                                            isLong
+                                                ? 'rgba(255,110,20,0.3)'
+                                                : 'rgba(255,110,20,0.10)'
+                                        }
                                         strokeWidth={isLong ? '0.8' : '0.4'}
                                     />
                                 );
                             })}
 
                             {/* ── FOCUS RING — dashed inner barrel ── */}
-                            <circle cx="200" cy="200" r="155" stroke="rgba(255,110,20,0.10)" strokeWidth="0.5" strokeDasharray="8 6" />
+                            <circle
+                                cx="200"
+                                cy="200"
+                                r="155"
+                                stroke="rgba(255,110,20,0.10)"
+                                strokeWidth="0.5"
+                                strokeDasharray="8 6"
+                            />
 
                             {/* ── GLASS ELEMENTS — concentric lens rings ── */}
-                            <circle cx="200" cy="200" r="140" stroke="rgba(255,255,255,0.08)" strokeWidth="0.6" />
-                            <circle cx="200" cy="200" r="120" stroke="rgba(255,110,20,0.10)" strokeWidth="0.4" />
-                            <circle cx="200" cy="200" r="100" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+                            <circle
+                                cx="200"
+                                cy="200"
+                                r="140"
+                                stroke="rgba(255,255,255,0.08)"
+                                strokeWidth="0.6"
+                            />
+                            <circle
+                                cx="200"
+                                cy="200"
+                                r="120"
+                                stroke="rgba(255,110,20,0.10)"
+                                strokeWidth="0.4"
+                            />
+                            <circle
+                                cx="200"
+                                cy="200"
+                                r="100"
+                                stroke="rgba(255,255,255,0.06)"
+                                strokeWidth="0.5"
+                            />
 
                             {/* ── IRIS / APERTURE BLADES — 8 blades ── */}
                             {[...Array(8)].map((_, i) => {
-                                const angle = (i * 45) * (Math.PI / 180);
-                                const nextAngle = ((i * 45) + 45) * (Math.PI / 180);
+                                const angle = i * 45 * (Math.PI / 180);
+                                const nextAngle =
+                                    (i * 45 + 45) * (Math.PI / 180);
                                 const outerR = 80;
                                 const innerR = 38;
                                 // Each blade is a quadrilateral
-                                const ox1 = 200 + outerR * Math.cos(angle - 0.12);
-                                const oy1 = 200 + outerR * Math.sin(angle - 0.12);
-                                const ox2 = 200 + outerR * Math.cos(angle + 0.32);
-                                const oy2 = 200 + outerR * Math.sin(angle + 0.32);
-                                const ix1 = 200 + innerR * Math.cos(angle + 0.15);
-                                const iy1 = 200 + innerR * Math.sin(angle + 0.15);
-                                const ix2 = 200 + innerR * Math.cos(angle + 0.45);
-                                const iy2 = 200 + innerR * Math.sin(angle + 0.45);
+                                const ox1 =
+                                    200 + outerR * Math.cos(angle - 0.12);
+                                const oy1 =
+                                    200 + outerR * Math.sin(angle - 0.12);
+                                const ox2 =
+                                    200 + outerR * Math.cos(angle + 0.32);
+                                const oy2 =
+                                    200 + outerR * Math.sin(angle + 0.32);
+                                const ix1 =
+                                    200 + innerR * Math.cos(angle + 0.15);
+                                const iy1 =
+                                    200 + innerR * Math.sin(angle + 0.15);
+                                const ix2 =
+                                    200 + innerR * Math.cos(angle + 0.45);
+                                const iy2 =
+                                    200 + innerR * Math.sin(angle + 0.45);
                                 return (
                                     <polygon
                                         key={`blade-${i}`}
@@ -318,19 +526,63 @@ export default function MobileHome() {
                             })}
 
                             {/* ── APERTURE OPENING — the lens eye ── */}
-                            <circle cx="200" cy="200" r="38" fill="rgba(255,110,20,0.03)" stroke="rgba(255,110,20,0.15)" strokeWidth="0.6" />
-                            <circle cx="200" cy="200" r="28" fill="rgba(255,110,20,0.02)" stroke="rgba(255,255,255,0.06)" strokeWidth="0.4" />
-                            <circle cx="200" cy="200" r="16" fill="rgba(255,110,20,0.05)" stroke="rgba(255,110,20,0.10)" strokeWidth="0.3" />
+                            <circle
+                                cx="200"
+                                cy="200"
+                                r="38"
+                                fill="rgba(255,110,20,0.03)"
+                                stroke="rgba(255,110,20,0.15)"
+                                strokeWidth="0.6"
+                            />
+                            <circle
+                                cx="200"
+                                cy="200"
+                                r="28"
+                                fill="rgba(255,110,20,0.02)"
+                                stroke="rgba(255,255,255,0.06)"
+                                strokeWidth="0.4"
+                            />
+                            <circle
+                                cx="200"
+                                cy="200"
+                                r="16"
+                                fill="rgba(255,110,20,0.05)"
+                                stroke="rgba(255,110,20,0.10)"
+                                strokeWidth="0.3"
+                            />
                             {/* Center dot — the pupil */}
-                            <circle cx="200" cy="200" r="4" fill="rgba(255,110,20,0.35)" />
+                            <circle
+                                cx="200"
+                                cy="200"
+                                r="4"
+                                fill="rgba(255,110,20,0.35)"
+                            />
 
                             {/* ── LENS COATING REFLECTIONS — curved arcs ── */}
-                            <path d="M 145 130 Q 170 115 200 112" stroke="rgba(255,255,255,0.06)" strokeWidth="0.8" strokeLinecap="round" />
-                            <path d="M 240 280 Q 260 270 270 250" stroke="rgba(255,255,255,0.04)" strokeWidth="0.6" strokeLinecap="round" />
-                            <path d="M 130 220 Q 125 200 130 180" stroke="rgba(255,110,20,0.05)" strokeWidth="0.5" strokeLinecap="round" />
+                            <path
+                                d="M 145 130 Q 170 115 200 112"
+                                stroke="rgba(255,255,255,0.06)"
+                                strokeWidth="0.8"
+                                strokeLinecap="round"
+                            />
+                            <path
+                                d="M 240 280 Q 260 270 270 250"
+                                stroke="rgba(255,255,255,0.04)"
+                                strokeWidth="0.6"
+                                strokeLinecap="round"
+                            />
+                            <path
+                                d="M 130 220 Q 125 200 130 180"
+                                stroke="rgba(255,110,20,0.05)"
+                                strokeWidth="0.5"
+                                strokeLinecap="round"
+                            />
 
                             {/* ── FOCUS DISTANCE MARKS ── */}
-                            {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg) => {
+                            {[
+                                0, 30, 60, 90, 120, 150, 180, 210, 240, 270,
+                                300, 330,
+                            ].map((deg) => {
                                 const angle = deg * (Math.PI / 180);
                                 const x1 = 200 + 140 * Math.cos(angle);
                                 const y1 = 200 + 140 * Math.sin(angle);
@@ -339,7 +591,10 @@ export default function MobileHome() {
                                 return (
                                     <line
                                         key={`focus-${deg}`}
-                                        x1={x1} y1={y1} x2={x2} y2={y2}
+                                        x1={x1}
+                                        y1={y1}
+                                        x2={x2}
+                                        y2={y2}
                                         stroke="rgba(255,255,255,0.12)"
                                         strokeWidth="0.5"
                                     />
@@ -351,12 +606,40 @@ export default function MobileHome() {
                                 const angle = deg * (Math.PI / 180);
                                 const cx = 200 + 170 * Math.cos(angle);
                                 const cy = 200 + 170 * Math.sin(angle);
-                                return <circle key={`card-${deg}`} cx={cx} cy={cy} r="2.5" fill="rgba(255,110,20,0.5)" />;
+                                return (
+                                    <circle
+                                        key={`card-${deg}`}
+                                        cx={cx}
+                                        cy={cy}
+                                        r="2.5"
+                                        fill="rgba(255,110,20,0.5)"
+                                    />
+                                );
                             })}
 
                             {/* ── TINY LENS LABELS ── */}
-                            <text x="200" y="96" textAnchor="middle" fill="rgba(255,110,20,0.12)" fontSize="5" fontFamily="monospace" letterSpacing="0.15em">50MM</text>
-                            <text x="200" y="310" textAnchor="middle" fill="rgba(255,255,255,0.06)" fontSize="4.5" fontFamily="monospace" letterSpacing="0.15em">F/1.4</text>
+                            <text
+                                x="200"
+                                y="96"
+                                textAnchor="middle"
+                                fill="rgba(255,110,20,0.12)"
+                                fontSize="5"
+                                fontFamily="monospace"
+                                letterSpacing="0.15em"
+                            >
+                                50MM
+                            </text>
+                            <text
+                                x="200"
+                                y="310"
+                                textAnchor="middle"
+                                fill="rgba(255,255,255,0.06)"
+                                fontSize="4.5"
+                                fontFamily="monospace"
+                                letterSpacing="0.15em"
+                            >
+                                F/1.4
+                            </text>
                         </svg>
                     </div>
                 </div>
@@ -374,7 +657,9 @@ export default function MobileHome() {
                     <span className="mh-hero-index">01 — Storyfinder</span>
                     <h1 className="mh-hero-name">
                         <span className="mh-hero-name-line">Supratik</span>
-                        <span className="mh-hero-name-line">Sahis<em>.</em></span>
+                        <span className="mh-hero-name-line">
+                            Sahis<em>.</em>
+                        </span>
                     </h1>
                     <p className="mh-hero-tagline">
                         Photographer &amp; visual storyteller based in Kolkata,
@@ -407,23 +692,41 @@ export default function MobileHome() {
                                 quality={75}
                             />
                             <div className="mh-work-caption">
-                                <span className="mh-work-caption-num">{item.num}</span>
-                                <span className="mh-work-caption-title">{item.title}</span>
+                                <span className="mh-work-caption-num">
+                                    {item.num}
+                                </span>
+                                <span className="mh-work-caption-title">
+                                    {item.title}
+                                </span>
                             </div>
                         </div>
                     ))}
                 </div>
 
                 {/* Gallery CTA — editorial underline style */}
-                <Link 
-                    href="/gallery" 
+                <Link
+                    href="/gallery"
                     className="mh-work-gallery-cta"
                     onClick={(e) => handleNav(e, '/gallery')}
                 >
-                    <span className="mh-work-gallery-cta-label">Explore Full Gallery</span>
+                    <span className="mh-work-gallery-cta-label">
+                        Explore Full Gallery
+                    </span>
                     <span className="mh-work-gallery-cta-line" />
-                    <svg className="mh-work-gallery-cta-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                        <path d="M5 13L13 5M13 5H6M13 5v7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                    <svg
+                        className="mh-work-gallery-cta-arrow"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 18 18"
+                        fill="none"
+                    >
+                        <path
+                            d="M5 13L13 5M13 5H6M13 5v7"
+                            stroke="currentColor"
+                            strokeWidth="1.2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
                     </svg>
                 </Link>
             </section>
@@ -441,8 +744,20 @@ export default function MobileHome() {
                             <h4 className="mh-expertise-name">{item.name}</h4>
                             <p className="mh-expertise-desc">{item.desc}</p>
                         </div>
-                        <svg className="mh-expertise-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M4 12L12 4M12 4H5M12 4v7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                        <svg
+                            className="mh-expertise-arrow"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                        >
+                            <path
+                                d="M4 12L12 4M12 4H5M12 4v7"
+                                stroke="currentColor"
+                                strokeWidth="1.2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
                         </svg>
                     </div>
                 ))}
@@ -472,26 +787,56 @@ export default function MobileHome() {
                         </div>
                         <div className="mh-blog-card-body">
                             <div className="mh-blog-card-meta">
-                                <span className="mh-blog-card-tag">{post.tag}</span>
-                                <span className="mh-blog-card-date">{post.date}</span>
+                                <span className="mh-blog-card-tag">
+                                    {post.tag}
+                                </span>
+                                <span className="mh-blog-card-date">
+                                    {post.date}
+                                </span>
                             </div>
                             <h4 className="mh-blog-card-title">{post.title}</h4>
-                            <p className="mh-blog-card-excerpt">{post.excerpt}</p>
+                            <p className="mh-blog-card-excerpt">
+                                {post.excerpt}
+                            </p>
                         </div>
-                        <svg className="mh-blog-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M4 12L12 4M12 4H6M12 4v6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                        <svg
+                            className="mh-blog-card-arrow"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                        >
+                            <path
+                                d="M4 12L12 4M12 4H6M12 4v6"
+                                stroke="currentColor"
+                                strokeWidth="1.2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
                         </svg>
                     </Link>
                 ))}
-                <Link 
-                    href="/blog" 
+                <Link
+                    href="/blog"
                     className="mh-blog-cta"
                     onClick={(e) => handleNav(e, '/blog')}
                 >
                     <span className="mh-blog-cta-label">Read All Posts</span>
                     <span className="mh-blog-cta-line" />
-                    <svg className="mh-blog-cta-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                        <path d="M5 13L13 5M13 5H6M13 5v7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                    <svg
+                        className="mh-blog-cta-arrow"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 18 18"
+                        fill="none"
+                    >
+                        <path
+                            d="M5 13L13 5M13 5H6M13 5v7"
+                            stroke="currentColor"
+                            strokeWidth="1.2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
                     </svg>
                 </Link>
             </section>

@@ -63,9 +63,13 @@ class SoundManager {
                 audio.preload = 'auto';
                 audio.loop = true;
                 audio.volume = this.musicVolume;
-                audio.addEventListener('canplaythrough', () => {
-                    this.ready.set(name, true);
-                }, { once: true });
+                audio.addEventListener(
+                    'canplaythrough',
+                    () => {
+                        this.ready.set(name, true);
+                    },
+                    { once: true }
+                );
                 this._loopAudio = audio;
                 this.ready.set(name, false);
                 return;
@@ -93,9 +97,13 @@ class SoundManager {
             }
 
             // Track readiness via the first element
-            pool[0].addEventListener('canplaythrough', () => {
-                this.ready.set(name, true);
-            }, { once: true });
+            pool[0].addEventListener(
+                'canplaythrough',
+                () => {
+                    this.ready.set(name, true);
+                },
+                { once: true }
+            );
 
             this.pools.set(name, pool);
             this.poolIndex.set(name, 0);
@@ -142,7 +150,8 @@ class SoundManager {
         try {
             const response = await fetch('/sounds/click.mp3');
             const arrayBuffer = await response.arrayBuffer();
-            this._clickBuffer = await this._audioCtx.decodeAudioData(arrayBuffer);
+            this._clickBuffer =
+                await this._audioCtx.decodeAudioData(arrayBuffer);
         } catch (e) {
             // Fallback to HTML Audio pool if fetch/decode fails
         }

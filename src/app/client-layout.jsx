@@ -75,13 +75,18 @@ export default function ClientLayout({ children }) {
             // Exclude GalleryCanvas controls — they have their own sounds
             if (target.closest('.controls-container')) return;
             // Exclude the sound toggle in GalleryCanvas controls
-            if (target.closest('.sound-toggle') && target.closest('.controls-container')) return;
+            if (
+                target.closest('.sound-toggle') &&
+                target.closest('.controls-container')
+            )
+                return;
 
             soundManager.play('click');
         };
 
         document.addEventListener('click', handleGlobalClick, true);
-        return () => document.removeEventListener('click', handleGlobalClick, true);
+        return () =>
+            document.removeEventListener('click', handleGlobalClick, true);
     }, []);
 
     /* ── Background music: start after first interaction ── */

@@ -273,17 +273,31 @@ const ContactClient = () => {
             <div className="contact-footer">
                 <div className="container">
                     <Copy delay={1.6} animateOnScroll={false}>
-                        <Link href="https://wefik.in" target="_blank" className="sm">Made by Wefik</Link>
+                        <Link
+                            href="https://wefik.in"
+                            target="_blank"
+                            className="sm"
+                        >
+                            Made by Wefik
+                        </Link>
                     </Copy>
 
                     <div className="contact-socials">
                         <Copy delay={1.7} animateOnScroll={false}>
-                            <a className="sm" href="https://www.instagram.com/_storyfinder__" target="_blank">
+                            <a
+                                className="sm"
+                                href="https://www.instagram.com/_storyfinder__"
+                                target="_blank"
+                            >
                                 Instagram
                             </a>
                         </Copy>
                         <Copy delay={1.8} animateOnScroll={false}>
-                            <a className="sm" href="https://www.pexels.com/@story-finder-269808633/" target="_blank">
+                            <a
+                                className="sm"
+                                href="https://www.pexels.com/@story-finder-269808633/"
+                                target="_blank"
+                            >
                                 PIXEL
                             </a>
                         </Copy>
