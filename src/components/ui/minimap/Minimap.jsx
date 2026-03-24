@@ -251,8 +251,6 @@ export default function Minimap({
         if (!previewSrc) return;
 
         try {
-            // Fetch the image as a blob to force the browser to download it
-            // instead of just opening the CDN link in a new tab.
             const response = await fetch(previewSrc);
             const blob = await response.blob();
             const blobUrl = window.URL.createObjectURL(blob);
@@ -271,14 +269,12 @@ export default function Minimap({
             window.URL.revokeObjectURL(blobUrl);
         } catch (err) {
             console.error('Failed to download image:', err);
-            // Fallback opens in new tab
+
             window.open(previewSrc, '_blank');
         }
     }, [previewSrc, category]);
 
     const handleShare = useCallback(async () => {
-        // Construct a URL to the webpage, appending the current image index
-        // so that the server can generate a dynamic Open Graph meta image if supported.
         const originUrl = window.location.origin + window.location.pathname;
         const url = `${originUrl}?img=${activeIndex}`;
 
@@ -381,7 +377,7 @@ export default function Minimap({
 
     return (
         <div className={`minimap-root ${className}`.trim()}>
-            {/* ── Category label ── */}
+            {}
             {category && (
                 <div
                     className="minimap-site-info"

@@ -20,7 +20,6 @@ export default function BlogClient({ post }) {
     const [activeSection, setActiveSection] = useState('');
     const containerRef = useRef(null);
 
-    /* ================= Reading Progress ================= */
     useEffect(() => {
         const bar = document.getElementById('reading-bar');
         let raf;
@@ -42,7 +41,6 @@ export default function BlogClient({ post }) {
         };
     }, []);
 
-    /* ================= GSAP Animations ================= */
     useGSAP(
         () => {
             gsap.from('.blog-post-hero-title', {
@@ -69,7 +67,6 @@ export default function BlogClient({ post }) {
                 delay: 0.4,
             });
 
-            // Stagger basic content blocks appearing on scroll
             const contentBlocks = gsap.utils.toArray('.blog-prose > *');
             if (contentBlocks.length > 0) {
                 contentBlocks.forEach((block) => {
@@ -89,7 +86,6 @@ export default function BlogClient({ post }) {
         { scope: containerRef }
     );
 
-    /* ================= TOC ================= */
     useEffect(() => {
         const headings = document.querySelectorAll('h2[data-toc]');
         const items = Array.from(headings).map((h, i) => {
@@ -116,7 +112,6 @@ export default function BlogClient({ post }) {
         return () => clearTimeout(t);
     }, [post.body]);
 
-    /* ================= Active Section Tracking ================= */
     const handleScroll = useCallback(() => {
         const headings = document.querySelectorAll('h2[data-toc]');
         let current = '';
@@ -155,7 +150,6 @@ export default function BlogClient({ post }) {
         post.publishedAt &&
         differenceInDays(new Date(), parseISO(post.publishedAt)) <= 7;
 
-    /* ================= Estimate reading time ================= */
     const estimateReadingTime = () => {
         if (!post.body) return null;
         const text = post.body
@@ -169,7 +163,7 @@ export default function BlogClient({ post }) {
 
     return (
         <article className="blog-post-page" ref={containerRef}>
-            {/* Progress Bar */}
+            {}
             <div className="fixed top-0 left-0 w-full h-1 bg-progress-track z-50">
                 <div
                     id="reading-bar"
@@ -177,7 +171,7 @@ export default function BlogClient({ post }) {
                 />
             </div>
 
-            {/* ================= HERO ================= */}
+            {}
             {post.mainImage && (
                 <div className="relative h-[80vh] min-h-[500px] w-full overflow-hidden bg-black">
                     <Image
@@ -199,11 +193,11 @@ export default function BlogClient({ post }) {
                         }
                     />
 
-                    {/* Gradient Overlay & Grain */}
+                    {}
                     <div className="blog-post-hero-grain" />
                     <div className="absolute inset-0 bg-linear-to-t from-[#0f0d0b] via-black/40 to-transparent" />
 
-                    {/* Overlapping Title */}
+                    {}
                     <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-full max-w-5xl px-6">
                         <h1 className="blog-post-hero-title text-4xl sm:text-6xl md:text-7xl lg:text-[6rem]">
                             {post.title}
@@ -212,14 +206,14 @@ export default function BlogClient({ post }) {
                 </div>
             )}
 
-            {/* ================= CONTENT ================= */}
+            {}
             <div className="blog-post-content-wrapper">
-                {/* METADATA & MAIN CONTENT */}
+                {}
                 <div className="blog-post-main-col">
-                    {/* ── Metadata Strip ── */}
+                    {}
                     <div className="blog-post-meta-strip reveal-meta">
                         <div className="blog-post-meta-left">
-                            {/* Categories */}
+                            {}
                             <div className="blog-post-categories">
                                 {post.categories?.map((cat, idx) => (
                                     <span
@@ -269,14 +263,14 @@ export default function BlogClient({ post }) {
                         </div>
                     </div>
 
-                    {/* ── Excerpt ── */}
+                    {}
                     {post.excerpt && (
                         <div className="blog-post-excerpt-wrapper reveal-excerpt">
                             <p className="blog-post-excerpt">{post.excerpt}</p>
                         </div>
                     )}
 
-                    {/* ── Article Body ── */}
+                    {}
                     <div className="blog-prose w-full">
                         <PortableText
                             value={post.body}
@@ -284,21 +278,21 @@ export default function BlogClient({ post }) {
                         />
                     </div>
 
-                    {/* ── End of Article Marker ── */}
+                    {}
                     <div className="blog-post-end-marker">
                         <span className="blog-post-end-diamond" />
                         <span className="blog-post-end-line" />
                         <span className="blog-post-end-diamond" />
                     </div>
 
-                    {/* ── Back to Journal ── */}
+                    {}
                     <Link href="/blog" className="blog-post-back-link">
                         <FiArrowLeft size={16} />
                         <span>Back to Journal</span>
                     </Link>
                 </div>
 
-                {/* ================= TOC ================= */}
+                {}
                 {toc.length > 0 && (
                     <aside className="blog-post-toc-aside">
                         <div className="blog-post-toc-container">

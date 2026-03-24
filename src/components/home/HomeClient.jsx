@@ -28,14 +28,13 @@ export default function HomeClient({ images }) {
             el.classList.add('home-overlay--visible');
         };
 
-        // Listen for preloader completion, then delay to let gallery intro finish
         const onPreloaderDone = () => {
             window.removeEventListener('preloader:complete', onPreloaderDone);
             setTimeout(revealOverlay, 2800);
         };
 
         window.addEventListener('preloader:complete', onPreloaderDone);
-        // Fallback if preloader already fired
+
         const fallback = setTimeout(revealOverlay, 5000);
 
         return () => {
@@ -71,7 +70,7 @@ export default function HomeClient({ images }) {
                     <div className="absolute inset-0 mix-blend-overlay bg-linear-to-b from-black/90 via-black/50 to-transparent from-0% via-20% to-40% pointer-events-none" />
                 </div>
 
-                {/* Subtle branded overlay — navbar aligned */}
+                {}
                 <div
                     ref={overlayRef}
                     className="home-overlay home-overlay--visible pointer-events-auto"

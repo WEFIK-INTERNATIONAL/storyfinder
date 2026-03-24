@@ -2,7 +2,6 @@
 
 import dynamic from 'next/dynamic';
 
-// R3F Canvas uses WebGL — must be client-only, no SSR
 const DissolveCanvas = dynamic(() => import('./DissolveCanvas'), {
     ssr: false,
     loading: () => null,

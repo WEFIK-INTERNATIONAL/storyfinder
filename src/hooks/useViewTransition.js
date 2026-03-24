@@ -4,12 +4,6 @@ import { useRef, useCallback } from 'react';
 import { useTransitionRouter } from 'next-view-transitions';
 import { gsap } from '@/lib/gsap';
 
-/**
- * Module-level (singleton) lock — ensures only ONE page transition can run at a time
- * regardless of how many components each call useViewTransition().
- * Previously this was a per-hook useRef, which let multiple components start
- * competing transitions that both animated the same shared overlay element.
- */
 let _isTransitioningGlobal = false;
 
 function createSVGOverlay() {

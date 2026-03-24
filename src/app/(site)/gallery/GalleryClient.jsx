@@ -1,6 +1,6 @@
 'use client';
 import './gallery.css';
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import { gsap } from '@/lib/gsap';
 import { useGSAP } from '@gsap/react';
 import { useViewTransition } from '@/hooks/useViewTransition';
@@ -10,13 +10,35 @@ import Footer from '@/components/layout/footer/Footer';
 
 gsap.registerPlugin(useGSAP);
 
+const VARIANT_PATTERN = [
+    'variant-1',
+    'variant-2',
+    'variant-2',
+    'variant-3',
+    'variant-1',
+    'variant-2',
+];
+
 const GalleryClient = ({ galleries }) => {
     const { isMobileOrTablet } = useMobile();
     const { navigateWithTransition } = useViewTransition();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => setMounted(true), 0);
+        return () => clearTimeout(timeout);
+    }, []);
 
     const workPageContainer = useRef(null);
 
-    const workItems = galleries;
+    const workItems = useMemo(
+        () =>
+            galleries.map((item, i) => ({
+                ...item,
+                variant: VARIANT_PATTERN[i] ?? item.variant,
+            })),
+        [galleries]
+    );
 
     useGSAP(
         () => {
@@ -193,7 +215,7 @@ const GalleryClient = ({ galleries }) => {
                     </div>
                 ))}
             </section>
-            {isMobileOrTablet && <Footer />}
+            {mounted && isMobileOrTablet && <Footer />}
         </>
     );
 };

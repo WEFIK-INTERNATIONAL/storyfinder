@@ -14,81 +14,84 @@ const Spotlight = () => {
 
     useGSAP(
         () => {
-            const scrollTriggerInstances = [];
+            const mm = gsap.matchMedia();
 
-            const initSpotlight = () => {
-                new SplitType('.marquee-text-item h1', { types: 'chars' });
+            mm.add(
+                {
+                    isDesktop: '(min-width: 1001px)',
+                    isMobile: '(max-width: 1000px)',
+                },
+                (context) => {
+                    const { isMobile } = context.conditions;
 
-                document
-                    .querySelectorAll('.marquee-container')
-                    .forEach((container, index) => {
-                        const marquee = container.querySelector('.marquee');
-                        const chars = container.querySelectorAll('.char');
-
-                        const marqueeTrigger = gsap.to(marquee, {
-                            x: index % 2 === 0 ? '5%' : '-15%',
-                            scrollTrigger: {
-                                trigger: container,
-                                start: 'top bottom',
-                                end: '150% top',
-                                scrub: true,
-                            },
-                            force3D: true,
+                    const initSpotlight = () => {
+                        new SplitType('.marquee-text-item h1', {
+                            types: 'chars',
                         });
 
-                        const charsTrigger = gsap.fromTo(
-                            chars,
-                            { fontWeight: 100 },
-                            {
-                                fontWeight: 900,
-                                duration: 1,
-                                ease: 'none',
-                                stagger: {
-                                    each: 0.35,
-                                    from: index % 2 === 0 ? 'end' : 'start',
-                                    ease: 'linear',
-                                },
-                                scrollTrigger: {
-                                    trigger: container,
-                                    start: '50% bottom',
-                                    end: 'top top',
-                                    scrub: true,
-                                },
-                            }
-                        );
+                        document
+                            .querySelectorAll('.marquee-container')
+                            .forEach((container, index) => {
+                                const marquee =
+                                    container.querySelector('.marquee');
+                                const chars =
+                                    container.querySelectorAll('.char');
 
-                        if (marqueeTrigger.scrollTrigger) {
-                            scrollTriggerInstances.push(
-                                marqueeTrigger.scrollTrigger
-                            );
-                        }
-                        if (charsTrigger.scrollTrigger) {
-                            scrollTriggerInstances.push(
-                                charsTrigger.scrollTrigger
-                            );
-                        }
-                    });
+                                gsap.to(marquee, {
+                                    x: isMobile
+                                        ? index % 2 === 0
+                                            ? '10%'
+                                            : '-60%'
+                                        : index % 2 === 0
+                                          ? '5%'
+                                          : '-15%',
+                                    scrollTrigger: {
+                                        trigger: container,
+                                        start: 'top bottom',
+                                        end: isMobile ? '300% top' : '150% top',
+                                        scrub: true,
+                                    },
+                                    force3D: true,
+                                });
 
-                ScrollTrigger.refresh();
-            };
+                                gsap.fromTo(
+                                    chars,
+                                    { fontWeight: 100 },
+                                    {
+                                        fontWeight: 900,
+                                        duration: 1,
+                                        ease: 'none',
+                                        stagger: {
+                                            each: 0.35,
+                                            from:
+                                                index % 2 === 0
+                                                    ? 'end'
+                                                    : 'start',
+                                            ease: 'linear',
+                                        },
+                                        scrollTrigger: {
+                                            trigger: container,
+                                            start: isMobile
+                                                ? 'top 90%'
+                                                : '50% bottom',
+                                            end: isMobile
+                                                ? 'top 10%'
+                                                : 'top top',
+                                            scrub: true,
+                                        },
+                                    }
+                                );
+                            });
 
-            const waitForOtherTriggers = () => {
-                const existingTriggers = ScrollTrigger.getAll();
-                const hasPinnedTrigger = existingTriggers.some(
-                    (trigger) => trigger.vars && trigger.vars.pin
-                );
+                        ScrollTrigger.refresh();
+                    };
 
-                if (hasPinnedTrigger || existingTriggers.length > 0) {
-                    setTimeout(initSpotlight, 300);
-                } else {
-                    initSpotlight();
+                    setTimeout(initSpotlight, 100);
                 }
-            };
-
-            setTimeout(waitForOtherTriggers, 100);
+            );
 
             return () => {
-                scrollTriggerInstances.forEach((trigger) => trigger.kill());
+                mm.revert();
             };
         },
         { scope: spotlightRef }
@@ -96,13 +99,13 @@ const Spotlight = () => {
 
     return (
         <section className="spotlight" ref={spotlightRef}>
-            {/* ── header ── */}
+            {}
             <div className="spotlight-header">
                 <span className="spotlight-index">04 — Spotlight</span>
                 <span className="spotlight-label">Selected Works</span>
             </div>
 
-            {/* ── marquees — structure identical to original ── */}
+            {}
             <div className="marquees">
                 <div className="marquee-container" id="marquee-1">
                     <div className="marquee">
@@ -171,7 +174,7 @@ const Spotlight = () => {
                             />
                         </div>
                         <div className="marquee-img-item marquee-text-item">
-                            <h1>Wild Life</h1>
+                            <h1>Nature</h1>
                         </div>
                         <div className="marquee-img-item">
                             <Image
@@ -251,7 +254,7 @@ const Spotlight = () => {
                             />
                         </div>
                         <div className="marquee-img-item marquee-text-item">
-                            <h1>Location</h1>
+                            <h1>Travel</h1>
                         </div>
                         <div className="marquee-img-item">
                             <Image
@@ -263,14 +266,6 @@ const Spotlight = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-
-            {/* ── footer ── */}
-            <div className="spotlight-footer">
-                <span className="spotlight-footer-note">Scroll to explore</span>
-                <span className="spotlight-footer-note">
-                    4 genres — 16 frames
-                </span>
             </div>
         </section>
     );

@@ -213,7 +213,6 @@ export default function StorySlides({ stories }) {
                     newStoryImg.src = story.storyImg;
                     newStoryImg.alt = story.profileName || 'Story Image';
 
-                    // ONLY animate once the image is actually fully loaded
                     newStoryImg.onload = () => {
                         newImgContainer.appendChild(newStoryImg);
                         storyImgDiv.appendChild(newImgContainer);
@@ -221,7 +220,6 @@ export default function StorySlides({ stories }) {
                         animateNewImage(newImgContainer);
                         animateImageScale(currentImg, newStoryImg);
 
-                        // Proceed with highlighting and cleanup only when the image is ready
                         resetIndexHighlight(previousStory, container);
                         animateIndexHighlight(
                             activeStoryRef.current,
@@ -236,7 +234,6 @@ export default function StorySlides({ stories }) {
                         );
                     };
 
-                    // Fallback to animate anyway if the image errors out
                     newStoryImg.onerror = () => {
                         newImgContainer.appendChild(newStoryImg);
                         storyImgDiv.appendChild(newImgContainer);
@@ -258,7 +255,6 @@ export default function StorySlides({ stories }) {
                 }
             }, 500);
 
-            // Profile image update needs a timeout ref too to clear it on unmount
             const profileTimeout = setTimeout(() => {
                 setProfileImgSrc(
                     story.profileImg || '/fallback/fallback-image-profile.png'
@@ -277,7 +273,6 @@ export default function StorySlides({ stories }) {
                 }
             }, 600);
 
-            // Save timeout refs on the container or a ref to clear them if unmounted mid-transition
             if (!container._timeouts) container._timeouts = [];
             container._timeouts.push(profileTimeout);
         };
@@ -339,10 +334,7 @@ export default function StorySlides({ stories }) {
 
     return (
         <div className="stories-container stories" ref={storiesContainerRef}>
-            {/* 
-              Preload all upcoming images so that when the vanilla JS DOM creates 
-              them during the animation, they are instantly fetched from the browser cache 
-            */}
+            {}
             <div className="hidden" aria-hidden="true">
                 {stories.map((story, i) => (
                     <Image

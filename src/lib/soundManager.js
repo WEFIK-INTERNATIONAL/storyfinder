@@ -5,16 +5,14 @@ const POOL_SIZE = 3;
 
 class SoundManager {
     constructor() {
-        /** @type {Map<string, Audio[]>} pool of Audio elements per sound */
         this.pools = new Map();
-        /** @type {Map<string, number>} round-robin index per sound */
+
         this.poolIndex = new Map();
-        /** @type {Map<string, boolean>} whether a sound has loaded enough to play */
+
         this.ready = new Map();
-        /** @type {Map<string, number>} last-played timestamp for debounce */
+
         this._lastPlayed = new Map();
 
-        /** @type {Audio|null} dedicated looping audio element */
         this._loopAudio = null;
         this._loopName = null;
 
@@ -24,32 +22,28 @@ class SoundManager {
         this.isInitialized = false;
         this._interactionUnlocked = false;
 
-        /** Web Audio API context for low-latency click sound */
         this._audioCtx = null;
-        /** @type {AudioBuffer|null} pre-decoded click sound buffer */
+
         this._clickBuffer = null;
 
         this.soundLibrary = {
-            // UI
             click: ['/sounds/click.mp3'],
             hover: ['/sounds/glitch-fx-001.mp3'],
             'button-click': ['/sounds/glitch-fx-001.mp3'],
             'link-click': ['/sounds/click-glitch-001.mp3'],
-            // Gallery
+
             open: ['/sounds/click-glitch-001.mp3'],
             close: ['/sounds/click-glitch-001.mp3'],
             'zoom-in': ['/sounds/whoosh-fx-001.mp3'],
             'zoom-out': ['/sounds/whoosh-fx-001.mp3'],
             'drag-start': ['/sounds/preloader-2s-001.mp3'],
             'drag-end': ['/sounds/preloader-2s-001.mp3'],
-            // Navigation
+
             'page-transition': ['/sounds/page_transition.mp3'],
-            // Background Music
+
             'background-music': ['/sounds/background_music.mp3'],
         };
     }
-
-    /* ── Initialization ───────────────────────────────────────── */
 
     init() {
         if (this.isInitialized) return this;
@@ -57,7 +51,6 @@ class SoundManager {
         Object.entries(this.soundLibrary).forEach(([name, urls]) => {
             const primaryUrl = Array.isArray(urls) ? urls[0] : urls;
 
-            // Background music gets a single dedicated element, not a pool
             if (name === 'background-music') {
                 const audio = new Audio(primaryUrl);
                 audio.preload = 'auto';
@@ -75,14 +68,12 @@ class SoundManager {
                 return;
             }
 
-            // Create a pool of Audio elements for concurrent playback
             const pool = [];
             for (let p = 0; p < POOL_SIZE; p++) {
                 const audio = new Audio(primaryUrl);
                 audio.preload = 'auto';
                 audio.volume = this.volume;
 
-                // Fallback URLs
                 if (Array.isArray(urls) && urls.length > 1) {
                     let fallbackIndex = 1;
                     audio.addEventListener('error', () => {
@@ -96,7 +87,6 @@ class SoundManager {
                 pool.push(audio);
             }
 
-            // Track readiness via the first element
             pool[0].addEventListener(
                 'canplaythrough',
                 () => {
@@ -114,17 +104,10 @@ class SoundManager {
         return this;
     }
 
-    /**
-     * Unlock audio playback after first user interaction.
-     * Uses a silent 1-frame AudioContext buffer — no actual audio files are played,
-     * which eliminates the "audio chaos" that occurred when playing/pausing every
-     * pool element on mobile.
-     */
     initOnInteraction() {
         if (this._interactionUnlocked) return;
         this._interactionUnlocked = true;
 
-        // Unlock via a completely silent AudioContext buffer (no sound files played)
         try {
             const AC = window.AudioContext || window.webkitAudioContext;
             if (AC) {
@@ -134,17 +117,14 @@ class SoundManager {
                 src.buffer = buf;
                 src.connect(ctx.destination);
                 src.start(0);
-                // Keep this context alive as our main Web Audio context
+
                 this._audioCtx = ctx;
-                // Now pre-decode the click sound for zero-latency playback
+
                 this._preloadClickBuffer();
             }
-        } catch (e) {
-            // Web Audio API not available — HTML Audio pool is the fallback
-        }
+        } catch (e) {}
     }
 
-    /** Pre-decode the click sound into a Web Audio buffer for near-zero latency. */
     async _preloadClickBuffer() {
         if (!this._audioCtx) return;
         try {
@@ -152,15 +132,11 @@ class SoundManager {
             const arrayBuffer = await response.arrayBuffer();
             this._clickBuffer =
                 await this._audioCtx.decodeAudioData(arrayBuffer);
-        } catch (e) {
-            // Fallback to HTML Audio pool if fetch/decode fails
-        }
+        } catch (e) {}
     }
 
-    /** Play the click sound instantly via Web Audio API if available. */
     _playClickInstant() {
         if (this._audioCtx && this._clickBuffer) {
-            // Resume context if it was suspended (browser autoplay policy)
             if (this._audioCtx.state === 'suspended') {
                 this._audioCtx.resume().catch(() => {});
             }
@@ -173,15 +149,12 @@ class SoundManager {
             src.start(0);
             return true;
         }
-        return false; // Signal to fall back to HTML Audio pool
+        return false;
     }
-
-    /* ── Playback ─────────────────────────────────────────────── */
 
     play(soundName, options = {}) {
         if (!this.enabled || !this.isInitialized) return;
 
-        // Debounce
         if (!options.force) {
             const now = Date.now();
             const last = this._lastPlayed.get(soundName) ?? 0;
@@ -189,7 +162,6 @@ class SoundManager {
             this._lastPlayed.set(soundName, now);
         }
 
-        // Use the pre-decoded Web Audio buffer for zero-latency click
         if (soundName === 'click' && !options.volume) {
             if (this._playClickInstant()) return;
         }
@@ -202,7 +174,6 @@ class SoundManager {
             return;
         }
 
-        // Round-robin through the pool
         const idx = this.poolIndex.get(soundName) ?? 0;
         const audio = pool[idx];
         this.poolIndex.set(soundName, (idx + 1) % pool.length);
@@ -229,8 +200,6 @@ class SoundManager {
         }
     }
 
-    /* ── Looping (background music) ───────────────────────────── */
-
     playLoop(name = 'background-music') {
         if (!this.enabled || !this.isInitialized || !this._loopAudio) return;
         this._loopName = name;
@@ -247,8 +216,6 @@ class SoundManager {
     isLoopPlaying() {
         return this._loopAudio && !this._loopAudio.paused;
     }
-
-    /* ── Controls ──────────────────────────────────────────────── */
 
     setEnabled(enabled) {
         this.enabled = enabled;

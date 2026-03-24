@@ -4,7 +4,6 @@ import { GALLERIES_QUERY, POSTS_QUERY } from '../../sanity/lib/queries';
 export default async function sitemap() {
     const baseUrl = 'https://storyfinder.me';
 
-    // Fetch dynamic routes
     const [galleries, posts] = await Promise.all([
         client.fetch(GALLERIES_QUERY),
         client.fetch(POSTS_QUERY),

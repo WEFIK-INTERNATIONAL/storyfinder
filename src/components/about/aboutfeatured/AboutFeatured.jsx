@@ -12,7 +12,6 @@ import { usePathname } from 'next/navigation';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-/* ── placeholder data — swap with real Sanity/CMS data later ── */
 const FEATURED = [
     {
         id: 1,
@@ -50,7 +49,6 @@ const AboutFeatured = () => {
 
     useGSAP(
         () => {
-            /* Animate the rule */
             if (ruleRef.current) {
                 gsap.from(ruleRef.current, {
                     scaleX: 0,
@@ -64,7 +62,6 @@ const AboutFeatured = () => {
                 });
             }
 
-            /* Stagger cards in */
             cardsRef.current.forEach((card, i) => {
                 if (!card) return;
                 gsap.from(card, {
@@ -77,7 +74,6 @@ const AboutFeatured = () => {
                 });
             });
 
-            /* Headline slides up */
             if (headlineRef.current) {
                 gsap.from(headlineRef.current, {
                     y: 50,
@@ -91,7 +87,6 @@ const AboutFeatured = () => {
                 });
             }
 
-            /* Subtitle fades in */
             if (subtitleRef.current) {
                 gsap.from(subtitleRef.current, {
                     y: 30,
@@ -106,7 +101,6 @@ const AboutFeatured = () => {
                 });
             }
 
-            /* CTA row slides up */
             if (ctaRef.current) {
                 gsap.from(ctaRef.current, {
                     y: 30,
@@ -125,7 +119,7 @@ const AboutFeatured = () => {
 
     return (
         <section ref={sectionRef} className="af">
-            {/* ── HEADER ── */}
+            {}
             <div className="af-header">
                 <div className="af-intro-band">
                     <span className="af-index">06 — Featured</span>
@@ -134,7 +128,7 @@ const AboutFeatured = () => {
                 <div ref={ruleRef} className="af-rule" />
             </div>
 
-            {/* ── HEADLINE ── */}
+            {}
             <div className="af-headline">
                 <h2 ref={headlineRef} className="af-title">
                     In The <span className="af-title-ghost">Press</span>
@@ -145,7 +139,7 @@ const AboutFeatured = () => {
                 </p>
             </div>
 
-            {/* ── CARD GRID ── */}
+            {}
             <div className="af-grid">
                 {FEATURED.map((item, i) => (
                     <div
@@ -163,12 +157,12 @@ const AboutFeatured = () => {
                             <div className="af-card-grain" />
                             <div className="af-card-overlay" />
 
-                            {/* Publication badge */}
+                            {}
                             <span className="af-card-pub">
                                 {item.publication}
                             </span>
 
-                            {/* Bottom info */}
+                            {}
                             <div className="af-card-info">
                                 <span className="af-card-title">
                                     {item.title}
@@ -182,7 +176,7 @@ const AboutFeatured = () => {
                 ))}
             </div>
 
-            {/* ── CTA ── */}
+            {}
             <div ref={ctaRef} className="af-cta-row">
                 <span className="af-cta-note">More features coming soon</span>
                 <Link

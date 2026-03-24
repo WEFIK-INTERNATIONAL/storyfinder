@@ -132,13 +132,13 @@ export default async function Home() {
 
     return (
         <>
-            {/* JSON-LD Structured Data */}
+            {}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
-            {/* SR-Only Semantic Content — crawlable but visually hidden */}
+            {}
             <div
                 className="sr-only"
                 style={{
@@ -179,7 +179,7 @@ export default async function Home() {
                 </nav>
             </div>
 
-            {/* Interactive Gallery — the main experience */}
+            {}
             <HomeClient images={data} />
         </>
     );

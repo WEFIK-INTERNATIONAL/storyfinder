@@ -8,7 +8,6 @@ export default function ScrollWords({ text }) {
     const containerRef = useRef(null);
     const wordsRef = useRef([]);
 
-    // Split text into words
     const words = text.split(' ');
 
     useGSAP(

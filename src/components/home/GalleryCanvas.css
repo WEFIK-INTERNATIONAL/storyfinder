@@ -1,7 +1,3 @@
-/* ═══════════════════════════════════════════════════════════
-   GALLERY CANVAS
-   ═══════════════════════════════════════════════════════════ */
-
 .canvas-wrapper.is-animating {
     will-change: transform;
 }
@@ -41,7 +37,6 @@
     z-index: 3;
 }
 
-/* ── Split Screen ── */
 .split-screen-container.active {
     opacity: 1;
     pointer-events: all;
@@ -80,9 +75,7 @@
     overflow: hidden;
 }
 
-/* ── Image Title Overlay ── */
 .image-title-overlay {
-    /* Base positioning in jsx, handled here additionally if needed */
     width: 100%;
     max-width: 600px;
 }
@@ -100,12 +93,12 @@
 }
 
 .image-slide-number {
-    height: 1.5rem; /* ~24px, enough space to prevent clipping */
+    height: 1.5rem;
     margin-bottom: 0.5rem;
 }
 
 .image-slide-title {
-    height: 4.5rem; /* ~72px, enough space for 48px font to not cut descenders */
+    height: 4.5rem;
     margin-bottom: 1rem;
 }
 
@@ -116,15 +109,13 @@
 .image-slide-title h1 {
     font-size: clamp(36px, 4vw, 48px);
     line-height: 1.1;
-    white-space: nowrap; /* Keep it on one line typically */
+    white-space: nowrap;
 }
 
-/* ── Controls ── */
 .controls-container.visible {
     opacity: 1;
 }
 
-/* Protective dark gradient veil behind the dock for high-exposure images */
 .controls-veil {
     transition: opacity 0.8s ease;
 }
@@ -171,7 +162,6 @@ body.controls-visible .controls-veil {
     border-radius: 4px;
 }
 
-/* ── Control Bar Active & Hover States ── */
 .switch-button {
     transition: color 0.3s ease;
 }
@@ -194,7 +184,6 @@ body.controls-visible .controls-veil {
     background: none !important;
 }
 
-/* ── Responsive Adjustments ── */
 @media (max-width: 900px) {
     .image-title-overlay {
         bottom: 20px !important;

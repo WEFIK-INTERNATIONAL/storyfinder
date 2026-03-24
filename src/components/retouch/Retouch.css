@@ -1,4 +1,3 @@
-/* ── Keyframes ──────────────────────────────────────────────── */
 @keyframes rt-spin {
     to {
         transform: rotate(360deg);
@@ -46,7 +45,6 @@
     }
 }
 
-/* ── Hide scrollbars inside gallery ── */
 .rt-gallery,
 .rt-gallery * {
     scrollbar-width: none;
@@ -57,7 +55,6 @@
     display: none;
 }
 
-/* ── Slider container sizing ── */
 .rt-slider-container {
     width: 100%;
     max-width: 100%;
@@ -65,7 +62,6 @@
     min-height: 0;
 }
 
-/* Desktop / tablet: height-driven, aspect-ratio computes width */
 @media (min-width: 768px) {
     .rt-slider-container {
         width: auto;
@@ -75,7 +71,6 @@
     }
 }
 
-/* ── Slider divider line ── */
 .rt-divider-line {
     position: absolute;
     top: 0;
@@ -88,7 +83,6 @@
     will-change: left;
 }
 
-/* ── Reset global heading/paragraph overrides inside the gallery ── */
 .rt-gallery h1,
 .rt-gallery h2,
 .rt-gallery h3,
@@ -108,7 +102,6 @@
     line-height: inherit;
 }
 
-/* ── Thumbnail strip item ── */
 .rt-thumb {
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -119,7 +112,6 @@
     transform: translateY(-2px);
 }
 
-/* ── Gallery entrance animation ── */
 .rt-entrance {
     animation: rt-scale-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

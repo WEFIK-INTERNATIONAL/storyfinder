@@ -6,7 +6,6 @@ import { useDragScroll } from '@/hooks/useDragScroll';
 import BeforeAfterSlider from './BeforeAfterSlider';
 import './Retouch.css';
 
-/* ─── constants ───────────────────────────────────────────────── */
 const CATEGORIES = [
     'Skin Retouch',
     'Color Grade',
@@ -17,7 +16,6 @@ const CATEGORIES = [
 ];
 const FILTER_ALL = 'All';
 
-/* ─── SSR-safe breakpoint hook ───────────────────────────────── */
 function useIsMobile(bp = 768) {
     const [mobile, setMobile] = useState(() => {
         if (typeof window === 'undefined') return false;
@@ -32,9 +30,6 @@ function useIsMobile(bp = 768) {
     return mobile;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   FilterPills — floating glassmorphic pill row
-═══════════════════════════════════════════════════════════════ */
 const FilterPills = memo(function FilterPills({
     active,
     onChange,
@@ -77,9 +72,6 @@ const FilterPills = memo(function FilterPills({
     );
 });
 
-/* ═══════════════════════════════════════════════════════════════
-   PAGE STATES
-═══════════════════════════════════════════════════════════════ */
 function PageLoader() {
     return (
         <div
@@ -150,13 +142,9 @@ function ErrorBanner({ message, onRetry }) {
     );
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   RetouchGallery — root
-═══════════════════════════════════════════════════════════════ */
 export default function RetouchGallery({ works = [] }) {
     const isMobile = useIsMobile();
 
-    // Extract unique categories from the passed works
     const dynamicCategories = useMemo(() => {
         const cats = new Set(works.map((w) => w.category).filter(Boolean));
         return Array.from(cats);
@@ -180,7 +168,6 @@ export default function RetouchGallery({ works = [] }) {
     const prev = filtered[activeIdx - 1] ?? null;
     const next = filtered[activeIdx + 1] ?? null;
 
-    /* Init */
     useEffect(() => {
         if (works.length && !active) {
             const t = setTimeout(() => setActive(works[0]), 0);
@@ -188,7 +175,6 @@ export default function RetouchGallery({ works = [] }) {
         }
     }, [works, active]);
 
-    /* Guard: re-select when filter removes active item */
     useEffect(() => {
         if (!filtered.length) return;
         if (!active || !filtered.find((w) => w.id === active.id)) {
@@ -197,7 +183,6 @@ export default function RetouchGallery({ works = [] }) {
         }
     }, [filter, filtered, active]);
 
-    /* Keyboard nav */
     useEffect(() => {
         const h = (e) => {
             if ((e.key === 'ArrowRight' || e.key === 'ArrowDown') && next) {
@@ -213,7 +198,6 @@ export default function RetouchGallery({ works = [] }) {
         return () => window.removeEventListener('keydown', h);
     }, [next, prev]);
 
-    /* Auto-scroll active thumb into view */
     useEffect(() => {
         if (!thumbStripRef.current) return;
         const el = thumbStripRef.current.querySelector('[data-active="true"]');
@@ -228,7 +212,6 @@ export default function RetouchGallery({ works = [] }) {
     const onSelect = useCallback((w) => setActive(w), []);
     const onFilterChange = useCallback((c) => setFilter(c), []);
 
-    /* ── States ── */
     if (works.length === 0)
         return (
             <ErrorBanner
@@ -238,14 +221,13 @@ export default function RetouchGallery({ works = [] }) {
         );
     if (!active) return null;
 
-    /* ─────────────────────────────────────────────────────────── */
     return (
         <div className="rt-gallery h-screen flex flex-col bg-[#111] text-rt-cream overflow-hidden relative pt-20 md:pt-24">
-            {/* ══════ MAIN STAGE ══════ */}
+            {}
             <div className="flex-1 flex flex-col min-h-0 relative">
-                {/* ── Slider hero area ── */}
+                {}
                 <div className="flex-1 relative flex flex-col md:flex-row items-center justify-center min-h-0 px-4 md:px-8 lg:px-12 py-2 md:py-4 gap-0 md:gap-6 lg:gap-10">
-                    {/* Dark vignette overlays */}
+                    {}
                     <div
                         className="absolute inset-0 pointer-events-none z-1"
                         aria-hidden="true"
@@ -254,7 +236,7 @@ export default function RetouchGallery({ works = [] }) {
                         <div className="absolute inset-0 bg-linear-to-r from-[#111]/40 via-transparent to-[#111]/40" />
                     </div>
 
-                    {/* ── Desktop: Title on left side ── */}
+                    {}
                     <div className="hidden md:flex flex-col justify-end items-start shrink-0 z-10 pb-4 min-w-[120px] lg:min-w-[160px]">
                         <div key={active.id + '-title'} className="rt-fade-up">
                             <div className="flex items-center gap-2.5 mb-2">
@@ -278,7 +260,7 @@ export default function RetouchGallery({ works = [] }) {
                         </div>
                     </div>
 
-                    {/* ── Slider container ── */}
+                    {}
                     <div
                         key={active.id}
                         className="rt-slider-container relative rounded-lg overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.65),0_0_0_1px_rgba(227,227,219,0.05)] rt-entrance z-10"
@@ -292,7 +274,7 @@ export default function RetouchGallery({ works = [] }) {
                         />
                     </div>
 
-                    {/* ── Desktop: Counter on right side ── */}
+                    {}
                     <div className="hidden md:flex flex-col justify-end items-end shrink-0 z-10 pb-4 min-w-[80px] lg:min-w-[120px]">
                         <div
                             key={active.id + '-count'}
@@ -313,7 +295,7 @@ export default function RetouchGallery({ works = [] }) {
                         </div>
                     </div>
 
-                    {/* ── Mobile: Title + Counter below slider ── */}
+                    {}
                     <div className="flex md:hidden items-end justify-between w-full z-10 px-1 pt-2 pb-1 shrink-0">
                         <div
                             key={active.id + '-title-m'}
@@ -358,9 +340,9 @@ export default function RetouchGallery({ works = [] }) {
                     </div>
                 </div>
 
-                {/* ══════ BOTTOM NAVIGATION ══════ */}
+                {}
                 <div className="shrink-0 relative z-20 border-t border-rt-cream/6 bg-[#111]">
-                    {/* Filter pills row */}
+                    {}
                     <div className="px-5 md:px-8 pt-3 pb-1 rt-fade-up-delay-1">
                         <FilterPills
                             active={filter}
@@ -369,9 +351,9 @@ export default function RetouchGallery({ works = [] }) {
                         />
                     </div>
 
-                    {/* Thumbnail strip + prev/next */}
+                    {}
                     <div className="flex items-center gap-3 px-5 md:px-8 pb-4 pt-2">
-                        {/* Prev button */}
+                        {}
                         <button
                             onClick={() => prev && onSelect(prev)}
                             disabled={!prev}
@@ -394,7 +376,7 @@ export default function RetouchGallery({ works = [] }) {
                             </svg>
                         </button>
 
-                        {/* Thumbnail strip */}
+                        {}
                         <div
                             ref={thumbStripRef}
                             className="flex-1 flex gap-3 overflow-x-auto py-1 select-none rt-fade-up-delay-2"
@@ -472,7 +454,7 @@ export default function RetouchGallery({ works = [] }) {
                             )}
                         </div>
 
-                        {/* Next button */}
+                        {}
                         <button
                             onClick={() => next && onSelect(next)}
                             disabled={!next}

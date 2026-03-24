@@ -84,8 +84,6 @@ function buildGridItems() {
     return items;
 }
 
-// const GRID_ITEMS = buildGridItems();
-
 const descriptionCache = new Map();
 
 function splitTextIntoLines(element, text) {
@@ -187,7 +185,6 @@ export default function GalleryCanvas({ images = [] }) {
 
         let sourceImages = [...validImages];
 
-        // Duplicate randomly until 96 images
         if (sourceImages.length > 0 && sourceImages.length < 96) {
             while (sourceImages.length < 96) {
                 const randomImage =
@@ -1194,7 +1191,7 @@ export default function GalleryCanvas({ images = [] }) {
                 </div>
             </div>
 
-            {/* Split Screen */}
+            {}
             <div
                 className="split-screen-container fixed inset-0 flex opacity-0 pointer-events-none"
                 style={{ zIndex: 'var(--z-split)' }}
@@ -1225,7 +1222,7 @@ export default function GalleryCanvas({ images = [] }) {
                 />
             </div>
 
-            {/* Image Title Overlay */}
+            {}
             <div
                 className="image-title-overlay absolute bottom-10 left-10 text-white opacity-0 pointer-events-none"
                 style={{ zIndex: 'var(--z-title)' }}
@@ -1254,7 +1251,7 @@ export default function GalleryCanvas({ images = [] }) {
                 />
             </div>
 
-            {/* Controls */}
+            {}
             <div
                 className="controls-container fixed bottom-5 left-1/2 -translate-x-1/2 flex opacity-0"
                 style={{

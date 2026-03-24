@@ -1,4 +1,4 @@
-export const vertexShader = /* glsl */ `
+export const vertexShader = `
   varying vec2 vUv;
   void main() {
     vUv = uv;
@@ -6,7 +6,7 @@ export const vertexShader = /* glsl */ `
   }
 `;
 
-export const fragmentShader = /* glsl */ `
+export const fragmentShader = `
   uniform float uProgress;
   uniform vec2 uResolution;
   uniform vec3 uColor;

@@ -13,10 +13,9 @@ nav {
 }
 
 nav > * {
-    pointer-events: auto; /* Re-enable for interactive children (logo, toggle) */
+    pointer-events: auto;
 }
 
-/* ── Nav Sound Toggle ── */
 .nav-sound-toggle {
     display: flex;
     align-items: center;

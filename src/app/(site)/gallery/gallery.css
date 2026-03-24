@@ -133,12 +133,19 @@
     transition: background-color 250ms ease;
 }
 
+/* variant-1: gray bg, dark text */
 .folders .folder.variant-1 .folder-index,
 .folders .folder.variant-1 .folder-index::after,
 .folders .folder.variant-1 .folder-name {
     background-color: var(--variant-1);
 }
 
+.folders .folder.variant-1 p,
+.folders .folder.variant-1 h1 {
+    color: var(--base-400);
+}
+
+/* variant-2: dark bg, white text */
 .folders .folder.variant-2 .folder-index,
 .folders .folder.variant-2 .folder-index::after,
 .folders .folder.variant-2 .folder-name {
@@ -146,12 +153,24 @@
     color: #fff;
 }
 
+.folders .folder.variant-2 p,
+.folders .folder.variant-2 h1 {
+    color: #fff;
+}
+
+/* variant-3: orange bg, dark text */
 .folders .folder.variant-3 .folder-index,
 .folders .folder.variant-3 .folder-index::after,
 .folders .folder.variant-3 .folder-name {
     background-color: var(--variant-3);
 }
 
+.folders .folder.variant-3 p,
+.folders .folder.variant-3 h1 {
+    color: var(--base-400);
+}
+
+/* disabled state */
 .folders .folder.disabled .folder-index,
 .folders .folder.disabled .folder-index::after,
 .folders .folder.disabled .folder-name {
@@ -225,10 +244,20 @@
         background-color: var(--variant-3);
     }
 
+    .folders .row:nth-child(2) .folder.variant-2 p,
+    .folders .row:nth-child(2) .folder.variant-2 h1 {
+        color: var(--base-400);
+    }
+
     .folders .row:nth-child(2) .folder.variant-3 .folder-index,
     .folders .row:nth-child(2) .folder.variant-3 .folder-index::after,
     .folders .row:nth-child(2) .folder.variant-3 .folder-name {
         background-color: var(--variant-2);
+        color: var(--base-100);
+    }
+
+    .folders .row:nth-child(2) .folder.variant-3 p,
+    .folders .row:nth-child(2) .folder.variant-3 h1 {
         color: var(--base-100);
     }
 

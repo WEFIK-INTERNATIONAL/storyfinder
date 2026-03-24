@@ -1,6 +1,6 @@
 const rateLimitMap = new Map();
 
-const WINDOW_SIZE = 60 * 1000; // 1 minute
+const WINDOW_SIZE = 60 * 1000;
 const MAX_REQUESTS = 20;
 
 export function checkRateLimit(ip) {

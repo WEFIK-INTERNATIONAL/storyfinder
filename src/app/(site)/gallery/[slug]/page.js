@@ -16,7 +16,6 @@ export async function generateMetadata({ params, searchParams }) {
         };
     }
 
-    // Default to the first image, but use the specific one if ?img=index is provided
     const imageIndex = parseInt(resolvedSearchParams?.img, 10);
     const selectedImage =
         !isNaN(imageIndex) && data.photos?.[imageIndex]
