@@ -3,6 +3,8 @@ import { FEATURED_PHOTOS_QUERY } from '../../../sanity/lib/queries';
 import HomeClient from '../../components/home/HomeClient';
 import Link from 'next/link';
 
+export const revalidate = 60;
+
 export const metadata = {
     title: 'Supratik Sahis — Photographer & Visual Storyteller',
     description:
