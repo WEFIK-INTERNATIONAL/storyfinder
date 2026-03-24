@@ -13,7 +13,6 @@ export default function NotFound() {
     const containerRef = useRef(null);
     const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
 
-    /* ── Mouse parallax for the radial glow ── */
     useEffect(() => {
         const handleMouseMove = (e) => {
             setMousePos({
@@ -25,7 +24,6 @@ export default function NotFound() {
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, []);
 
-    /* ── GSAP entrance animations ── */
     useGSAP(
         () => {
             const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -84,7 +82,6 @@ export default function NotFound() {
                     '-=0.3'
                 );
 
-            /* ── Slow floating animation for the error code ── */
             gsap.to('.nf-error-code', {
                 y: -8,
                 duration: 3,
@@ -98,10 +95,10 @@ export default function NotFound() {
 
     return (
         <div className="nf-page" ref={containerRef}>
-            {/* ── Grain overlay ── */}
+            {}
             <div className="nf-grain" />
 
-            {/* ── Mouse-following radial glow ── */}
+            {}
             <div
                 className="nf-glow"
                 style={{
@@ -109,7 +106,7 @@ export default function NotFound() {
                 }}
             />
 
-            {/* ── Decorative grid lines ── */}
+            {}
             <div className="nf-grid-lines">
                 <div className="nf-grid-v" style={{ left: '25%' }} />
                 <div className="nf-grid-v" style={{ left: '50%' }} />
@@ -118,9 +115,9 @@ export default function NotFound() {
                 <div className="nf-grid-h" style={{ top: '66%' }} />
             </div>
 
-            {/* ── Main content ── */}
+            {}
             <div className="nf-content">
-                {/* Error code */}
+                {}
                 <div className="nf-error-block">
                     <div className="nf-error-code">
                         <span className="nf-digit">4</span>
@@ -129,16 +126,16 @@ export default function NotFound() {
                     </div>
                 </div>
 
-                {/* Subtitle */}
+                {}
                 <h2 className="nf-subtitle">Lost in the Frame</h2>
 
-                {/* Description */}
+                {}
                 <p className="nf-description">
                     The story you&apos;re looking for doesn&apos;t exist — or
                     perhaps it&apos;s still being captured somewhere out there.
                 </p>
 
-                {/* CTA */}
+                {}
                 <Link href="/" className="nf-cta">
                     <span className="nf-cta-text">Return Home</span>
                     <span className="nf-cta-icon">
@@ -147,7 +144,7 @@ export default function NotFound() {
                     <span className="nf-cta-bg" />
                 </Link>
 
-                {/* Footer info */}
+                {}
                 <div className="nf-footer">
                     <span className="nf-footer-item">STORYFINDER</span>
                     <span className="nf-footer-divider" />
@@ -157,7 +154,7 @@ export default function NotFound() {
                 </div>
             </div>
 
-            {/* ── Corner decorations ── */}
+            {}
             <div className="nf-corner nf-corner-tl" />
             <div className="nf-corner nf-corner-tr" />
             <div className="nf-corner nf-corner-bl" />

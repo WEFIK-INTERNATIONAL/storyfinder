@@ -44,17 +44,14 @@ export const metadata = {
         address: false,
         telephone: false,
     },
-    // ── Google / Bing Search Console Verification ──────────────────────────
-    // Replace placeholder values with your actual verification codes.
-    // Google: Search Console → Settings → Ownership verification → HTML tag
-    // Bing:   Webmaster Tools → Configure My Site → Verify → HTML tag
+
     verification: {
         google: 'xmK4rWYGRahBy1EXgTAM3nNci4H0HNZARWZvyfKFqNA',
         other: {
             'msvalidate.01': 'EC8F0229F6BF89675E873BBB7827A2A7',
         },
     },
-    // ── Open Graph ─────────────────────────────────────────────────────────
+
     openGraph: {
         title: 'Storyfinder | Supratik Sahis — Photographer & Visual Storyteller',
         description:
@@ -72,24 +69,21 @@ export const metadata = {
         locale: 'en_IN',
         type: 'website',
     },
-    // ── Twitter / X Card ───────────────────────────────────────────────────
+
     twitter: {
         card: 'summary_large_image',
         title: 'Storyfinder | Supratik Sahis — Photographer & Visual Storyteller',
         description:
             'An interactive photography portfolio that tells a story through images. Based in Kolkata, originally from Bankura.',
         images: ['https://storyfinder.me/fallback/fallback-image-profile.png'],
-        // Add your Twitter/X handle once you have one:
-        // site: '@yourhandle',
-        // creator: '@yourhandle',
     },
-    // ── Apple Web App ──────────────────────────────────────────────────────
+
     appleWebApp: {
         title: 'Storyfinder',
         statusBarStyle: 'black-translucent',
         capable: true,
     },
-    // ── Robots ─────────────────────────────────────────────────────────────
+
     robots: {
         index: true,
         follow: true,
@@ -103,7 +97,7 @@ export const metadata = {
             'max-snippet': -1,
         },
     },
-    // ── Canonical (base) ───────────────────────────────────────────────────
+
     alternates: {
         canonical: 'https://storyfinder.me',
     },
@@ -113,7 +107,7 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <head>
-                {/* ── Geo / Local SEO ───────────────────────────────────── */}
+                {}
                 <meta name="geo.region" content="IN-WB" />
                 <meta
                     name="geo.placename"
@@ -121,7 +115,7 @@ export default function RootLayout({ children }) {
                 />
                 <meta name="geo.position" content="22.5726;88.3639" />
                 <meta name="ICBM" content="22.5726, 88.3639" />
-                {/* ── Theme / PWA ───────────────────────────────────────── */}
+                {}
                 <meta name="theme-color" content="#0a0a0a" />
                 <meta name="color-scheme" content="dark" />
                 <link rel="manifest" href="/manifest.json" />

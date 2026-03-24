@@ -120,12 +120,8 @@ export default function MobileHome() {
 
     useGSAP(
         () => {
-            /* ══════════════════════════════════════════════
-           CINEMATIC LOAD SEQUENCE
-           ══════════════════════════════════════════════ */
             const loadTl = gsap.timeline({ delay: 0.3 });
 
-            // Phase 1 — Reveal line sweeps across
             loadTl
                 .fromTo(
                     '.mh-hero-reveal-line',
@@ -139,7 +135,6 @@ export default function MobileHome() {
                     0.7
                 )
 
-                // Phase 2 — Gradient background fades in
                 .fromTo(
                     '.mh-hero-gradient',
                     { opacity: 0 },
@@ -147,7 +142,6 @@ export default function MobileHome() {
                     0.3
                 )
 
-                // Phase 3 — Particles fade in
                 .fromTo(
                     '.mh-hero-particles',
                     { opacity: 0 },
@@ -155,7 +149,6 @@ export default function MobileHome() {
                     0.5
                 )
 
-                // Phase 4 — Lens ring scales up with rotation
                 .to(
                     '.mh-hero-ring-wrap',
                     {
@@ -173,7 +166,6 @@ export default function MobileHome() {
                     0.5
                 )
 
-                // Phase 5 — Orb ignites with flash
                 .to(
                     '.mh-hero-orb',
                     {
@@ -201,7 +193,6 @@ export default function MobileHome() {
                     1.3
                 )
 
-                // Phase 6 — Glow breathes in
                 .to(
                     '.mh-hero-ring-glow',
                     {
@@ -212,7 +203,6 @@ export default function MobileHome() {
                     1.2
                 )
 
-                // Phase 7 — Text cascades in
                 .fromTo(
                     '.mh-hero-index',
                     { opacity: 0, x: -20 },
@@ -239,7 +229,6 @@ export default function MobileHome() {
                     1.9
                 )
 
-                // Phase 8 — Scroll indicator drops in
                 .fromTo(
                     '.mh-hero-scroll',
                     { opacity: 0, y: 10 },
@@ -247,7 +236,6 @@ export default function MobileHome() {
                     2.2
                 )
 
-                // Phase 9 — Scanlines texture fades in subtly
                 .fromTo(
                     '.mh-hero-scanlines',
                     { opacity: 0 },
@@ -255,7 +243,6 @@ export default function MobileHome() {
                     1.5
                 );
 
-            /* ── hero ring continuous rotation ── */
             gsap.to('.mh-hero-ring', {
                 rotation: 360,
                 duration: 50,
@@ -263,7 +250,6 @@ export default function MobileHome() {
                 ease: 'none',
             });
 
-            /* ── hero ring glow pulse ── */
             gsap.to('.mh-hero-ring-glow', {
                 opacity: 0.5,
                 scale: 1.05,
@@ -274,7 +260,6 @@ export default function MobileHome() {
                 delay: 2,
             });
 
-            /* ── hero orb pulse ── */
             gsap.to('.mh-hero-orb', {
                 scale: 1.3,
                 opacity: 0.7,
@@ -285,7 +270,6 @@ export default function MobileHome() {
                 delay: 2,
             });
 
-            /* ── work items stagger ── */
             gsap.fromTo(
                 '.mh-work-item',
                 { opacity: 0, y: 40 },
@@ -303,7 +287,6 @@ export default function MobileHome() {
                 }
             );
 
-            /* ── work CTA ── */
             gsap.fromTo(
                 '.mh-work-gallery-cta',
                 { opacity: 0, y: 16 },
@@ -320,7 +303,6 @@ export default function MobileHome() {
                 }
             );
 
-            /* ── expertise items ── */
             gsap.fromTo(
                 '.mh-expertise-item',
                 { opacity: 0, y: 24 },
@@ -338,7 +320,6 @@ export default function MobileHome() {
                 }
             );
 
-            /* ── blog cards ── */
             gsap.fromTo(
                 '.mh-blog-card',
                 { opacity: 0, y: 30 },
@@ -356,7 +337,6 @@ export default function MobileHome() {
                 }
             );
 
-            /* ── blog CTA ── */
             gsap.fromTo(
                 '.mh-blog-cta',
                 { opacity: 0, y: 16 },
@@ -378,15 +358,15 @@ export default function MobileHome() {
 
     return (
         <div className="mh" ref={rootRef}>
-            {/* ── HERO ── */}
+            {}
             <section className="mh-hero">
-                {/* Load reveal line */}
+                {}
                 <div className="mh-hero-reveal-line" aria-hidden="true" />
 
-                {/* Animated gradient background */}
+                {}
                 <div className="mh-hero-gradient" />
 
-                {/* Floating particles */}
+                {}
                 <div className="mh-hero-particles">
                     <span className="mh-particle mh-particle--1" />
                     <span className="mh-particle mh-particle--2" />
@@ -402,13 +382,13 @@ export default function MobileHome() {
                     <span className="mh-particle mh-particle--12" />
                 </div>
 
-                {/* Rotating wireframe ring — centered & highlighted */}
+                {}
                 <div className="mh-hero-ring-wrap" aria-hidden="true">
-                    {/* Glow layer behind the ring */}
+                    {}
                     <div className="mh-hero-ring-glow" />
                     <div className="mh-hero-ring">
                         <svg viewBox="0 0 400 400" fill="none">
-                            {/* ── LENS BARREL — outer rings ── */}
+                            {}
                             <circle
                                 cx="200"
                                 cy="200"
@@ -431,7 +411,7 @@ export default function MobileHome() {
                                 strokeWidth="0.8"
                             />
 
-                            {/* ── GRIP TEXTURE — tick marks on barrel ── */}
+                            {}
                             {[...Array(72)].map((_, i) => {
                                 const angle = i * 5 * (Math.PI / 180);
                                 const isLong = i % 6 === 0;
@@ -457,7 +437,7 @@ export default function MobileHome() {
                                 );
                             })}
 
-                            {/* ── FOCUS RING — dashed inner barrel ── */}
+                            {}
                             <circle
                                 cx="200"
                                 cy="200"
@@ -467,7 +447,7 @@ export default function MobileHome() {
                                 strokeDasharray="8 6"
                             />
 
-                            {/* ── GLASS ELEMENTS — concentric lens rings ── */}
+                            {}
                             <circle
                                 cx="200"
                                 cy="200"
@@ -490,14 +470,14 @@ export default function MobileHome() {
                                 strokeWidth="0.5"
                             />
 
-                            {/* ── IRIS / APERTURE BLADES — 8 blades ── */}
+                            {}
                             {[...Array(8)].map((_, i) => {
                                 const angle = i * 45 * (Math.PI / 180);
                                 const nextAngle =
                                     (i * 45 + 45) * (Math.PI / 180);
                                 const outerR = 80;
                                 const innerR = 38;
-                                // Each blade is a quadrilateral
+
                                 const ox1 =
                                     200 + outerR * Math.cos(angle - 0.12);
                                 const oy1 =
@@ -525,7 +505,7 @@ export default function MobileHome() {
                                 );
                             })}
 
-                            {/* ── APERTURE OPENING — the lens eye ── */}
+                            {}
                             <circle
                                 cx="200"
                                 cy="200"
@@ -550,7 +530,7 @@ export default function MobileHome() {
                                 stroke="rgba(255,110,20,0.10)"
                                 strokeWidth="0.3"
                             />
-                            {/* Center dot — the pupil */}
+                            {}
                             <circle
                                 cx="200"
                                 cy="200"
@@ -558,7 +538,7 @@ export default function MobileHome() {
                                 fill="rgba(255,110,20,0.35)"
                             />
 
-                            {/* ── LENS COATING REFLECTIONS — curved arcs ── */}
+                            {}
                             <path
                                 d="M 145 130 Q 170 115 200 112"
                                 stroke="rgba(255,255,255,0.06)"
@@ -578,7 +558,7 @@ export default function MobileHome() {
                                 strokeLinecap="round"
                             />
 
-                            {/* ── FOCUS DISTANCE MARKS ── */}
+                            {}
                             {[
                                 0, 30, 60, 90, 120, 150, 180, 210, 240, 270,
                                 300, 330,
@@ -601,7 +581,7 @@ export default function MobileHome() {
                                 );
                             })}
 
-                            {/* ── CARDINAL DOT MARKERS on barrel ── */}
+                            {}
                             {[0, 90, 180, 270].map((deg) => {
                                 const angle = deg * (Math.PI / 180);
                                 const cx = 200 + 170 * Math.cos(angle);
@@ -617,7 +597,7 @@ export default function MobileHome() {
                                 );
                             })}
 
-                            {/* ── TINY LENS LABELS ── */}
+                            {}
                             <text
                                 x="200"
                                 y="96"
@@ -644,15 +624,15 @@ export default function MobileHome() {
                     </div>
                 </div>
 
-                {/* Glowing center orb */}
+                {}
                 <div className="mh-hero-orb" aria-hidden="true" />
-                {/* Orb flash — burst on ignite */}
+                {}
                 <div className="mh-hero-orb-flash" aria-hidden="true" />
 
-                {/* Scan lines texture */}
+                {}
                 <div className="mh-hero-scanlines" aria-hidden="true" />
 
-                {/* Content */}
+                {}
                 <div className="mh-hero-content">
                     <span className="mh-hero-index">01 — Storyfinder</span>
                     <h1 className="mh-hero-name">
@@ -671,11 +651,11 @@ export default function MobileHome() {
                     </div>
                 </div>
 
-                {/* Bottom edge glow */}
+                {}
                 <div className="mh-hero-edge" aria-hidden="true" />
             </section>
 
-            {/* ── FEATURED WORK ── */}
+            {}
             <div className="mh-section-header">
                 <span className="mh-section-index">02 — Selected Work</span>
                 <span className="mh-section-label">Portfolio</span>
@@ -703,7 +683,7 @@ export default function MobileHome() {
                     ))}
                 </div>
 
-                {/* Gallery CTA — editorial underline style */}
+                {}
                 <Link
                     href="/gallery"
                     className="mh-work-gallery-cta"
@@ -731,7 +711,7 @@ export default function MobileHome() {
                 </Link>
             </section>
 
-            {/* ── EXPERTISE ── */}
+            {}
             <div className="mh-section-header">
                 <span className="mh-section-index">03 — Expertise</span>
                 <span className="mh-section-label">Specialities</span>
@@ -763,7 +743,7 @@ export default function MobileHome() {
                 ))}
             </section>
 
-            {/* ── BLOG ── */}
+            {}
             <div className="mh-section-header">
                 <span className="mh-section-index">04 — Journal</span>
                 <span className="mh-section-label">From the Blog</span>
@@ -841,7 +821,7 @@ export default function MobileHome() {
                 </Link>
             </section>
 
-            {/* ── FOOTER ── */}
+            {}
             <Footer />
         </div>
     );

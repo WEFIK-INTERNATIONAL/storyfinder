@@ -1,14 +1,9 @@
-/* ═══════════════════════════════════════════════════════════
-   HOME OVERLAY — subtle branded watermark on the gallery
-   Navbar-aligned, pointer-events: none, fades in after intro
-   ═══════════════════════════════════════════════════════════ */
-
 .home-overlay {
     position: fixed;
-    top: 2.25rem; /* Aligned with nav padding (2rem) */
-    right: 16rem; /* Clear the sound toggle + Menu button */
-    z-index: 75; /* Just under the menu (z-80) */
-    pointer-events: auto; /* Enable clicks on sound button and text selection */
+    top: 2.25rem;
+    right: 16rem;
+    z-index: 75;
+    pointer-events: auto;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -25,7 +20,7 @@
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.85);
     line-height: 1.2;
-    pointer-events: auto; /* Allow interaction with children like the sound toggle */
+    pointer-events: auto;
 }
 
 .home-overlay__tagline {
@@ -66,21 +61,7 @@
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* ── Hide when split-screen / zoom mode is active ── */
 body.zoom-mode .home-overlay {
     opacity: 0 !important;
     transition: opacity 0.3s ease;
 }
-
-/* @media (min-width: 2400px) {
-    .home-overlay {
-        top: 2.5rem;
-        right: 12rem;
-        gap: 4rem;
-    }
-    .home-overlay__item,
-    .home-overlay__tagline {
-        font-size: 0.85rem;
-        max-width: 400px;
-    }
-} */

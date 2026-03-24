@@ -1,11 +1,3 @@
-/* ══════════════════════════════════════════════════════════════════
-   useRetouchData
-   Fetches works from the API with timeout + typed error handling.
-   Falls back to mock data in dev when API is unreachable.
-
-   Expected API shape:
-   GET /api/retouches → Array<{ id, title, category, before, after }>
-══════════════════════════════════════════════════════════════════ */
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -27,7 +19,7 @@ export function useRetouchData() {
             const res = await fetch(API_URL, {
                 signal: ctrl.signal,
                 headers: { 'Content-Type': 'application/json' },
-                next: { revalidate: 60 }, // Next.js ISR
+                next: { revalidate: 60 },
             });
             clearTimeout(t);
 

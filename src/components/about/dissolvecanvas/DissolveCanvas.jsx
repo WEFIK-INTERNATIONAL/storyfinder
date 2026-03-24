@@ -21,12 +21,11 @@ function hexToVec3(hex) {
         : new THREE.Vector3(0.92, 0.96, 0.87);
 }
 
-// ── Inner scene — has access to R3F context ───────────────────────────────────
 function DissolveMesh({ scrollProgressRef }) {
     const meshRef = useRef(null);
+    const materialRef = useRef(null);
     const { size } = useThree();
 
-    // Build uniforms once — mutated in useFrame, never recreated
     const uniforms = useMemo(
         () => ({
             uProgress: { value: 0 },
@@ -34,25 +33,31 @@ function DissolveMesh({ scrollProgressRef }) {
             uColor: { value: hexToVec3(CONFIG.color) },
             uSpread: { value: CONFIG.spread },
         }),
-        [] // eslint-disable-line react-hooks/exhaustive-deps
+        [size.width, size.height]
     );
 
     useEffect(() => {
-        uniforms.uResolution.value.set(size.width, size.height);
-    }, [size.width, size.height, uniforms]);
+        if (materialRef.current) {
+            materialRef.current.uniforms.uResolution.value.set(
+                size.width,
+                size.height
+            );
+        }
+    }, [size.width, size.height]);
 
-    // Every frame: push scroll progress → shader
     useFrame(() => {
-        // Optimization: Skip rendering if the dissolve is completely off-screen or finished
+        if (!materialRef.current) return;
         if (scrollProgressRef.current > 1.1) return;
 
-        uniforms.uProgress.value = scrollProgressRef.current; // eslint-disable-line react-hooks/immutability
+        materialRef.current.uniforms.uProgress.value =
+            scrollProgressRef.current;
     });
 
     return (
         <mesh ref={meshRef}>
             <planeGeometry args={[2, 2]} />
             <shaderMaterial
+                ref={materialRef}
                 vertexShader={vertexShader}
                 fragmentShader={fragmentShader}
                 uniforms={uniforms}
@@ -62,7 +67,6 @@ function DissolveMesh({ scrollProgressRef }) {
     );
 }
 
-// ── Public component — renders the R3F Canvas ─────────────────────────────────
 export default function DissolveCanvas({ scrollProgressRef }) {
     return (
         <Canvas
@@ -76,7 +80,7 @@ export default function DissolveCanvas({ scrollProgressRef }) {
                 far: 1,
                 position: [0, 0, 0.5],
             }}
-            dpr={[1, 2]} // Optimization: Cap DPR on high-res screens to prevent massive GPU drain
+            dpr={[1, 2]}
             gl={{ alpha: true, antialias: false }}
             style={{
                 position: 'absolute',

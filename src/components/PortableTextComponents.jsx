@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { urlFor } from '@/lib/image';
 
 export const portableTextComponents = {
-    /* ================= IMAGES ================= */
     types: {
         image: ({ value }) => {
             const src = urlFor(value).width(2000).quality(90).url();
@@ -30,7 +29,6 @@ export const portableTextComponents = {
         },
     },
 
-    /* ================= HEADINGS & BLOCKS ================= */
     block: {
         h1: ({ children }) => (
             <h1 className="text-4xl md:text-5xl font-bold mt-12 mb-6">
@@ -73,7 +71,6 @@ export const portableTextComponents = {
         ),
     },
 
-    /* ================= LISTS ================= */
     list: {
         bullet: ({ children }) => (
             <ul className="list-disc pl-6 space-y-2 mb-5 text-[#e3e3db]/85">
@@ -92,7 +89,6 @@ export const portableTextComponents = {
         number: ({ children }) => <li>{children}</li>,
     },
 
-    /* ================= MARKS ================= */
     marks: {
         strong: ({ children }) => (
             <strong className="font-semibold">{children}</strong>

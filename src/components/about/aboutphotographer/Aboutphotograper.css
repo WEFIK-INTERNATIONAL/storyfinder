@@ -1,39 +1,28 @@
-/* =====================================================================
-   DESIGN TOKENS — single source of truth on .ap-track
-   --card-w   : width of every panel
-   --card-pad : inner padding, always proportional to card width
-   --card-fs  : base font scale for numbers/headings inside cards
-   All panels derive width, height (via aspect-ratio), padding, and
-   font sizes from these three variables. Nothing hard-codes a size
-   that could conflict at an intermediate breakpoint.
-   ===================================================================== */
-
 .ap-outer {
     background: #e3e3db;
     color: #1a1614;
     overflow: hidden;
     position: relative;
+    margin-top: -1px;
 }
 
-/* ── tokens ── */
 .ap-track {
     --card-w: clamp(260px, 30vw, 460px);
-    --card-pad: calc(var(--card-w) * 0.072); /* ~19px–33px */
-    --card-fs: calc(var(--card-w) * 0.11); /* ~29px–51px — stat numbers */
+    --card-pad: calc(var(--card-w) * 0.072);
+    --card-fs: calc(var(--card-w) * 0.11);
 
     display: flex;
     flex-direction: row;
-    align-items: flex-start; /* let aspect-ratio control height, not stretch */
+    align-items: flex-start;
     will-change: transform;
     padding: 3rem 5vw 5rem;
     gap: 2rem;
 }
 
-/* ── base panel — width + height locked together via aspect-ratio ── */
 .ap-panel {
     flex: 0 0 auto;
     width: var(--card-w);
-    aspect-ratio: 2 / 3; /* height = width × 1.5, always in sync */
+    aspect-ratio: 2 / 3;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -42,9 +31,6 @@
     overflow: hidden;
 }
 
-/* ================================================================
-   PANEL — NAME
-   ================================================================ */
 .ap-panel--name {
     gap: calc(var(--card-pad) * 1.4);
     padding: 0;
@@ -65,7 +51,6 @@
 
 .ap-name-outline,
 .ap-name-filled {
-    /* clamp uses vw directly — never depends on --card-w so it works on all screens */
     font-size: clamp(2.4rem, 5.5vw, 6.2rem);
     white-space: nowrap;
 }
@@ -134,9 +119,6 @@
     }
 }
 
-/* ================================================================
-   PANEL — IMAGE
-   ================================================================ */
 .ap-panel--image {
     padding: 0;
 }
@@ -184,9 +166,6 @@
     border-radius: 0 0 8px 8px;
 }
 
-/* ================================================================
-   PANEL — BIO
-   ================================================================ */
 .ap-panel--bio {
     background: rgba(26, 22, 20, 0.04);
     border: 1px solid rgba(26, 22, 20, 0.1);
@@ -206,7 +185,6 @@
     flex-shrink: 0;
 }
 
-/* Scale body copy inside bio to the card width so it never overflows the aspect-ratio box */
 .ap-panel--bio p.lg {
     font-size: clamp(0.78rem, 1.55vw, 1rem) !important;
     line-height: 1.7 !important;
@@ -225,15 +203,11 @@
     display: flex;
     flex-direction: column;
     gap: calc(var(--card-pad) * 0.6);
-    /* NO overflow:hidden — Copy line masks need to breathe.
-       The panel's own overflow:hidden is the outer boundary. */
+
     min-height: 0;
-    padding-bottom: 0.4em; /* room for descenders at panel edge */
+    padding-bottom: 0.4em;
 }
 
-/* ================================================================
-   PANEL — DATA  (stats top + quote bottom, fills card height)
-   ================================================================ */
 .ap-panel--data {
     padding: 0;
     gap: 0;
@@ -288,8 +262,7 @@
     background: #ff6e14;
     border-radius: 0 0 8px 8px;
     padding: var(--card-pad);
-    /* Give extra bottom padding so the last Copy line's descenders
-       don't get shaved by the parent panel's overflow:hidden */
+
     padding-bottom: calc(var(--card-pad) + 0.4em);
     display: flex;
     flex-direction: column;
@@ -297,7 +270,6 @@
     flex: 1 1 0;
     min-height: 0;
     justify-content: center;
-    /* NO overflow:hidden — Copy line masks must not be clipped here */
 }
 
 .ap-quote-block p.lg {
@@ -317,9 +289,6 @@
     flex-shrink: 0;
 }
 
-/* ================================================================
-   PANEL — SIGNATURE
-   ================================================================ */
 .ap-panel--sig {
     background: rgba(26, 22, 20, 0.04);
     border: 1px solid rgba(26, 22, 20, 0.1);
@@ -456,9 +425,6 @@
     color: #1a1614;
 }
 
-/* ================================================================
-   HEADER  (currently commented out in JSX but kept ready)
-   ================================================================ */
 .ap-header {
     padding: 4rem 5vw 0;
 }
@@ -497,9 +463,6 @@
     margin-top: 1rem;
 }
 
-/* ================================================================
-   TABLET / MOBILE  ≤ 1023px — vertical stack
-   ================================================================ */
 @media (max-width: 1023px) {
     .ap-outer {
         overflow: visible;
@@ -509,7 +472,6 @@
     }
 
     .ap-track {
-        /* flat values only — no calc(percentage * factor) on mobile */
         --card-pad: 1.75rem;
         --card-fs: 2.4rem;
 
@@ -527,19 +489,16 @@
         margin-right: 0 !important;
     }
 
-    /* re-apply overflow only on the image panel — it has no Copy content */
     .ap-panel--image {
         aspect-ratio: 4 / 3;
         overflow: hidden;
     }
 
-    /* Name: use vw-based font size directly, never the broken token */
     .ap-name-outline,
     .ap-name-filled {
         font-size: clamp(2.4rem, 11vw, 5rem);
     }
 
-    /* Body copy: restore normal readable size on mobile (no card-width constraint) */
     .ap-panel--bio p.lg,
     .ap-quote-block p.lg {
         font-size: clamp(0.88rem, 2.2vw, 1.05rem) !important;
@@ -567,9 +526,6 @@
     }
 }
 
-/* ================================================================
-   SMALL MOBILE  ≤ 600px
-   ================================================================ */
 @media (max-width: 600px) {
     .ap-header {
         padding: 3rem 1.5rem 0;

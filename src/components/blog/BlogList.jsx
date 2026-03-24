@@ -27,7 +27,6 @@ const BlogList = ({ posts }) => {
 
     useGSAP(
         () => {
-            // Hero animations
             const tl = gsap.timeline();
 
             if (titleRef.current) {
@@ -52,7 +51,6 @@ const BlogList = ({ posts }) => {
                 );
             }
 
-            // Featured Card Animation
             if (featuredRef.current) {
                 const imageWrapper = featuredRef.current.querySelector(
                     '.blog-featured-image-wrapper'
@@ -92,7 +90,6 @@ const BlogList = ({ posts }) => {
                 }
             }
 
-            // Stagger grid cards on scroll
             if (cardRefs.current.length > 0) {
                 cardRefs.current.forEach((card, index) => {
                     if (!card) return;
@@ -156,7 +153,7 @@ const BlogList = ({ posts }) => {
 
     return (
         <main className="blog-page" ref={containerRef}>
-            {/* HERO SECTION */}
+            {}
             <header className="blog-header" ref={headerRef}>
                 <div className="container">
                     <h1 className="blog-title" ref={titleRef}>
@@ -171,7 +168,7 @@ const BlogList = ({ posts }) => {
 
             <section className="blog-content-section">
                 <div className="container blog-content-wrapper">
-                    {/* FEATURED LATEST POST */}
+                    {}
                     {featuredPost && (
                         <Link
                             href={`/blog/${featuredPost.slug}`}
@@ -265,7 +262,7 @@ const BlogList = ({ posts }) => {
                         </Link>
                     )}
 
-                    {/* BLOG GRID */}
+                    {}
                     {gridPosts.length > 0 ? (
                         <div className="blog-grid">
                             {gridPosts.map((post, index) => {

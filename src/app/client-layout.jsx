@@ -21,10 +21,7 @@ const BASE_SCROLL_SETTINGS = {
 const MOBILE_SCROLL_SETTINGS = {
     ...BASE_SCROLL_SETTINGS,
     duration: 0.6,
-    // Disable smooth touch overrides — let the browser handle touch scroll natively.
-    // smoothTouch: true + syncTouch: true was causing visible lag on mobile/tablet
-    // because Lenis was intercepting every touch event and re-applying easing on top
-    // of the browser's own momentum scrolling.
+
     smoothTouch: false,
     touchMultiplier: 1,
     lerp: 0.12,
@@ -54,10 +51,8 @@ export default function ClientLayout({ children }) {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    /* ── Global click sound on all <a> and <button> elements ── */
     useEffect(() => {
         const handleGlobalClick = (e) => {
-            // Walk up the DOM to find if clicked element is or is inside a link/button
             let target = e.target;
             let isClickable = false;
 
@@ -72,9 +67,8 @@ export default function ClientLayout({ children }) {
 
             if (!isClickable) return;
 
-            // Exclude GalleryCanvas controls — they have their own sounds
             if (target.closest('.controls-container')) return;
-            // Exclude the sound toggle in GalleryCanvas controls
+
             if (
                 target.closest('.sound-toggle') &&
                 target.closest('.controls-container')
@@ -89,14 +83,13 @@ export default function ClientLayout({ children }) {
             document.removeEventListener('click', handleGlobalClick, true);
     }, []);
 
-    /* ── Background music: start after first interaction ── */
     useEffect(() => {
         if (!isInitialized || !enabled) return;
 
         const startMusic = () => {
             if (!musicStartedRef.current) {
                 musicStartedRef.current = true;
-                // Small delay to let the interaction unlock propagate
+
                 setTimeout(() => {
                     soundManager.playLoop('background-music');
                 }, 500);
@@ -105,7 +98,6 @@ export default function ClientLayout({ children }) {
             document.removeEventListener('touchstart', startMusic);
         };
 
-        // If already unlocked, start immediately
         if (soundManager._interactionUnlocked && !musicStartedRef.current) {
             musicStartedRef.current = true;
             soundManager.playLoop('background-music');
@@ -120,7 +112,6 @@ export default function ClientLayout({ children }) {
         };
     }, [isInitialized, enabled]);
 
-    /* ── Pause/resume background music when sound is toggled ── */
     useEffect(() => {
         if (!musicStartedRef.current) return;
 

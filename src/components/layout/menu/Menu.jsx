@@ -416,13 +416,11 @@ const Menu = ({ pageRef }) => {
         return () => window.removeEventListener('keydown', handleKey);
     }, [isMenuOpen, toggleMenu]);
 
-    /* ── Force-close menu on route change (fixes menu-stays-open bug) ── */
     const prevPathnameRef = useRef(pathname);
     useEffect(() => {
         if (prevPathnameRef.current !== pathname) {
             prevPathnameRef.current = pathname;
             if (isMenuOpen) {
-                // Force instant close — page transition overlay already covers screen
                 const menuOverlay = menuOverlayRef.current;
                 const menuLinks = menuLinksRef.current;
                 const linkHighlighter = linkHighlighterRef.current;
@@ -467,7 +465,6 @@ const Menu = ({ pageRef }) => {
         }
     }, [pathname, isMenuOpen]);
 
-    /* ── Sound toggle state ── */
     const { enabled: soundEnabled, toggleSound } = useSoundStore();
 
     return (
@@ -499,7 +496,7 @@ const Menu = ({ pageRef }) => {
                 </div>
 
                 <div className="flex gap-3 items-center">
-                    {/* Sound toggle — visible on all pages */}
+                    {}
                     <button
                         className="nav-sound-toggle"
                         type="button"

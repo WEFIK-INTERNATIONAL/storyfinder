@@ -1,5 +1,3 @@
-/* ── MobileHome — editorial mobile/tablet homepage ─────────── */
-
 .mh {
     position: relative;
     width: 100%;
@@ -8,10 +6,6 @@
     color: #fff;
     overflow: hidden;
 }
-
-/* ══════════════════════════════════════════════════════════════
-   HERO
-   ══════════════════════════════════════════════════════════════ */
 
 .mh-hero {
     position: relative;
@@ -22,8 +16,6 @@
     flex-direction: column;
     justify-content: flex-end;
 }
-
-/* ── Reveal line — horizontal sweep on load ── */
 
 .mh-hero-reveal-line {
     position: absolute;
@@ -42,8 +34,6 @@
     transform-origin: left center;
     pointer-events: none;
 }
-
-/* ── Animated gradient background ── */
 
 .mh-hero-gradient {
     position: absolute;
@@ -97,8 +87,6 @@
             0% 0%;
     }
 }
-
-/* ── Floating particles ── */
 
 .mh-hero-particles {
     position: absolute;
@@ -265,8 +253,6 @@
     }
 }
 
-/* ── Ring wrapper — centers everything ── */
-
 .mh-hero-ring-wrap {
     position: absolute;
     z-index: 1;
@@ -279,8 +265,6 @@
     pointer-events: none;
     opacity: 0;
 }
-
-/* ── Glow layer behind ring ── */
 
 .mh-hero-ring-glow {
     position: absolute;
@@ -297,8 +281,6 @@
     will-change: transform, opacity;
 }
 
-/* ── Rotating wireframe ring ── */
-
 .mh-hero-ring {
     position: absolute;
     inset: 0;
@@ -309,8 +291,6 @@
     width: 100%;
     height: 100%;
 }
-
-/* ── Glowing center orb ── */
 
 .mh-hero-orb {
     position: absolute;
@@ -334,8 +314,6 @@
     opacity: 0;
 }
 
-/* ── Orb flash — burst on ignite ── */
-
 .mh-hero-orb-flash {
     position: absolute;
     z-index: 1;
@@ -355,8 +333,6 @@
     opacity: 0;
 }
 
-/* ── Scan lines texture ── */
-
 .mh-hero-scanlines {
     position: absolute;
     inset: 0;
@@ -370,8 +346,6 @@
     );
     pointer-events: none;
 }
-
-/* ── Bottom edge fade ── */
 
 .mh-hero-edge {
     position: absolute;
@@ -388,8 +362,6 @@
     );
     pointer-events: none;
 }
-
-/* ── Hero content ── */
 
 .mh-hero-content {
     position: relative;
@@ -487,10 +459,6 @@
     }
 }
 
-/* ══════════════════════════════════════════════════════════════
-   SECTION HEADER (reusable)
-   ══════════════════════════════════════════════════════════════ */
-
 .mh-section-header {
     display: flex;
     align-items: center;
@@ -527,10 +495,6 @@
     background: currentColor;
     opacity: 0.4;
 }
-
-/* ══════════════════════════════════════════════════════════════
-   FEATURED WORK
-   ══════════════════════════════════════════════════════════════ */
 
 .mh-work {
     padding: 0 1.5rem 3rem;
@@ -599,8 +563,6 @@
     line-height: 1.1;
 }
 
-/* ── Gallery CTA — editorial underline style ── */
-
 .mh-work-gallery-cta {
     display: flex;
     align-items: center;
@@ -667,10 +629,6 @@
     color: var(--base-500);
     transform: translate(2px, -2px);
 }
-
-/* ══════════════════════════════════════════════════════════════
-   EXPERTISE
-   ══════════════════════════════════════════════════════════════ */
 
 .mh-expertise {
     padding: 0 1.5rem 3rem;
@@ -747,10 +705,6 @@
     color: var(--base-500);
     transform: translate(2px, -2px);
 }
-
-/* ══════════════════════════════════════════════════════════════
-   BLOG / JOURNAL
-   ══════════════════════════════════════════════════════════════ */
 
 .mh-blog {
     padding: 0 1.5rem 3rem;
@@ -868,8 +822,6 @@
     transform: translate(0, 0);
 }
 
-/* ── Blog CTA — same editorial underline style ── */
-
 .mh-blog-cta {
     display: flex;
     align-items: center;
@@ -936,10 +888,6 @@
     transform: translate(2px, -2px);
 }
 
-/* ══════════════════════════════════════════════════════════════
-   STATS BAR
-   ══════════════════════════════════════════════════════════════ */
-
 .mh-stats {
     display: flex;
     justify-content: space-around;
@@ -971,10 +919,6 @@
     margin-top: 0.35rem;
     display: block;
 }
-
-/* ══════════════════════════════════════════════════════════════
-   CTA
-   ══════════════════════════════════════════════════════════════ */
 
 .mh-cta {
     padding: 3rem 1.5rem 2rem;
@@ -1044,10 +988,6 @@
     border-color: rgba(255, 255, 255, 0.5);
     color: #fff;
 }
-
-/* ══════════════════════════════════════════════════════════════
-   TABLET ADJUSTMENTS (≥768px)
-   ══════════════════════════════════════════════════════════════ */
 
 @media (min-width: 768px) {
     .mh-hero-content {

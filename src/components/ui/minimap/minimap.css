@@ -2,7 +2,7 @@
     position: relative;
     width: 100vw;
     height: 100svh;
-    background-color: #111; /* Dark aesthetic */
+    background-color: #111;
     color: #e3e3db;
     overflow: hidden;
 }
@@ -72,7 +72,7 @@
 }
 
 .minimap-site-info p span {
-    color: #c0501a; /* Orange matching the site theme */
+    color: #c0501a;
     font-size: 0.8rem;
     letter-spacing: 0.1em;
 }
@@ -126,7 +126,7 @@
     align-items: center;
     gap: 0.4rem;
     padding: 0.5rem 1rem;
-    background: rgba(227, 227, 219, 0.05); /* Glassmorphic styling */
+    background: rgba(227, 227, 219, 0.05);
     color: rgba(227, 227, 219, 0.8);
     border: 1px solid rgba(227, 227, 219, 0.1);
     border-radius: 2rem;
@@ -169,7 +169,6 @@
     outline: 2px solid #c0501a;
 }
 
-/* ── Thumbnail strip ── */
 .minimap-strip {
     position: absolute;
     top: 50%;
@@ -187,7 +186,6 @@
     cursor: grabbing;
 }
 
-/* Fixed indicator – always centred in strip */
 .minimap-indicator {
     position: absolute;
     top: 50%;
@@ -202,7 +200,6 @@
     transition: border-color 0.3s ease;
 }
 
-/* Items start so first item aligns with indicator */
 .minimap-items {
     position: absolute;
     top: calc(50% - 30px);
@@ -243,7 +240,6 @@
     border-radius: 2px;
 }
 
-/* ── Mobile (≤ 900px) ── */
 @media (max-width: 900px) {
     .minimap-site-info {
         top: 6rem;
@@ -260,7 +256,6 @@
         height: 55%;
     }
 
-    /* Buttons sit closer to the preview image on mobile */
     .minimap-preview-actions {
         bottom: -3.5rem;
     }

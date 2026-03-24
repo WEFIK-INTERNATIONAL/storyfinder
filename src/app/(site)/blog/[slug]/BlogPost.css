@@ -1,8 +1,3 @@
-/* =========================================================================
-   BLOG POST STYLES
-   Custom overrides for PortableText and the Dark Premium Layout
-========================================================================= */
-
 .blog-post-page {
     width: 100%;
     min-height: 100svh;
@@ -11,7 +6,6 @@
     font-family: var(--font-neue, sans-serif);
 }
 
-/* ── HERO PROGRESS BAR ── */
 #reading-bar {
     background: linear-gradient(90deg, #c0501a, #e06a2f);
 }
@@ -19,7 +13,6 @@
     background-color: rgba(227, 227, 219, 0.06);
 }
 
-/* ── HERO SECTION ── */
 .blog-post-hero-title {
     font-family: var(--font-big-shoulders);
     text-transform: uppercase;
@@ -39,10 +32,6 @@
     mix-blend-mode: overlay;
     z-index: 2;
 }
-
-/* =========================================================================
-   CONTENT AREA
-========================================================================= */
 
 .blog-post-content-wrapper {
     max-width: 72rem;
@@ -67,7 +56,6 @@
     overflow: hidden;
 }
 
-/* ── METADATA STRIP ── */
 .blog-post-meta-strip {
     display: flex;
     flex-wrap: wrap;
@@ -177,7 +165,6 @@
     color: var(--color-rt-orange, #c0501a);
 }
 
-/* ── EXCERPT ── */
 .blog-post-excerpt-wrapper {
     position: relative;
     margin-bottom: 3.5rem;
@@ -214,7 +201,6 @@
     }
 }
 
-/* ── PORTABLE TEXT PROSE OVERRIDES ── */
 .blog-prose {
     font-family: var(--font-neue, sans-serif);
     font-size: 1.1rem;
@@ -349,7 +335,6 @@
     font-weight: 600;
 }
 
-/* ── END OF ARTICLE MARKER ── */
 .blog-post-end-marker {
     display: flex;
     align-items: center;
@@ -372,7 +357,6 @@
     background: rgba(227, 227, 219, 0.2);
 }
 
-/* ── BACK TO JOURNAL LINK ── */
 .blog-post-back-link {
     display: inline-flex;
     align-items: center;
@@ -393,10 +377,6 @@
     color: var(--color-rt-orange, #c0501a);
     gap: 0.8rem;
 }
-
-/* =========================================================================
-   TABLE OF CONTENTS
-========================================================================= */
 
 .blog-post-toc-aside {
     display: none;
@@ -487,10 +467,6 @@
 .blog-post-toc-link.active .blog-post-toc-number {
     color: var(--color-rt-orange, #c0501a);
 }
-
-/* =========================================================================
-   RESPONSIVE
-========================================================================= */
 
 @media (max-width: 768px) {
     .blog-post-meta-strip {

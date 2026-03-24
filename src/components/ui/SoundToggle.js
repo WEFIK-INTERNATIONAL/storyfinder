@@ -4,9 +4,9 @@ import { useSound } from '@/hooks/useSound';
 import { useEffect, useRef } from 'react';
 
 const COLORS = {
-    primary: [44, 27, 20], // #2C1B14
-    accent: [166, 75, 35], // #A64B23
-    mute: [217, 196, 170], // #D9C4AA
+    primary: [44, 27, 20],
+    accent: [166, 75, 35],
+    mute: [217, 196, 170],
 };
 
 function interpolateRgb(rgb1, rgb2, factor) {

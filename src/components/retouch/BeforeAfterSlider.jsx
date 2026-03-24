@@ -3,10 +3,6 @@
 import { useState, useRef, useEffect, useCallback, memo } from 'react';
 import Image from 'next/image';
 
-/**
- * BeforeAfterSlider
- * Interactive drag / touch slider comparing two images.
- */
 const BeforeAfterSlider = memo(function BeforeAfterSlider({
     before,
     after,
@@ -20,7 +16,6 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
     const wrapRef = useRef(null);
     const isDrag = useRef(false);
 
-    // Track width for the clipped image container
     useEffect(() => {
         if (!wrapRef.current) return;
         const updateWidth = () => setWidth(wrapRef.current.offsetWidth);
@@ -29,7 +24,6 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
         return () => window.removeEventListener('resize', updateWidth);
     }, []);
 
-    /* Reset on image change */
     useEffect(() => {
         setTimeout(() => {
             setPos(50);
@@ -50,7 +44,6 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
             isDrag.current = true;
             calcPos(e.clientX);
 
-            // Store handlers on the wrapper ref so we can remove them safely
             const wrap = wrapRef.current;
 
             wrap._onMove = (e) => {
@@ -68,7 +61,6 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
         [calcPos]
     );
 
-    // Clean up any stray mouse listeners if unmounted while dragging
     useEffect(() => {
         const wrap = wrapRef.current;
         return () => {
@@ -113,7 +105,7 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
         >
-            {/* BEFORE — base layer, desaturated */}
+            {}
             <Image
                 src={before}
                 alt="Before retouch"
@@ -125,13 +117,13 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
                 className="rt-before-img object-cover pointer-events-none"
             />
 
-            {/* AFTER — clipped to pos% */}
+            {}
             <div
                 className="absolute inset-0 overflow-hidden"
                 style={{ width: `${pos}%` }}
                 aria-hidden="true"
             >
-                {/* img stays full width inside clip so it doesn't squish */}
+                {}
                 <div
                     className="absolute inset-0"
                     style={{ width: width ? `${width}px` : '100%' }}
@@ -149,7 +141,7 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
                 </div>
             </div>
 
-            {/* Divider line + knob */}
+            {}
             <div
                 className="rt-divider-line"
                 style={{ left: `${pos}%` }}
@@ -176,7 +168,7 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
                 </div>
             </div>
 
-            {/* Chips */}
+            {}
             <span
                 className="absolute bottom-4 left-4 z-20 font-display text-[0.58rem] tracking-[0.2em] uppercase px-3.5 py-1.5 rounded-full pointer-events-none"
                 style={{
@@ -199,7 +191,7 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
                 After
             </span>
 
-            {/* Drag hint */}
+            {}
             {!moved && (
                 <div
                     className="absolute inset-0 flex items-center justify-center pointer-events-none z-30"

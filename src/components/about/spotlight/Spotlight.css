@@ -1,5 +1,3 @@
-/* ── ORIGINAL — DO NOT MODIFY ─────────────────────────────────── */
-
 .spotlight {
     position: relative;
     z-index: 10;
@@ -47,7 +45,7 @@
 
 .spotlight .marquee-img-item {
     flex: 1;
-    position: relative; /* required for Next.js Image fill */
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,6 +64,7 @@
     font-size: 4.25rem;
     line-height: 0.9;
     letter-spacing: -0.125rem;
+    color: #1a1614;
 }
 
 .spotlight .marquee-img-item img {
@@ -97,8 +96,6 @@
         font-size: 2.5rem;
     }
 }
-
-/* ── ADDITIONS — header & footer only ────────────────────────── */
 
 .spotlight-header {
     display: flex;

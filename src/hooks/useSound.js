@@ -15,7 +15,6 @@ export function useSound() {
 
     const interactionRef = useRef(false);
 
-    // Initialize the sound manager on first render
     useEffect(() => {
         if (!isInitialized) {
             soundManager.init();
@@ -23,7 +22,6 @@ export function useSound() {
         }
     }, [isInitialized, setInitialized]);
 
-    // Unlock audio context on first user interaction
     useEffect(() => {
         if (interactionRef.current) return;
 
@@ -48,12 +46,10 @@ export function useSound() {
         };
     }, []);
 
-    // Sync enabled state with sound manager
     useEffect(() => {
         soundManager.setEnabled(enabled);
     }, [enabled]);
 
-    // Sync volume with sound manager
     useEffect(() => {
         soundManager.setVolume(volume);
     }, [volume]);
