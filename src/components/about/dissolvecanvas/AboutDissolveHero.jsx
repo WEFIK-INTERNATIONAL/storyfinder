@@ -26,7 +26,7 @@ export default function Home() {
             >
                 <div className="absolute inset-0">
                     <Image
-                        src="/stock/supratik_img.jpg"
+                        src="/stock/supratikimage.jpg"
                         alt="Hero background"
                         fill
                         priority
