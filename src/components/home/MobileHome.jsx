@@ -73,31 +73,31 @@ const EXPERTISE = [
 
 const BLOG_POSTS = [
     {
-        slug: 'the-art-of-golden-hour',
-        title: 'The Art of Golden Hour',
+        slug: 'strings-of-the-desert',
+        title: 'Strings of the Desert',
         excerpt:
-            'Why the last 40 minutes of sunlight create unrepeatable magic — and how to chase it.',
+            'Strings of the Desert: My Encounter with a Rajasthani Folk Musician in Pushkar',
         date: 'Feb 2026',
-        tag: 'Technique',
-        img: '/spotlight/spotlight-2.jpg',
+        tag: 'Potrait',
+        img: '/mhomeblog/mhomeblog_1.jpg',
     },
     {
-        slug: 'kolkata-through-my-lens',
-        title: 'Kolkata Through My Lens',
+        slug: 'a-moment-i-couldn-t-forget',
+        title: 'A Moment I Couldn&apos;t Forget',
         excerpt:
-            'A visual diary of vanishing lanes, monsoon reflections, and faces that carry centuries.',
+            'There are moments you capture with your camera — and then there are moments that capture you. This was one of them.',
         date: 'Jan 2026',
-        tag: 'Stories',
-        img: '/spotlight/spotlight-6.jpg',
+        tag: 'Street',
+        img: '/mhomeblog/mhomeblog_2.webp',
     },
     {
-        slug: 'behind-the-retouch',
-        title: 'Behind The Retouch',
+        slug: 'smoke-silence-and-shiva',
+        title: 'Smoke, Silence, and Shiva',
         excerpt:
-            'From raw capture to final frame — a transparent look at my editing philosophy.',
+            'Smoke, Silence, and Shiva: A Shivratri at Bhootnath Temple, Kolkata',
         date: 'Dec 2025',
-        tag: 'Process',
-        img: '/spotlight/spotlight-10.jpg',
+        tag: 'Travel',
+        img: '/mhomeblog/mhomeblog_3.jpg',
     },
 ];
 

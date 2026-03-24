@@ -15,24 +15,27 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 const FEATURED = [
     {
         id: 1,
-        title: 'Golden Hour Portrait',
-        publication: 'National Geographic',
-        caption: 'Cover Story · Jan 2025',
-        image: '/spotlight/spotlight-1.jpg',
+        title: 'Camel Keeper Portrait',
+        publication: 'Z News',
+        caption: 'Cover Story · 2025',
+        image: '/aboutnews/aboutnews_1.jpg',
+        link: 'https://zeenews.india.com/gujarati/web-stories/india/which-is-the-largest-and-smallest-state-of-india-430962',
     },
     {
         id: 2,
-        title: 'Monsoon Whispers',
-        publication: 'Vogue India',
-        caption: 'Fashion Editorial · Mar 2025',
-        image: '/spotlight/spotlight-5.jpg',
+        title: 'Weathered Quiet Gaze',
+        publication: 'India Today',
+        caption: 'Editorial · 2025',
+        image: '/aboutnews/aboutnews_2.jpg',
+        link: 'https://www.indiatoday.in/information/story/how-to-check-ladli-behna-yojana-status-registration-process-and-new-updates-stmp-2678139-2025-02-11',
     },
     {
         id: 3,
-        title: 'Silent Valley',
-        publication: 'The Hindu',
-        caption: 'Photo Essay · Jun 2025',
-        image: '/spotlight/spotlight-9.jpg',
+        title: 'Desert Folk Musician',
+        publication: 'ABP NEWS',
+        caption: 'Cover Story · 2025',
+        image: '/aboutnews/aboutnews_3.jpg',
+        link: 'https://www.abplive.com/web-stories/rajasthan/total-population-of-hindus-in-ajmer-in-rajasthan-states-2905556',
     },
 ];
 
@@ -142,8 +145,11 @@ const AboutFeatured = () => {
             {}
             <div className="af-grid">
                 {FEATURED.map((item, i) => (
-                    <div
+                    <a
                         key={item.id}
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         ref={(el) => (cardsRef.current[i] = el)}
                         className="af-card"
                     >
@@ -157,12 +163,10 @@ const AboutFeatured = () => {
                             <div className="af-card-grain" />
                             <div className="af-card-overlay" />
 
-                            {}
                             <span className="af-card-pub">
                                 {item.publication}
                             </span>
 
-                            {}
                             <div className="af-card-info">
                                 <span className="af-card-title">
                                     {item.title}
@@ -172,7 +176,7 @@ const AboutFeatured = () => {
                                 </span>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 ))}
             </div>
 
