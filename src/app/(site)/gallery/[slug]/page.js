@@ -5,6 +5,8 @@ import { client } from '@/lib/sanityClient';
 import { GALLERY_QUERY } from '../../../../../sanity/lib/queries';
 import { getWatermarkedUrl } from '@/lib/watermarkHelper';
 
+export const revalidate = 60;
+
 export async function generateMetadata({ params, searchParams }) {
     const { slug } = await params;
     const resolvedSearchParams = await searchParams;

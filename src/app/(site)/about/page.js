@@ -6,6 +6,8 @@ import Spotlight from '@/components/about/spotlight/Spotlight';
 import AboutRetouch from '@/components/about/aboutretouch/AboutRetouch';
 import AboutFeatured from '@/components/about/aboutfeatured/AboutFeatured';
 
+export const revalidate = 60;
+
 export const metadata = {
     title: 'About Supratik Sahis — Photographer & Visual Storyteller',
     description:
