@@ -339,7 +339,7 @@ export default function AboutPhotographer() {
                 <div className="ap-panel ap-panel--image">
                     <div ref={imageRef} className="ap-image-wrap">
                         <Image
-                            src="/stock/supratik_img.jpg"
+                            src="/stock/supratikimage.jpg"
                             alt="Supratik Sahis"
                             fill
                             className="ap-img"
