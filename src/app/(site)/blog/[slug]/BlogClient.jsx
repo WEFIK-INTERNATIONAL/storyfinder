@@ -12,6 +12,7 @@ import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { format, parseISO, differenceInDays } from 'date-fns';
 import { FiShare2, FiArrowLeft, FiClock, FiCalendar } from 'react-icons/fi';
 import './BlogPost.css';
+import Footer from '@/components/layout/footer/Footer';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -314,6 +315,9 @@ export default function BlogClient({ post }) {
                         </div>
                     </aside>
                 )}
+            </div>
+            <div>
+                <Footer />
             </div>
         </article>
     );

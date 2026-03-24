@@ -111,7 +111,7 @@ const Spotlight = () => {
                     <div className="marquee">
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-1.jpg"
+                                src="/spotlight/spotlight_1.jpg"
                                 alt="Portrait 1"
                                 fill
                                 sizes="280px"
@@ -122,7 +122,7 @@ const Spotlight = () => {
                         </div>
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-2.jpg"
+                                src="/spotlight/spotlight_2.jpg"
                                 alt="Portrait 2"
                                 fill
                                 sizes="280px"
@@ -130,7 +130,7 @@ const Spotlight = () => {
                         </div>
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-3.jpg"
+                                src="/spotlight/spotlight_3.jpg"
                                 alt="Portrait 3"
                                 fill
                                 sizes="280px"
@@ -138,7 +138,7 @@ const Spotlight = () => {
                         </div>
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-4.jpg"
+                                src="/spotlight/spotlight_4.jpg"
                                 alt="Portrait 4"
                                 fill
                                 sizes="280px"
@@ -151,7 +151,7 @@ const Spotlight = () => {
                     <div className="marquee">
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-5.jpg"
+                                src="/spotlight/spotlight_5.jpg"
                                 alt="Wildlife 1"
                                 fill
                                 sizes="280px"
@@ -159,7 +159,7 @@ const Spotlight = () => {
                         </div>
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-6.jpg"
+                                src="/spotlight/spotlight_6.jpg"
                                 alt="Wildlife 2"
                                 fill
                                 sizes="280px"
@@ -167,7 +167,7 @@ const Spotlight = () => {
                         </div>
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-7.jpg"
+                                src="/spotlight/spotlight_7.jpg"
                                 alt="Wildlife 3"
                                 fill
                                 sizes="280px"
@@ -178,7 +178,7 @@ const Spotlight = () => {
                         </div>
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-8.jpg"
+                                src="/spotlight/spotlight_8.jpg"
                                 alt="Wildlife 4"
                                 fill
                                 sizes="280px"
@@ -191,18 +191,18 @@ const Spotlight = () => {
                     <div className="marquee">
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-9.jpg"
+                                src="/spotlight/spotlight_9.jpg"
                                 alt="Landscape 1"
                                 fill
                                 sizes="280px"
                             />
                         </div>
                         <div className="marquee-img-item marquee-text-item">
-                            <h1>Landscape</h1>
+                            <h1>Travel</h1>
                         </div>
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-10.jpg"
+                                src="/spotlight/spotlight_10.jpg"
                                 alt="Landscape 2"
                                 fill
                                 sizes="280px"
@@ -210,7 +210,7 @@ const Spotlight = () => {
                         </div>
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-11.jpg"
+                                src="/spotlight/spotlight_11.jpg"
                                 alt="Landscape 3"
                                 fill
                                 sizes="280px"
@@ -218,7 +218,7 @@ const Spotlight = () => {
                         </div>
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-12.jpg"
+                                src="/spotlight/spotlight_12.jpg"
                                 alt="Landscape 4"
                                 fill
                                 sizes="280px"
@@ -231,7 +231,7 @@ const Spotlight = () => {
                     <div className="marquee">
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-13.jpg"
+                                src="/spotlight/spotlight_14.jpg"
                                 alt="Location 1"
                                 fill
                                 sizes="280px"
@@ -239,7 +239,7 @@ const Spotlight = () => {
                         </div>
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-14.jpg"
+                                src="/spotlight/spotlight_13.jpg"
                                 alt="Location 2"
                                 fill
                                 sizes="280px"
@@ -247,18 +247,18 @@ const Spotlight = () => {
                         </div>
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-15.jpg"
+                                src="/spotlight/spotlight_15.jpg"
                                 alt="Location 3"
                                 fill
                                 sizes="280px"
                             />
                         </div>
                         <div className="marquee-img-item marquee-text-item">
-                            <h1>Travel</h1>
+                            <h1>Street</h1>
                         </div>
                         <div className="marquee-img-item">
                             <Image
-                                src="/spotlight/spotlight-16.jpg"
+                                src="/spotlight/spotlight_16.jpg"
                                 alt="Location 4"
                                 fill
                                 sizes="280px"
