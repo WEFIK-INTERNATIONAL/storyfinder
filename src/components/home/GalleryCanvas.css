@@ -1,5 +1,9 @@
-.canvas-wrapper.is-animating {
+/* ─── Canvas & Grid ─────────────────────────────────────────────────────────── */
+
+.canvas-wrapper {
     will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .grid-item {
@@ -10,8 +14,15 @@
     cursor: pointer;
     z-index: 1;
     opacity: 1;
-    transition: opacity 0.6s ease;
     outline: none;
+    /* GPU compositing — promotes each cell to its own layer */
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    /* Isolates repaint scope per cell — prevents neighbour recalc */
+    contain: layout style paint;
+    /* No CSS transition here — GSAP owns all opacity/transform animations.
+       Having both causes the browser to fight itself every frame. */
 }
 
 .grid-item img {
@@ -25,10 +36,14 @@
 
 .grid-item.out-of-view {
     opacity: 0.1;
+    /* Release GPU layer for items far off screen */
+    will-change: auto;
 }
 
 .grid-item.selected {
     z-index: 2 !important;
+    /* Release containment so GSAP FLIP can measure the element freely */
+    contain: none;
 }
 
 .grid-item:focus-visible {
@@ -36,6 +51,31 @@
     outline-offset: 2px;
     z-index: 3;
 }
+
+/* ─── Glass Dock ─────────────────────────────────────────────────────────────
+   backdrop-filter: blur() forces recompositing of everything behind the element
+   on every single frame during drag. With 96 animated cells behind it this is
+   extremely expensive. We disable it during drag (body.dragging is added by your
+   existing JS) and re-enable only when the grid is idle. */
+
+.glass-dock {
+    background: rgba(8, 8, 8, 0.88) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    transition: background 0.4s ease !important;
+}
+
+body:not(.dragging) .glass-dock {
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    background: rgba(10, 10, 10, 0.72) !important;
+}
+
+/* ─── Split Screen ───────────────────────────────────────────────────────────── */
 
 .split-screen-container.active {
     opacity: 1;
@@ -56,6 +96,8 @@
     display: none;
 }
 
+/* ─── Scaling Overlay (FLIP animation element) ───────────────────────────────── */
+
 .scaling-image-overlay {
     position: fixed;
     top: 0;
@@ -63,7 +105,7 @@
     z-index: var(--z-split);
     pointer-events: none;
     will-change: transform;
-    opacity: 1 !important;
+    /* overflow: hidden must be on the wrapper, not on img — img has no overflow */
     overflow: hidden;
 }
 
@@ -72,8 +114,9 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    overflow: hidden;
 }
+
+/* ─── Image Title Overlay ────────────────────────────────────────────────────── */
 
 .image-title-overlay {
     width: 100%;
@@ -112,6 +155,8 @@
     white-space: nowrap;
 }
 
+/* ─── Controls ───────────────────────────────────────────────────────────────── */
+
 .controls-container.visible {
     opacity: 1;
 }
@@ -122,16 +167,6 @@
 
 body.controls-visible .controls-veil {
     opacity: 1;
-}
-
-.glass-dock {
-    background: rgba(10, 10, 10, 0.7) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
 .controls-container.split-mode {
@@ -156,12 +191,6 @@ body.controls-visible .controls-veil {
     color: white !important;
 }
 
-.close-button:focus-visible {
-    outline: 2px solid white;
-    outline-offset: 4px;
-    border-radius: 4px;
-}
-
 .switch-button {
     transition: color 0.3s ease;
 }
@@ -183,6 +212,8 @@ body.controls-visible .controls-veil {
     outline: none !important;
     background: none !important;
 }
+
+/* ─── Responsive ─────────────────────────────────────────────────────────────── */
 
 @media (max-width: 900px) {
     .image-title-overlay {
