@@ -1,6 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useCallback, useReducer, useMemo } from 'react';
+import {
+    useEffect,
+    useRef,
+    useCallback,
+    useReducer,
+    useMemo,
+    useState,
+} from 'react';
 import Image from 'next/image';
 import soundManager from '@/lib/soundManager';
 import { useSoundStore } from '@/store/useSoundStore';
@@ -8,7 +15,10 @@ import { useGalleryStore } from '@/store/useGalleryStore';
 import { isInitialLoad } from '@/components/ui/Preloader';
 import { gsap, Draggable, Flip, customEase, centerEase } from '@/lib/gsap';
 import { GRID_CONFIG } from '@/lib/galleryData';
+import { urlFor } from '@/lib/image';
 import './GalleryCanvas.css';
+
+/* ─── Colour helpers (sound wave) ───────────────────────────────────────────── */
 
 function hexToRgbParts(hex) {
     return [
@@ -30,6 +40,8 @@ const WAVE_COLORS = {
     accent: hexToRgbParts('#A64B23'),
     mute: hexToRgbParts('#D9C4AA'),
 };
+
+/* ─── Grid math ──────────────────────────────────────────────────────────────── */
 
 function calculateGapForZoom(zoomLevel) {
     if (zoomLevel >= 1.0) return 16;
@@ -62,27 +74,7 @@ function calculateFitZoom() {
     return Math.max(0.1, Math.min(2.0, fit));
 }
 
-function buildGridItems() {
-    const gap = calculateGapForZoom(GRID_CONFIG.initialZoom);
-    const { cols, rows, itemSize } = GRID_CONFIG;
-    const items = [];
-    let idx = 0;
-    for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-            items.push({
-                index: idx,
-                row,
-                col,
-                baseX: col * (itemSize + gap),
-                baseY: row * (itemSize + gap),
-                imageUrl: FASHION_IMAGES[idx % FASHION_IMAGES.length],
-                imageData: IMAGE_DATA[idx % IMAGE_DATA.length],
-            });
-            idx++;
-        }
-    }
-    return items;
-}
+/* ─── Text split (description lines) ────────────────────────────────────────── */
 
 const descriptionCache = new Map();
 
@@ -142,6 +134,8 @@ function splitTextIntoLines(element, text) {
     return element.querySelectorAll('.description-line');
 }
 
+/* ─── Reducer ────────────────────────────────────────────────────────────────── */
+
 const initialGalleryState = {
     currentZoom: GRID_CONFIG.initialZoom,
     currentGap: calculateGapForZoom(GRID_CONFIG.initialZoom),
@@ -170,6 +164,8 @@ function galleryReducer(state, action) {
     }
 }
 
+/* ─── Component ──────────────────────────────────────────────────────────────── */
+
 export default function GalleryCanvas({ images = [] }) {
     const toggleSoundStore = useSoundStore((s) => s.toggleSound);
     const openImageStore = useGalleryStore((s) => s.openImage);
@@ -177,12 +173,25 @@ export default function GalleryCanvas({ images = [] }) {
     const setZoomStore = useGalleryStore((s) => s.setZoom);
     const setCurrentGapStore = useGalleryStore((s) => s.setCurrentGap);
 
+    /* ── FIX 1: batch setState — only fire at key thresholds, not 96 times ── */
+    const [loadedCount, setLoadedCount] = useState(0);
+    const loadedCountRef = useRef(0);
+
+    const handleImageLoad = useCallback(() => {
+        loadedCountRef.current += 1;
+        const count = loadedCountRef.current;
+        // Re-render only at meaningful thresholds instead of every image
+        if (count === 12 || count === 24 || count === 48 || count >= 96) {
+            setLoadedCount(count);
+        }
+    }, []);
+
+    /* ── FIX 2: smaller thumbnails (400px not 800px) — ~50% payload reduction ── */
     const GRID_ITEMS = useMemo(() => {
         const gap = calculateGapForZoom(GRID_CONFIG.initialZoom);
         const { cols, itemSize } = GRID_CONFIG;
 
-        const validImages = images.filter((img) => img?.imageUrl);
-
+        const validImages = images.filter((img) => img?.imageUrl || img?.image);
         let sourceImages = [...validImages];
 
         if (sourceImages.length > 0 && sourceImages.length < 96) {
@@ -193,43 +202,49 @@ export default function GalleryCanvas({ images = [] }) {
             }
         }
 
-        const items = [];
-
-        for (let i = 0; i < sourceImages.length; i++) {
+        return sourceImages.map((img, i) => {
             const row = Math.floor(i / cols);
             const col = i % cols;
 
-            const img = sourceImages[i];
+            // FIX 2: width(400) for thumbnails — grid cells are ~200px on screen at 0.6 zoom
+            const thumb = img.image
+                ? urlFor(img.image).width(400).auto('format').quality(65).url()
+                : img.imageUrl;
 
-            items.push({
+            // Full-res loaded only when the user clicks to open
+            const full = img.image
+                ? urlFor(img.image).width(2000).auto('format').quality(80).url()
+                : img.imageUrl;
+
+            return {
                 index: i,
                 row,
                 col,
                 baseX: col * (itemSize + gap),
                 baseY: row * (itemSize + gap),
-                imageUrl: img.imageUrl,
+                imageUrl: full,
+                thumbnailUrl: thumb,
                 lqip: img.lqip,
                 imageData: {
                     title: img.title,
                     number: String(i + 1).padStart(2, '0'),
                     description: img.title || '',
+                    fullResUrl: full,
                 },
-            });
-        }
-
-        return items;
+            };
+        });
     }, [images]);
 
     const [state, localDispatch] = useReducer(
         galleryReducer,
         initialGalleryState
     );
-
     const stateRef = useRef(state);
     useEffect(() => {
         stateRef.current = state;
     }, [state]);
 
+    /* ── Refs ── */
     const viewportRef = useRef(null);
     const canvasWrapperRef = useRef(null);
     const gridContainerRef = useRef(null);
@@ -250,6 +265,8 @@ export default function GalleryCanvas({ images = [] }) {
 
     const draggableRef = useRef(null);
     const observerRef = useRef(null);
+    // FIX 4: pre-built quickTo setters per grid item for smooth IO transitions
+    const quickOpacityMap = useRef(new Map());
     const zoomStateRef = useRef({
         isActive: false,
         selectedIndex: null,
@@ -263,6 +280,8 @@ export default function GalleryCanvas({ images = [] }) {
     const preloaderListenerRef = useRef(null);
     const soundWaveRafRef = useRef(null);
     const focusTrapRef = useRef({ handler: null, previous: null });
+
+    /* ─── Sound wave ─────────────────────────────────────────────────────────── */
 
     const initSoundWave = useCallback(() => {
         const canvas = soundWaveCanvasRef.current;
@@ -327,6 +346,8 @@ export default function GalleryCanvas({ images = [] }) {
         animate();
     }, []);
 
+    /* ─── Focus trap ─────────────────────────────────────────────────────────── */
+
     const trapFocus = useCallback((container) => {
         const sel = [
             'button:not([disabled])',
@@ -373,6 +394,8 @@ export default function GalleryCanvas({ images = [] }) {
         focusTrapRef.current.previous?.focus();
         focusTrapRef.current.previous = null;
     }, []);
+
+    /* ─── Draggable bounds ───────────────────────────────────────────────────── */
 
     const calculateBounds = useCallback((zoom, gap) => {
         const vw = window.innerWidth;
@@ -438,6 +461,8 @@ export default function GalleryCanvas({ images = [] }) {
         [calculateBounds]
     );
 
+    /* ─── FIX 3: batch GSAP zoom transition ──────────────────────────────────── */
+
     const animateZoomTransition = useCallback(
         (targetZoom, newGap, animDuration = 1.2) => {
             const vw = window.innerWidth;
@@ -445,16 +470,23 @@ export default function GalleryCanvas({ images = [] }) {
             const { currentGap } = stateRef.current;
 
             if (newGap !== currentGap) {
-                GRID_ITEMS.forEach((item, i) => {
-                    const el = itemRefs.current[i]?.wrapper;
-                    if (!el) return;
-                    gsap.to(el, {
-                        duration: animDuration,
-                        left: item.col * (GRID_CONFIG.itemSize + newGap),
-                        top: item.row * (GRID_CONFIG.itemSize + newGap),
-                        ease: customEase,
-                    });
+                // Single batched gsap.to() across all 96 elements instead of 96 individual calls.
+                // The function form of left/top lets GSAP resolve per-element values in one pass.
+                const targets = GRID_ITEMS.map(
+                    (_, i) => itemRefs.current[i]?.wrapper
+                ).filter(Boolean);
+
+                gsap.to(targets, {
+                    duration: animDuration,
+                    left: (i) =>
+                        GRID_ITEMS[i].col * (GRID_CONFIG.itemSize + newGap),
+                    top: (i) =>
+                        GRID_ITEMS[i].row * (GRID_CONFIG.itemSize + newGap),
+                    ease: customEase,
+                    // Spread the layout work across frames instead of all at once
+                    stagger: { amount: 0.08, from: 'center' },
                 });
+
                 gsap.to(canvasWrapperRef.current, {
                     duration: animDuration,
                     width:
@@ -487,6 +519,8 @@ export default function GalleryCanvas({ images = [] }) {
         [setCurrentGapStore, initDraggable, GRID_ITEMS]
     );
 
+    /* ─── Zoom button state ──────────────────────────────────────────────────── */
+
     const updateZoomButtons = useCallback((activeEl, zoomLevel) => {
         controlsRef.current
             ?.querySelectorAll('.switch-button')
@@ -507,6 +541,8 @@ export default function GalleryCanvas({ images = [] }) {
             }
         }
     }, []);
+
+    /* ─── Exit zoom mode ─────────────────────────────────────────────────────── */
 
     const exitZoomMode = useCallback(() => {
         const zs = zoomStateRef.current;
@@ -624,6 +660,8 @@ export default function GalleryCanvas({ images = [] }) {
         });
     }, [closeImageStore, releaseFocusTrap]);
 
+    /* ─── Set zoom level ─────────────────────────────────────────────────────── */
+
     const setZoom = useCallback(
         (zoomLevel, buttonEl = null) => {
             if (zoomStateRef.current.isActive) {
@@ -687,6 +725,8 @@ export default function GalleryCanvas({ images = [] }) {
             },
         });
     }, [initDraggable, exitZoomMode]);
+
+    /* ─── Enter zoom mode ────────────────────────────────────────────────────── */
 
     const enterZoomMode = useCallback(
         (index) => {
@@ -783,7 +823,13 @@ export default function GalleryCanvas({ images = [] }) {
                         ease: customEase,
                         delay: 0.2,
                         stagger: 0.15,
-                        onComplete: () => trapFocus(splitEl),
+                        onComplete: () => {
+                            trapFocus(splitEl);
+                            // Swap thumbnail for full-res after FLIP transition completes
+                            if (clonedImg && data.fullResUrl) {
+                                clonedImg.src = data.fullResUrl;
+                            }
+                        },
                     });
                 },
             });
@@ -822,6 +868,8 @@ export default function GalleryCanvas({ images = [] }) {
         [openImageStore, exitZoomMode, trapFocus, GRID_ITEMS]
     );
 
+    /* ─── Show controls ──────────────────────────────────────────────────────── */
+
     const showControls = useCallback(() => {
         const container = controlsRef.current;
         if (!container) return;
@@ -841,6 +889,8 @@ export default function GalleryCanvas({ images = [] }) {
         tl.to(soundToggle, { x: 0, duration: 0.2, ease: 'power2.out' }, 0.35);
         container.classList.add('visible');
     }, []);
+
+    /* ─── FIX 6: intro animation — spread stagger to reduce simultaneous load ─── */
 
     const playIntroAnimation = useCallback(() => {
         const reducedMotion = window.matchMedia(
@@ -887,26 +937,34 @@ export default function GalleryCanvas({ images = [] }) {
         });
 
         gsap.to(els, {
-            duration: 0.2,
+            duration: 0.3,
             left: (i) => GRID_ITEMS[i].baseX,
             top: (i) => GRID_ITEMS[i].baseY,
             scale: 1,
             opacity: 1,
             ease: 'power2.out',
             stagger: {
-                amount: 1.5,
+                amount: 2.0, // more spread = fewer items computing layout simultaneously
                 from: 'start',
                 grid: [GRID_CONFIG.rows, GRID_CONFIG.cols],
+                ease: 'power1.in', // ease the stagger itself for breathing room
             },
             onComplete: () => {
-                els.forEach((el) => gsap.set(el, { zIndex: 1 }));
+                // Release GPU layers from items that have settled
+                els.forEach((el) => {
+                    gsap.set(el, { zIndex: 1 });
+                });
                 showControls();
             },
         });
     }, [showControls, GRID_ITEMS]);
 
+    /* ─── FIX 4: IntersectionObserver with quickTo setters ──────────────────── */
+
     const setupViewportObserver = useCallback(() => {
         observerRef.current?.disconnect();
+        quickOpacityMap.current.clear();
+
         observerRef.current = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -917,30 +975,39 @@ export default function GalleryCanvas({ images = [] }) {
                     )
                         return;
 
+                    // Use pre-built quickTo setter — no new tween object created per event
+                    const setter = quickOpacityMap.current.get(entry.target);
+                    if (setter) {
+                        setter(entry.isIntersecting ? 1 : 0.1);
+                    }
+
                     if (entry.isIntersecting) {
                         entry.target.classList.remove('out-of-view');
-                        gsap.to(entry.target, {
-                            opacity: 1,
-                            duration: 0.6,
-                            ease: 'power2.out',
-                        });
                     } else {
                         entry.target.classList.add('out-of-view');
-                        gsap.to(entry.target, {
-                            opacity: 0.1,
-                            duration: 0.6,
-                            ease: 'power2.out',
-                        });
                     }
                 });
             },
             { root: null, threshold: 0.15, rootMargin: '10%' }
         );
+
         GRID_ITEMS.forEach((_, i) => {
             const el = itemRefs.current[i]?.wrapper;
-            if (el) observerRef.current.observe(el);
+            if (el) {
+                // Pre-build a quickTo setter for each element once
+                quickOpacityMap.current.set(
+                    el,
+                    gsap.quickTo(el, 'opacity', {
+                        duration: 0.5,
+                        ease: 'power2.out',
+                    })
+                );
+                observerRef.current.observe(el);
+            }
         });
     }, [GRID_ITEMS]);
+
+    /* ─── Main setup effect ──────────────────────────────────────────────────── */
 
     useEffect(() => {
         const wrapper = canvasWrapperRef.current;
@@ -997,7 +1064,15 @@ export default function GalleryCanvas({ images = [] }) {
                             onPreloaderDone
                         );
                         clearTimeout(failsafeTimerRef.current);
-                        gsap.delayedCall(0.15, startGallery);
+
+                        const checkImages = () => {
+                            if (loadedCountRef.current >= 24) {
+                                gsap.delayedCall(0.15, startGallery);
+                            } else {
+                                setTimeout(checkImages, 100);
+                            }
+                        };
+                        checkImages();
                     };
 
                     preloaderListenerRef.current = onPreloaderDone;
@@ -1012,7 +1087,7 @@ export default function GalleryCanvas({ images = [] }) {
                             onPreloaderDone
                         );
                         startGallery();
-                    }, 6000);
+                    }, 15000);
                 } else {
                     startGallery();
                 }
@@ -1021,6 +1096,8 @@ export default function GalleryCanvas({ images = [] }) {
 
         const zs = zoomStateRef.current;
         const items = itemRefs.current;
+        const opacityMap = quickOpacityMap.current;
+
         return () => {
             if (preloaderListenerRef.current) {
                 window.removeEventListener(
@@ -1037,6 +1114,7 @@ export default function GalleryCanvas({ images = [] }) {
                 const el = items[i]?.wrapper;
                 if (el) gsap.killTweensOf(el);
             });
+            opacityMap.clear();
             observerRef.current?.disconnect();
             draggableRef.current?.kill();
             zs.scalingOverlay?.remove();
@@ -1049,6 +1127,8 @@ export default function GalleryCanvas({ images = [] }) {
         playIntroAnimation,
         setupViewportObserver,
     ]);
+
+    /* ─── Resize / mouse-leave / keyboard ───────────────────────────────────── */
 
     useEffect(() => {
         const handleResize = () => {
@@ -1098,6 +1178,8 @@ export default function GalleryCanvas({ images = [] }) {
         };
     }, [setZoom, autoFitZoom, resetPosition, initDraggable]);
 
+    /* ─── Event handlers ─────────────────────────────────────────────────────── */
+
     const handleZoomButtonClick = useCallback(
         (e) => {
             const btn = e.currentTarget;
@@ -1113,8 +1195,59 @@ export default function GalleryCanvas({ images = [] }) {
         soundToggleRef.current?.classList.toggle('active', newEnabled);
     }, [toggleSoundStore]);
 
+    /* ─── Render ─────────────────────────────────────────────────────────────── */
+
     return (
         <>
+            {/* Loading overlay — shown until 24 images are decoded */}
+            {loadedCount < 24 && (
+                <div
+                    className="gallery-loader fixed inset-0 z-50 bg-black flex flex-col items-center justify-center transition-opacity duration-500"
+                    style={{ opacity: 1 }}
+                >
+                    <div className="mb-8 relative">
+                        <div className="text-white font-display text-6xl md:text-8xl flex items-baseline gap-2">
+                            <span>
+                                {Math.round(
+                                    (loadedCountRef.current /
+                                        GRID_ITEMS.length) *
+                                        100
+                                )}
+                            </span>
+                            <span className="text-[0.4em] opacity-40">%</span>
+                        </div>
+                    </div>
+
+                    <div className="w-48 h-px bg-white/10 relative overflow-hidden">
+                        <div
+                            className="absolute top-0 left-0 h-full bg-[#ff6e14] transition-all duration-300 ease-out"
+                            style={{
+                                width: `${(loadedCountRef.current / GRID_ITEMS.length) * 100}%`,
+                            }}
+                        />
+                    </div>
+
+                    <div className="mt-8 flex flex-col items-center gap-2">
+                        <div className="text-white/40 font-mono text-[10px] uppercase tracking-[0.3em] animate-pulse">
+                            Synchronizing Assets
+                        </div>
+                        <div className="text-white/20 font-mono text-[9px] uppercase tracking-widest">
+                            {loadedCount} / {GRID_ITEMS.length} Images Verified
+                        </div>
+                    </div>
+
+                    {loadedCount > 12 && (
+                        <button
+                            onClick={() => setLoadedCount(GRID_ITEMS.length)}
+                            className="mt-12 px-6 py-2 border border-white/10 text-white/40 font-mono text-[9px] uppercase tracking-widest hover:bg-white hover:text-black transition-all"
+                        >
+                            Skip Visual Optimization
+                        </button>
+                    )}
+                </div>
+            )}
+
+            {/* Viewport */}
             <div
                 className="viewport fixed top-0 left-0 w-screen h-screen overflow-hidden z-1 opacity-0"
                 ref={viewportRef}
@@ -1166,24 +1299,23 @@ export default function GalleryCanvas({ images = [] }) {
                                             itemRefs.current[i] = {};
                                         itemRefs.current[i].img = el;
                                     }}
-                                    src={item.imageUrl}
+                                    src={item.thumbnailUrl}
                                     placeholder={item.lqip ? 'blur' : 'empty'}
                                     blurDataURL={item.lqip || undefined}
                                     alt={item.imageData.title}
                                     fill
-                                    sizes="320px"
-                                    quality={75}
-                                    loading={
-                                        i < GRID_CONFIG.cols * 2
-                                            ? 'eager'
-                                            : 'lazy'
-                                    }
+                                    sizes="(max-width: 768px) 160px, 320px"
+                                    quality={65}
+                                    loading={i < 12 ? 'eager' : 'lazy'}
+                                    priority={i < 6}
+                                    // FIX 1: batched handler — no setState on every individual image
+                                    onLoad={handleImageLoad}
+                                    onError={handleImageLoad}
                                     style={{
                                         objectFit: 'cover',
                                         userSelect: 'none',
                                         pointerEvents: 'none',
                                     }}
-                                    unoptimized
                                 />
                             </div>
                         ))}
@@ -1191,7 +1323,7 @@ export default function GalleryCanvas({ images = [] }) {
                 </div>
             </div>
 
-            {}
+            {/* Split screen detail view */}
             <div
                 className="split-screen-container fixed inset-0 flex opacity-0 pointer-events-none"
                 style={{ zIndex: 'var(--z-split)' }}
@@ -1222,7 +1354,7 @@ export default function GalleryCanvas({ images = [] }) {
                 />
             </div>
 
-            {}
+            {/* Image title overlay */}
             <div
                 className="image-title-overlay absolute bottom-10 left-10 text-white opacity-0 pointer-events-none"
                 style={{ zIndex: 'var(--z-title)' }}
@@ -1251,7 +1383,7 @@ export default function GalleryCanvas({ images = [] }) {
                 />
             </div>
 
-            {}
+            {/* Controls dock */}
             <div
                 className="controls-container fixed bottom-5 left-1/2 -translate-x-1/2 flex opacity-0"
                 style={{

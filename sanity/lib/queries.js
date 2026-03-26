@@ -128,6 +128,7 @@ export const FEATURED_PHOTOS_QUERY = `
   _id,
   title,
   "slug": slug.current,
+  "image": coalesce(rawImage, image),
   "imageUrl": coalesce(rawImage.asset->url, image.asset->url),
   "lqip": coalesce(rawImage.asset->metadata.lqip, image.asset->metadata.lqip)
 }`
