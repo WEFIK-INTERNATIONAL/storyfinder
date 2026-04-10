@@ -45,7 +45,7 @@ export default function Minimap({
     const [copied, setCopied] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
     const [likedSet, setLikedSet] = useState(new Set());
-    const [localLikes, setLocalLikes] = useState();
+    const [localLikes, setLocalLikes] = useState({});
     const [isHorizontal, setIsHorizontal] = useState(() => {
         if (typeof window === 'undefined') return false;
         return window.innerWidth <= 900;
