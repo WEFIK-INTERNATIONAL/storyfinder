@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { PortableText } from '@portabletext/react';
 import { portableTextComponents } from '@/components/PortableTextComponents';
@@ -22,6 +22,7 @@ export default function BlogClient({ post }) {
     const [likedSet, setLikedSet] = useState(new Set());
     const [localLikes, setLocalLikes] = useState({});
     const containerRef = useRef(null);
+    const tocTimeoutRef = useRef(null);
 
     useEffect(() => {
         const stored = localStorage.getItem('storyfinder-likes');
@@ -126,7 +127,12 @@ export default function BlogClient({ post }) {
                 return items;
             });
         }, 0);
-        return () => clearTimeout(t);
+        tocTimeoutRef.current = t;
+        return () => {
+            if (tocTimeoutRef.current) {
+                clearTimeout(tocTimeoutRef.current);
+            }
+        };
     }, [post.body]);
 
     const handleScroll = useCallback(() => {
@@ -213,7 +219,7 @@ export default function BlogClient({ post }) {
         post.publishedAt &&
         differenceInDays(new Date(), parseISO(post.publishedAt)) <= 7;
 
-    const estimateReadingTime = () => {
+    const readTime = useMemo(() => {
         if (!post.body) return null;
         const text = post.body
             .filter((b) => b._type === 'block')
@@ -221,8 +227,7 @@ export default function BlogClient({ post }) {
             .join(' ');
         const words = text.split(/\s+/).length;
         return Math.max(1, Math.ceil(words / 200));
-    };
-    const readTime = estimateReadingTime();
+    }, [post.body]);
 
     const documentId = post?._id;
     const isLiked = documentId && likedSet.has(documentId);

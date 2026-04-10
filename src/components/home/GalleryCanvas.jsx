@@ -1049,6 +1049,7 @@ export default function GalleryCanvas({ images = [] }) {
         const zs = zoomStateRef.current;
         const items = itemRefs.current;
         const opacityMap = quickOpacityMap.current;
+        const splitEl = splitScreenRef.current;
 
         return () => {
             if (preloaderListenerRef.current) {
@@ -1070,6 +1071,12 @@ export default function GalleryCanvas({ images = [] }) {
             observerRef.current?.disconnect();
             draggableRef.current?.kill();
             zs.scalingOverlay?.remove();
+
+            // Fix memory leak: Release focus trap before unmounting
+            if (splitEl) {
+                releaseFocusTrap(splitEl);
+            }
+
             document.body.classList.remove('dragging', 'zoom-mode');
         };
     }, [
@@ -1078,6 +1085,7 @@ export default function GalleryCanvas({ images = [] }) {
         initSoundWave,
         playIntroAnimation,
         setupViewportObserver,
+        releaseFocusTrap,
     ]);
 
     useEffect(() => {

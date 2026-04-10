@@ -45,7 +45,7 @@ export default function Minimap({
     const [copied, setCopied] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
     const [likedSet, setLikedSet] = useState(new Set());
-    const [localLikes, setLocalLikes] = useState();
+    const [localLikes, setLocalLikes] = useState({});
     const [isHorizontal, setIsHorizontal] = useState(() => {
         if (typeof window === 'undefined') return false;
         return window.innerWidth <= 900;
@@ -475,7 +475,6 @@ export default function Minimap({
                         blurDataURL={images[activeIndex]?.lqip}
                         onLoad={() => setPreviewReady(true)}
                         sizes="100vw"
-                        unoptimized
                     />
                 )}
 
@@ -626,7 +625,6 @@ export default function Minimap({
                                 priority={i < 15}
                                 placeholder={img.lqip ? 'blur' : 'empty'}
                                 blurDataURL={img.lqip}
-                                unoptimized
                             />
                         </div>
                     ))}
