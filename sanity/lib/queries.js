@@ -19,6 +19,7 @@ export const PHOTOS_QUERY = `
   isPaid,
   featured,
   views,
+  likes,
   "category": category->title
 }`
 
@@ -43,6 +44,7 @@ export const PHOTO_QUERY = `
   price,
   isPaid,
   views,
+  likes,
   enabled,
   downloadFile,
   exif,
@@ -58,7 +60,7 @@ export const CATEGORIES_QUERY = `
 }`
 
 export const STORIES_QUERY = `
-*[_type == "story"] 
+*[_type == "story"]
 | order(featuredDate desc)[0...6]{
   title,
   organization,
@@ -76,12 +78,13 @@ export const POSTS_QUERY = `
   title,
   "slug": slug.current,
   mainImage{
-    asset->{ 
+    asset->{
       url,
       metadata { lqip }
     }
   },
   excerpt,
+  likes,
   publishedAt
 }`
 
@@ -91,6 +94,7 @@ export const POST_QUERY = `
   title,
   "slug": slug.current,
   excerpt,
+  likes,
   publishedAt,
 
   mainImage{
@@ -172,7 +176,8 @@ export const GALLERY_QUERY = `
       rawImage.asset->{ url, metadata { lqip, dimensions } }
     ),
     price,
-    isPaid
+    isPaid,
+    likes
   }
 }`
 

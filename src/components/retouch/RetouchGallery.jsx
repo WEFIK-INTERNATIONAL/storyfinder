@@ -223,11 +223,8 @@ export default function RetouchGallery({ works = [] }) {
 
     return (
         <div className="rt-gallery h-screen flex flex-col bg-[#111] text-rt-cream overflow-hidden relative pt-20 md:pt-24">
-            {}
             <div className="flex-1 flex flex-col min-h-0 relative">
-                {}
                 <div className="flex-1 relative flex flex-col md:flex-row items-center justify-center min-h-0 px-4 md:px-8 lg:px-12 py-2 md:py-4 gap-0 md:gap-6 lg:gap-10">
-                    {}
                     <div
                         className="absolute inset-0 pointer-events-none z-1"
                         aria-hidden="true"
@@ -236,7 +233,6 @@ export default function RetouchGallery({ works = [] }) {
                         <div className="absolute inset-0 bg-linear-to-r from-[#111]/40 via-transparent to-[#111]/40" />
                     </div>
 
-                    {}
                     <div className="hidden md:flex flex-col justify-end items-start shrink-0 z-10 pb-4 min-w-[120px] lg:min-w-[160px]">
                         <div key={active.id + '-title'} className="rt-fade-up">
                             <div className="flex items-center gap-2.5 mb-2">
@@ -260,7 +256,6 @@ export default function RetouchGallery({ works = [] }) {
                         </div>
                     </div>
 
-                    {}
                     <div
                         key={active.id}
                         className="rt-slider-container relative rounded-lg overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.65),0_0_0_1px_rgba(227,227,219,0.05)] rt-entrance z-10"
@@ -274,7 +269,6 @@ export default function RetouchGallery({ works = [] }) {
                         />
                     </div>
 
-                    {}
                     <div className="hidden md:flex flex-col justify-end items-end shrink-0 z-10 pb-4 min-w-[80px] lg:min-w-[120px]">
                         <div
                             key={active.id + '-count'}
@@ -295,7 +289,6 @@ export default function RetouchGallery({ works = [] }) {
                         </div>
                     </div>
 
-                    {}
                     <div className="flex md:hidden items-end justify-between w-full z-10 px-1 pt-2 pb-1 shrink-0">
                         <div
                             key={active.id + '-title-m'}
@@ -340,9 +333,7 @@ export default function RetouchGallery({ works = [] }) {
                     </div>
                 </div>
 
-                {}
                 <div className="shrink-0 relative z-20 border-t border-rt-cream/6 bg-[#111]">
-                    {}
                     <div className="px-5 md:px-8 pt-3 pb-1 rt-fade-up-delay-1">
                         <FilterPills
                             active={filter}
@@ -351,9 +342,7 @@ export default function RetouchGallery({ works = [] }) {
                         />
                     </div>
 
-                    {}
                     <div className="flex items-center gap-3 px-5 md:px-8 pb-4 pt-2">
-                        {}
                         <button
                             onClick={() => prev && onSelect(prev)}
                             disabled={!prev}
@@ -376,7 +365,6 @@ export default function RetouchGallery({ works = [] }) {
                             </svg>
                         </button>
 
-                        {}
                         <div
                             ref={thumbStripRef}
                             className="flex-1 flex gap-3 overflow-x-auto py-1 select-none rt-fade-up-delay-2"
@@ -454,7 +442,6 @@ export default function RetouchGallery({ works = [] }) {
                             )}
                         </div>
 
-                        {}
                         <button
                             onClick={() => next && onSelect(next)}
                             disabled={!next}

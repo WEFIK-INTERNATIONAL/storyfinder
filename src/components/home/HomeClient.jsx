@@ -70,7 +70,6 @@ export default function HomeClient({ images }) {
                     <div className="absolute inset-0 mix-blend-overlay bg-linear-to-b from-black/90 via-black/50 to-transparent from-0% via-20% to-40% pointer-events-none" />
                 </div>
 
-                {}
                 <div
                     ref={overlayRef}
                     className="home-overlay home-overlay--visible pointer-events-auto"

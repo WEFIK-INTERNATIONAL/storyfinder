@@ -1,5 +1,3 @@
-/* ─── Canvas & Grid ─────────────────────────────────────────────────────────── */
-
 .canvas-wrapper {
     will-change: transform;
     transform: translateZ(0);
@@ -15,14 +13,12 @@
     z-index: 1;
     opacity: 1;
     outline: none;
-    /* GPU compositing — promotes each cell to its own layer */
+
     will-change: transform, opacity;
     transform: translateZ(0);
     backface-visibility: hidden;
-    /* Isolates repaint scope per cell — prevents neighbour recalc */
+
     contain: layout style paint;
-    /* No CSS transition here — GSAP owns all opacity/transform animations.
-       Having both causes the browser to fight itself every frame. */
 }
 
 .grid-item img {
@@ -36,13 +32,13 @@
 
 .grid-item.out-of-view {
     opacity: 0.1;
-    /* Release GPU layer for items far off screen */
+
     will-change: auto;
 }
 
 .grid-item.selected {
     z-index: 2 !important;
-    /* Release containment so GSAP FLIP can measure the element freely */
+
     contain: none;
 }
 
@@ -51,12 +47,6 @@
     outline-offset: 2px;
     z-index: 3;
 }
-
-/* ─── Glass Dock ─────────────────────────────────────────────────────────────
-   backdrop-filter: blur() forces recompositing of everything behind the element
-   on every single frame during drag. With 96 animated cells behind it this is
-   extremely expensive. We disable it during drag (body.dragging is added by your
-   existing JS) and re-enable only when the grid is idle. */
 
 .glass-dock {
     background: rgba(8, 8, 8, 0.88) !important;
@@ -74,8 +64,6 @@ body:not(.dragging) .glass-dock {
     -webkit-backdrop-filter: blur(16px) !important;
     background: rgba(10, 10, 10, 0.72) !important;
 }
-
-/* ─── Split Screen ───────────────────────────────────────────────────────────── */
 
 .split-screen-container.active {
     opacity: 1;
@@ -96,8 +84,6 @@ body:not(.dragging) .glass-dock {
     display: none;
 }
 
-/* ─── Scaling Overlay (FLIP animation element) ───────────────────────────────── */
-
 .scaling-image-overlay {
     position: fixed;
     top: 0;
@@ -105,7 +91,7 @@ body:not(.dragging) .glass-dock {
     z-index: var(--z-split);
     pointer-events: none;
     will-change: transform;
-    /* overflow: hidden must be on the wrapper, not on img — img has no overflow */
+
     overflow: hidden;
 }
 
@@ -115,8 +101,6 @@ body:not(.dragging) .glass-dock {
     object-fit: cover;
     display: block;
 }
-
-/* ─── Image Title Overlay ────────────────────────────────────────────────────── */
 
 .image-title-overlay {
     width: 100%;
@@ -154,8 +138,6 @@ body:not(.dragging) .glass-dock {
     line-height: 1.1;
     white-space: nowrap;
 }
-
-/* ─── Controls ───────────────────────────────────────────────────────────────── */
 
 .controls-container.visible {
     opacity: 1;
@@ -212,8 +194,6 @@ body.controls-visible .controls-veil {
     outline: none !important;
     background: none !important;
 }
-
-/* ─── Responsive ─────────────────────────────────────────────────────────────── */
 
 @media (max-width: 900px) {
     .image-title-overlay {

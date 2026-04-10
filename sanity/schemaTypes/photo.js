@@ -31,7 +31,6 @@ export default defineType({
       rows: 3,
     }),
 
-    // IMAGE
     defineField({
       name: 'rawImage',
       title: 'Raw Image',
@@ -43,7 +42,6 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
 
-    // TAGS
     defineField({
       name: 'tags',
       title: 'Tags',
@@ -63,7 +61,6 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
 
-    // FEATURED
     defineField({
       name: 'featured',
       title: 'Featured Photo',
@@ -89,7 +86,6 @@ export default defineType({
         }),
     }),
 
-    // PAID PHOTO
     defineField({
       name: 'isPaid',
       title: 'Paid Photo',
@@ -113,7 +109,6 @@ export default defineType({
         }),
     }),
 
-    // CAMERA DETAILS
     defineField({
       name: 'exif',
       title: 'Camera Details',
@@ -129,12 +124,19 @@ export default defineType({
       ],
     }),
 
-    // DATE
     defineField({
       name: 'publishedAt',
       title: 'Published At',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
+    }),
+
+    defineField({
+      name: 'likes',
+      title: 'Total Likes',
+      type: 'number',
+      initialValue: 0,
+      readOnly: false,
     }),
   ],
 

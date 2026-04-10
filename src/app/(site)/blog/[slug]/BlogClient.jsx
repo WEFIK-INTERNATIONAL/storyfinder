@@ -19,7 +19,23 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 export default function BlogClient({ post }) {
     const [toc, setToc] = useState([]);
     const [activeSection, setActiveSection] = useState('');
+    const [likedSet, setLikedSet] = useState(new Set());
+    const [localLikes, setLocalLikes] = useState({});
     const containerRef = useRef(null);
+
+    useEffect(() => {
+        const stored = localStorage.getItem('storyfinder-likes');
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if (Array.isArray(parsed)) {
+                    setTimeout(() => {
+                        setLikedSet(new Set(parsed));
+                    }, 0);
+                }
+            } catch (e) {}
+        }
+    }, []);
 
     useEffect(() => {
         const bar = document.getElementById('reading-bar');
@@ -147,6 +163,52 @@ export default function BlogClient({ post }) {
         }
     };
 
+    const handleLike = useCallback(async () => {
+        if (!post || !post._id) return;
+
+        const documentId = post._id;
+        const isCurrentlyLiked = likedSet.has(documentId);
+
+        setLikedSet((prev) => {
+            const next = new Set(prev);
+            if (isCurrentlyLiked) {
+                next.delete(documentId);
+            } else {
+                next.add(documentId);
+            }
+            localStorage.setItem(
+                'storyfinder-likes',
+                JSON.stringify(Array.from(next))
+            );
+            return next;
+        });
+
+        setLocalLikes((prev) => {
+            const currentCount =
+                prev[documentId] !== undefined
+                    ? prev[documentId]
+                    : post.likes || 0;
+            return {
+                ...prev,
+                [documentId]: isCurrentlyLiked
+                    ? Math.max(0, currentCount - 1)
+                    : currentCount + 1,
+            };
+        });
+
+        const action = isCurrentlyLiked ? 'unlike' : 'like';
+
+        try {
+            await fetch('/api/like', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ documentId, action }),
+            });
+        } catch (e) {
+            console.error(`Failed to ${action} post`);
+        }
+    }, [post, likedSet]);
+
     const isNew =
         post.publishedAt &&
         differenceInDays(new Date(), parseISO(post.publishedAt)) <= 7;
@@ -162,9 +224,24 @@ export default function BlogClient({ post }) {
     };
     const readTime = estimateReadingTime();
 
+    const documentId = post?._id;
+    const isLiked = documentId && likedSet.has(documentId);
+    let displayLikes =
+        documentId && localLikes[documentId] !== undefined
+            ? localLikes[documentId]
+            : post?.likes || 0;
+
+    if (isLiked && displayLikes === 0) {
+        displayLikes = 1;
+    }
+
+    const formattedLikes = new Intl.NumberFormat('en-US', {
+        notation: 'compact',
+        maximumFractionDigits: 1,
+    }).format(displayLikes);
+
     return (
         <article className="blog-post-page" ref={containerRef}>
-            {}
             <div className="fixed top-0 left-0 w-full h-1 bg-progress-track z-50">
                 <div
                     id="reading-bar"
@@ -172,7 +249,6 @@ export default function BlogClient({ post }) {
                 />
             </div>
 
-            {}
             {post.mainImage && (
                 <div className="relative h-[80vh] min-h-[500px] w-full overflow-hidden bg-black">
                     <Image
@@ -194,11 +270,9 @@ export default function BlogClient({ post }) {
                         }
                     />
 
-                    {}
                     <div className="blog-post-hero-grain" />
                     <div className="absolute inset-0 bg-linear-to-t from-[#0f0d0b] via-black/40 to-transparent" />
 
-                    {}
                     <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-full max-w-5xl px-6">
                         <h1 className="blog-post-hero-title text-4xl sm:text-6xl md:text-7xl lg:text-[6rem]">
                             {post.title}
@@ -207,14 +281,10 @@ export default function BlogClient({ post }) {
                 </div>
             )}
 
-            {}
             <div className="blog-post-content-wrapper">
-                {}
                 <div className="blog-post-main-col">
-                    {}
                     <div className="blog-post-meta-strip reveal-meta">
                         <div className="blog-post-meta-left">
-                            {}
                             <div className="blog-post-categories">
                                 {post.categories?.map((cat, idx) => (
                                     <span
@@ -261,17 +331,41 @@ export default function BlogClient({ post }) {
                                 <FiShare2 size={14} />
                                 Share
                             </button>
+
+                            <button
+                                onClick={handleLike}
+                                className={`blog-post-share-btn ${isLiked ? 'text-[#c0501a]' : ''}`}
+                                aria-label={
+                                    isLiked
+                                        ? 'Unlike this post'
+                                        : 'Like this post'
+                                }
+                            >
+                                <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill={isLiked ? '#c0501a' : 'none'}
+                                    stroke={
+                                        isLiked ? '#c0501a' : 'currentColor'
+                                    }
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                                {displayLikes > 0 ? formattedLikes : 'Like'}
+                            </button>
                         </div>
                     </div>
 
-                    {}
                     {post.excerpt && (
                         <div className="blog-post-excerpt-wrapper reveal-excerpt">
                             <p className="blog-post-excerpt">{post.excerpt}</p>
                         </div>
                     )}
 
-                    {}
                     <div className="blog-prose w-full">
                         <PortableText
                             value={post.body}
@@ -279,21 +373,18 @@ export default function BlogClient({ post }) {
                         />
                     </div>
 
-                    {}
                     <div className="blog-post-end-marker">
                         <span className="blog-post-end-diamond" />
                         <span className="blog-post-end-line" />
                         <span className="blog-post-end-diamond" />
                     </div>
 
-                    {}
                     <Link href="/blog" className="blog-post-back-link">
                         <FiArrowLeft size={16} />
                         <span>Back to Journal</span>
                     </Link>
                 </div>
 
-                {}
                 {toc.length > 0 && (
                     <aside className="blog-post-toc-aside">
                         <div className="blog-post-toc-container">

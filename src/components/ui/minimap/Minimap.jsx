@@ -38,17 +38,24 @@ export default function Minimap({
         didDrag: false,
     });
 
+    const syncTimeout = useRef(null);
+
     const [previewSrc, setPreviewSrc] = useState(images[0]?.src ?? '');
     const [previewReady, setPreviewReady] = useState(false);
     const [copied, setCopied] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
+    const [likedSet, setLikedSet] = useState(new Set());
+    const [localLikes, setLocalLikes] = useState();
     const [isHorizontal, setIsHorizontal] = useState(() => {
         if (typeof window === 'undefined') return false;
         return window.innerWidth <= 900;
     });
 
     const imageKeys = useMemo(
-        () => images.map((img, i) => img.id ?? img.src ?? String(i)),
+        () =>
+            images.map(
+                (img, i) => String(img.id || img.slug || img.src || i) + `-${i}`
+            ),
         [images]
     );
 
@@ -104,9 +111,13 @@ export default function Minimap({
             const st = state.current;
             if (st.currentIndex === idx) return;
             st.currentIndex = idx;
-            setPreviewReady(false);
-            setPreviewSrc(images[idx]?.src ?? '');
-            setActiveIndex(idx);
+
+            if (syncTimeout.current) clearTimeout(syncTimeout.current);
+            syncTimeout.current = setTimeout(() => {
+                setPreviewReady(false);
+                setPreviewSrc(images[idx]?.src ?? '');
+                setActiveIndex(idx);
+            }, 50);
         },
         [images]
     );
@@ -294,6 +305,66 @@ export default function Minimap({
         } catch {}
     }, [activeIndex, category]);
 
+    const handleLike = useCallback(async () => {
+        const currentImage = images[activeIndex];
+        if (!currentImage || !currentImage._id) return;
+
+        const photoId = currentImage._id;
+
+        const isCurrentlyLiked = likedSet.has(photoId);
+
+        setLikedSet((prev) => {
+            const next = new Set(prev);
+            if (isCurrentlyLiked) {
+                next.delete(photoId);
+            } else {
+                next.add(photoId);
+            }
+            localStorage.setItem(
+                'storyfinder-likes',
+                JSON.stringify(Array.from(next))
+            );
+            return next;
+        });
+
+        setLocalLikes((prev) => {
+            const currentCount =
+                prev[photoId] !== undefined
+                    ? prev[photoId]
+                    : currentImage.likes || 0;
+            return {
+                ...prev,
+                [photoId]: isCurrentlyLiked
+                    ? Math.max(0, currentCount - 1)
+                    : currentCount + 1,
+            };
+        });
+
+        const action = isCurrentlyLiked ? 'unlike' : 'like';
+
+        try {
+            await fetch('/api/like', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ documentId: photoId, action }),
+            });
+        } catch (e) {
+            console.error(`Failed to ${action} image`);
+        }
+    }, [activeIndex, images, likedSet]);
+
+    useEffect(() => {
+        const stored = localStorage.getItem('storyfinder-likes');
+        if (stored) {
+            try {
+                // Wrap in setTimeout to avoid synchronous state update in effect
+                setTimeout(() => {
+                    setLikedSet(new Set(JSON.parse(stored)));
+                }, 0);
+            } catch (e) {}
+        }
+    }, []);
+
     useEffect(() => {
         if (!images.length) return;
 
@@ -377,7 +448,6 @@ export default function Minimap({
 
     return (
         <div className={`minimap-root ${className}`.trim()}>
-            {}
             {category && (
                 <div
                     className="minimap-site-info"
@@ -467,6 +537,56 @@ export default function Minimap({
                         </svg>
                         <span>{copied ? 'Copied!' : 'Share'}</span>
                     </button>
+
+                    {(() => {
+                        const currentId = images[activeIndex]?._id;
+                        const isLiked = currentId && likedSet.has(currentId);
+                        let displayLikes =
+                            currentId && localLikes[currentId] !== undefined
+                                ? localLikes[currentId]
+                                : images[activeIndex]?.likes || 0;
+
+                        if (isLiked && displayLikes === 0) {
+                            displayLikes = 1;
+                        }
+
+                        const formattedLikes = new Intl.NumberFormat('en-US', {
+                            notation: 'compact',
+                            maximumFractionDigits: 1,
+                        }).format(displayLikes);
+
+                        return (
+                            <button
+                                className={`minimap-action-btn ${isLiked ? 'is-liked' : ''}`}
+                                onClick={handleLike}
+                                aria-label={
+                                    isLiked
+                                        ? 'Unlike this image'
+                                        : 'Like this image'
+                                }
+                                title={isLiked ? 'Unlike' : 'Like'}
+                            >
+                                <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill={isLiked ? '#c0501a' : 'none'}
+                                    stroke={
+                                        isLiked ? '#c0501a' : 'currentColor'
+                                    }
+                                    strokeWidth="2.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                                <span>
+                                    {displayLikes > 0 ? formattedLikes : 'Like'}
+                                </span>
+                            </button>
+                        );
+                    })()}
                 </div>
             </div>
 
@@ -503,6 +623,7 @@ export default function Minimap({
                                 fill
                                 className="minimap-item-img"
                                 sizes="80px"
+                                priority={i < 15}
                                 placeholder={img.lqip ? 'blur' : 'empty'}
                                 blurDataURL={img.lqip}
                                 unoptimized

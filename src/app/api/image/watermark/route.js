@@ -88,7 +88,7 @@ export async function GET(req) {
         return new Response(output, {
             headers: {
                 'Content-Type': 'image/webp',
-                'Cache-Control': 'no-store',
+                'Cache-Control': 'public, max-age=31536000, immutable',
             },
         });
     } catch (error) {

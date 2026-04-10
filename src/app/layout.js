@@ -107,7 +107,6 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <head>
-                {}
                 <meta name="geo.region" content="IN-WB" />
                 <meta
                     name="geo.placename"
@@ -115,7 +114,7 @@ export default function RootLayout({ children }) {
                 />
                 <meta name="geo.position" content="22.5726;88.3639" />
                 <meta name="ICBM" content="22.5726, 88.3639" />
-                {}
+
                 <meta name="theme-color" content="#0a0a0a" />
                 <meta name="color-scheme" content="dark" />
                 <link rel="manifest" href="/manifest.json" />

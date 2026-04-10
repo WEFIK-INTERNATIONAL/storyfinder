@@ -122,7 +122,6 @@ const AboutFeatured = () => {
 
     return (
         <section ref={sectionRef} className="af">
-            {}
             <div className="af-header">
                 <div className="af-intro-band">
                     <span className="af-index">06 — Featured</span>
@@ -131,7 +130,6 @@ const AboutFeatured = () => {
                 <div ref={ruleRef} className="af-rule" />
             </div>
 
-            {}
             <div className="af-headline">
                 <h2 ref={headlineRef} className="af-title">
                     In The <span className="af-title-ghost">Press</span>
@@ -142,7 +140,6 @@ const AboutFeatured = () => {
                 </p>
             </div>
 
-            {}
             <div className="af-grid">
                 {FEATURED.map((item, i) => (
                     <a
@@ -180,7 +177,6 @@ const AboutFeatured = () => {
                 ))}
             </div>
 
-            {}
             <div ref={ctaRef} className="af-cta-row">
                 <span className="af-cta-note">More features coming soon</span>
                 <Link

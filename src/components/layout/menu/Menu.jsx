@@ -496,7 +496,6 @@ const Menu = ({ pageRef }) => {
                 </div>
 
                 <div className="flex gap-3 items-center">
-                    {}
                     <button
                         className="nav-sound-toggle"
                         type="button"

@@ -153,7 +153,6 @@ const BlogList = ({ posts }) => {
 
     return (
         <main className="blog-page" ref={containerRef}>
-            {}
             <header className="blog-header" ref={headerRef}>
                 <div className="container">
                     <h1 className="blog-title" ref={titleRef}>
@@ -168,7 +167,6 @@ const BlogList = ({ posts }) => {
 
             <section className="blog-content-section">
                 <div className="container blog-content-wrapper">
-                    {}
                     {featuredPost && (
                         <Link
                             href={`/blog/${featuredPost.slug}`}
@@ -262,7 +260,6 @@ const BlogList = ({ posts }) => {
                         </Link>
                     )}
 
-                    {}
                     {gridPosts.length > 0 ? (
                         <div className="blog-grid">
                             {gridPosts.map((post, index) => {

@@ -163,10 +163,8 @@ export default function AboutRetouch() {
 
     return (
         <section className="rt" ref={sectionRef}>
-            {}
             <div className="rt-glow" aria-hidden="true" />
 
-            {}
             <div className="rt-intro">
                 <div className="rt-intro-band">
                     <span className="rt-index">05 — RETOUCH</span>
@@ -179,9 +177,7 @@ export default function AboutRetouch() {
                 <div className="rt-header-rule" />
             </div>
 
-            {}
             <div className="rt-immersive">
-                {}
                 <div className="rt-immersive-slider">
                     <div
                         ref={compareRef}
@@ -191,12 +187,10 @@ export default function AboutRetouch() {
                         onTouchMove={onTouchMove}
                         onTouchEnd={onTouchEnd}
                     >
-                        {}
                         <div className="rt-drag-label" aria-hidden="true">
                             [DRAG]
                         </div>
 
-                        {}
                         <div className="rt-after">
                             <Image
                                 src="/stock/aboutretouch_after.jpg"
@@ -211,7 +205,6 @@ export default function AboutRetouch() {
                             />
                         </div>
 
-                        {}
                         <div className="rt-before">
                             <div className="rt-before-img">
                                 <Image
@@ -229,10 +222,8 @@ export default function AboutRetouch() {
                             </div>
                         </div>
 
-                        {}
                         <div className="rt-slider-grain" aria-hidden="true" />
 
-                        {}
                         <div className="rt-handle" aria-hidden="true">
                             <div className="rt-knob">
                                 <span className="rt-knob-dot" />
@@ -241,7 +232,6 @@ export default function AboutRetouch() {
                     </div>
                 </div>
 
-                {}
                 <div className="rt-immersive-content">
                     <h2 className="rt-title">
                         <span className="rt-title-line rt-title-outline">
@@ -288,7 +278,6 @@ export default function AboutRetouch() {
                         </Link>
                     </div>
 
-                    {}
                     <div className="rt-stats">
                         <div className="rt-stat">
                             <span className="rt-stat-num">340+</span>

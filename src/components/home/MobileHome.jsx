@@ -358,15 +358,11 @@ export default function MobileHome() {
 
     return (
         <div className="mh" ref={rootRef}>
-            {}
             <section className="mh-hero">
-                {}
                 <div className="mh-hero-reveal-line" aria-hidden="true" />
 
-                {}
                 <div className="mh-hero-gradient" />
 
-                {}
                 <div className="mh-hero-particles">
                     <span className="mh-particle mh-particle--1" />
                     <span className="mh-particle mh-particle--2" />
@@ -382,13 +378,10 @@ export default function MobileHome() {
                     <span className="mh-particle mh-particle--12" />
                 </div>
 
-                {}
                 <div className="mh-hero-ring-wrap" aria-hidden="true">
-                    {}
                     <div className="mh-hero-ring-glow" />
                     <div className="mh-hero-ring">
                         <svg viewBox="0 0 400 400" fill="none">
-                            {}
                             <circle
                                 cx="200"
                                 cy="200"
@@ -411,7 +404,6 @@ export default function MobileHome() {
                                 strokeWidth="0.8"
                             />
 
-                            {}
                             {[...Array(72)].map((_, i) => {
                                 const angle = i * 5 * (Math.PI / 180);
                                 const isLong = i % 6 === 0;
@@ -437,7 +429,6 @@ export default function MobileHome() {
                                 );
                             })}
 
-                            {}
                             <circle
                                 cx="200"
                                 cy="200"
@@ -447,7 +438,6 @@ export default function MobileHome() {
                                 strokeDasharray="8 6"
                             />
 
-                            {}
                             <circle
                                 cx="200"
                                 cy="200"
@@ -470,7 +460,6 @@ export default function MobileHome() {
                                 strokeWidth="0.5"
                             />
 
-                            {}
                             {[...Array(8)].map((_, i) => {
                                 const angle = i * 45 * (Math.PI / 180);
                                 const nextAngle =
@@ -505,7 +494,6 @@ export default function MobileHome() {
                                 );
                             })}
 
-                            {}
                             <circle
                                 cx="200"
                                 cy="200"
@@ -530,7 +518,7 @@ export default function MobileHome() {
                                 stroke="rgba(255,110,20,0.10)"
                                 strokeWidth="0.3"
                             />
-                            {}
+
                             <circle
                                 cx="200"
                                 cy="200"
@@ -538,7 +526,6 @@ export default function MobileHome() {
                                 fill="rgba(255,110,20,0.35)"
                             />
 
-                            {}
                             <path
                                 d="M 145 130 Q 170 115 200 112"
                                 stroke="rgba(255,255,255,0.06)"
@@ -558,7 +545,6 @@ export default function MobileHome() {
                                 strokeLinecap="round"
                             />
 
-                            {}
                             {[
                                 0, 30, 60, 90, 120, 150, 180, 210, 240, 270,
                                 300, 330,
@@ -581,7 +567,6 @@ export default function MobileHome() {
                                 );
                             })}
 
-                            {}
                             {[0, 90, 180, 270].map((deg) => {
                                 const angle = deg * (Math.PI / 180);
                                 const cx = 200 + 170 * Math.cos(angle);
@@ -597,7 +582,6 @@ export default function MobileHome() {
                                 );
                             })}
 
-                            {}
                             <text
                                 x="200"
                                 y="96"
@@ -624,15 +608,12 @@ export default function MobileHome() {
                     </div>
                 </div>
 
-                {}
                 <div className="mh-hero-orb" aria-hidden="true" />
-                {}
+
                 <div className="mh-hero-orb-flash" aria-hidden="true" />
 
-                {}
                 <div className="mh-hero-scanlines" aria-hidden="true" />
 
-                {}
                 <div className="mh-hero-content">
                     <span className="mh-hero-index">01 — Storyfinder</span>
                     <h1 className="mh-hero-name">
@@ -651,11 +632,9 @@ export default function MobileHome() {
                     </div>
                 </div>
 
-                {}
                 <div className="mh-hero-edge" aria-hidden="true" />
             </section>
 
-            {}
             <div className="mh-section-header">
                 <span className="mh-section-index">02 — Selected Work</span>
                 <span className="mh-section-label">Portfolio</span>
@@ -683,7 +662,6 @@ export default function MobileHome() {
                     ))}
                 </div>
 
-                {}
                 <Link
                     href="/gallery"
                     className="mh-work-gallery-cta"
@@ -711,7 +689,6 @@ export default function MobileHome() {
                 </Link>
             </section>
 
-            {}
             <div className="mh-section-header">
                 <span className="mh-section-index">03 — Expertise</span>
                 <span className="mh-section-label">Specialities</span>
@@ -743,7 +720,6 @@ export default function MobileHome() {
                 ))}
             </section>
 
-            {}
             <div className="mh-section-header">
                 <span className="mh-section-index">04 — Journal</span>
                 <span className="mh-section-label">From the Blog</span>
@@ -821,7 +797,6 @@ export default function MobileHome() {
                 </Link>
             </section>
 
-            {}
             <Footer />
         </div>
     );
