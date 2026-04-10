@@ -121,6 +121,8 @@ const Gallery = async ({ params }) => {
                 slug: photo.slug,
                 isPaid: photo.isPaid,
                 price: photo.price,
+                _id: photo._id,
+                likes: photo.likes || 0,
             }))
             .filter((img) => Boolean(img.src)) || [];
 

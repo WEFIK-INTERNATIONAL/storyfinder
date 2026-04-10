@@ -48,6 +48,14 @@ export default defineType({
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
     }),
+
+    defineField({
+      name: 'likes',
+      title: 'Total Likes',
+      type: 'number',
+      initialValue: 0,
+      readOnly: false,
+    }),
   ],
 
   orderings: [

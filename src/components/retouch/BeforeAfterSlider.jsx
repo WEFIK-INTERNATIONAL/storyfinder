@@ -105,7 +105,6 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
         >
-            {}
             <Image
                 src={before}
                 alt="Before retouch"
@@ -117,13 +116,11 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
                 className="rt-before-img object-cover pointer-events-none"
             />
 
-            {}
             <div
                 className="absolute inset-0 overflow-hidden"
                 style={{ width: `${pos}%` }}
                 aria-hidden="true"
             >
-                {}
                 <div
                     className="absolute inset-0"
                     style={{ width: width ? `${width}px` : '100%' }}
@@ -141,7 +138,6 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
                 </div>
             </div>
 
-            {}
             <div
                 className="rt-divider-line"
                 style={{ left: `${pos}%` }}
@@ -168,7 +164,6 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
                 </div>
             </div>
 
-            {}
             <span
                 className="absolute bottom-4 left-4 z-20 font-display text-[0.58rem] tracking-[0.2em] uppercase px-3.5 py-1.5 rounded-full pointer-events-none"
                 style={{
@@ -191,7 +186,6 @@ const BeforeAfterSlider = memo(function BeforeAfterSlider({
                 After
             </span>
 
-            {}
             {!moved && (
                 <div
                     className="absolute inset-0 flex items-center justify-center pointer-events-none z-30"

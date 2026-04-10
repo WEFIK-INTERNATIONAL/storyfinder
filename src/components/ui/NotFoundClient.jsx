@@ -95,10 +95,8 @@ export default function NotFound() {
 
     return (
         <div className="nf-page" ref={containerRef}>
-            {}
             <div className="nf-grain" />
 
-            {}
             <div
                 className="nf-glow"
                 style={{
@@ -106,7 +104,6 @@ export default function NotFound() {
                 }}
             />
 
-            {}
             <div className="nf-grid-lines">
                 <div className="nf-grid-v" style={{ left: '25%' }} />
                 <div className="nf-grid-v" style={{ left: '50%' }} />
@@ -115,9 +112,7 @@ export default function NotFound() {
                 <div className="nf-grid-h" style={{ top: '66%' }} />
             </div>
 
-            {}
             <div className="nf-content">
-                {}
                 <div className="nf-error-block">
                     <div className="nf-error-code">
                         <span className="nf-digit">4</span>
@@ -126,16 +121,13 @@ export default function NotFound() {
                     </div>
                 </div>
 
-                {}
                 <h2 className="nf-subtitle">Lost in the Frame</h2>
 
-                {}
                 <p className="nf-description">
                     The story you&apos;re looking for doesn&apos;t exist — or
                     perhaps it&apos;s still being captured somewhere out there.
                 </p>
 
-                {}
                 <Link href="/" className="nf-cta">
                     <span className="nf-cta-text">Return Home</span>
                     <span className="nf-cta-icon">
@@ -144,7 +136,6 @@ export default function NotFound() {
                     <span className="nf-cta-bg" />
                 </Link>
 
-                {}
                 <div className="nf-footer">
                     <span className="nf-footer-item">STORYFINDER</span>
                     <span className="nf-footer-divider" />
@@ -154,7 +145,6 @@ export default function NotFound() {
                 </div>
             </div>
 
-            {}
             <div className="nf-corner nf-corner-tl" />
             <div className="nf-corner nf-corner-tr" />
             <div className="nf-corner nf-corner-bl" />

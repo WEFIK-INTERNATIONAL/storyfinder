@@ -99,13 +99,11 @@ const Spotlight = () => {
 
     return (
         <section className="spotlight" ref={spotlightRef}>
-            {}
             <div className="spotlight-header">
                 <span className="spotlight-index">04 — Spotlight</span>
                 <span className="spotlight-label">Selected Works</span>
             </div>
 
-            {}
             <div className="marquees">
                 <div className="marquee-container" id="marquee-1">
                     <div className="marquee">

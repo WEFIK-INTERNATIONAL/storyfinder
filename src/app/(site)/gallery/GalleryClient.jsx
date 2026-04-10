@@ -188,6 +188,7 @@ const GalleryClient = ({ galleries }) => {
                                                         alt={imgData.title}
                                                         fill
                                                         sizes="(max-width: 1000px) 0vw, 250px"
+                                                        priority={true}
                                                         placeholder={
                                                             imgData.lqip
                                                                 ? 'blur'

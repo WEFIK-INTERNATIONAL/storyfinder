@@ -54,7 +54,6 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
 
-    // DATE
     defineField({
       name: 'publishedAt',
       title: 'Published At',

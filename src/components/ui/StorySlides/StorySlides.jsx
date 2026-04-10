@@ -334,7 +334,6 @@ export default function StorySlides({ stories }) {
 
     return (
         <div className="stories-container stories" ref={storiesContainerRef}>
-            {}
             <div className="hidden" aria-hidden="true">
                 {stories.map((story, i) => (
                     <Image

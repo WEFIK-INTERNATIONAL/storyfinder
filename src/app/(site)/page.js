@@ -134,13 +134,11 @@ export default async function Home() {
 
     return (
         <>
-            {}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
-            {}
             <div
                 className="sr-only"
                 style={{
@@ -181,7 +179,6 @@ export default async function Home() {
                 </nav>
             </div>
 
-            {}
             <HomeClient images={data} />
         </>
     );
