@@ -475,7 +475,6 @@ export default function Minimap({
                         blurDataURL={images[activeIndex]?.lqip}
                         onLoad={() => setPreviewReady(true)}
                         sizes="100vw"
-                        unoptimized
                     />
                 )}
 
@@ -626,7 +625,6 @@ export default function Minimap({
                                 priority={i < 15}
                                 placeholder={img.lqip ? 'blur' : 'empty'}
                                 blurDataURL={img.lqip}
-                                unoptimized
                             />
                         </div>
                     ))}
